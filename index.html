@@ -803,7 +803,165 @@
             const v = vibeColors[selectedVibe];
             const isDark = selectedVibe === 'dark';
 
-            const html = '<!DOCTYPE html><html><head><link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Comic+Neue:wght@700&family=Fredoka+One&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{min-height:100vh;background:'+(isDark?'linear-gradient(135deg,#1a0a2e,#2d1b4e,#1a0a2e)':'linear-gradient(135deg,'+v.bg+',#fff,'+v.bg+')')+';display:flex;align-items:center;justify-content:center;font-family:"Comic Neue",cursive;padding:15px;color:'+(isDark?'#fff':'#333')+';overflow:hidden;position:relative}body::before{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(2px 2px at 20px 30px,'+v.primary+',transparent),radial-gradient(2px 2px at 40px 70px,'+v.secondary+',transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent);background-size:200px 150px;animation:sparkle 2s ease-in-out infinite;pointer-events:none}@keyframes sparkle{0%,100%{opacity:.5}50%{opacity:1}}.container{text-align:center;background:'+(isDark?'linear-gradient(145deg,rgba(60,20,100,.9),rgba(30,10,60,.95))':'linear-gradient(145deg,rgba(255,255,255,.95),rgba(255,240,250,.9))')+';padding:25px 20px;border-radius:30px;max-width:300px;width:100%;position:relative;z-index:1;border:3px solid '+v.primary+'40;box-shadow:0 0 30px '+v.primary+'30,0 0 60px '+v.secondary+'20,inset 0 1px 0 rgba(255,255,255,.5),0 20px 40px rgba(0,0,0,.2)}.photo{width:100px;height:120px;background:linear-gradient(135deg,'+v.secondary+','+v.primary+','+v.secondary+');background-size:200% 200%;animation:gradientShift 3s ease infinite;border-radius:20px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:2rem;border:3px solid '+v.primary+';box-shadow:0 0 20px '+v.primary+'50;overflow:hidden}.photo svg{width:90%;height:90%}@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}.hearts{font-size:1.1rem;margin-bottom:10px;animation:bounce 1s ease-in-out infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}h1{font-family:Pacifico,cursive;font-size:1.9rem;background:linear-gradient(135deg,'+v.primary+','+v.secondary+','+v.primary+');background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shineText 2s linear infinite;margin-bottom:8px}@keyframes shineText{to{background-position:200% center}}.question{color:'+(isDark?'#fff':v.secondary)+';font-weight:700;margin-bottom:20px;font-size:.95rem}.buttons{display:flex;gap:12px;justify-content:center;position:relative;height:55px;align-items:center}.btn-yes{background:linear-gradient(135deg,'+v.secondary+' 0%,'+v.primary+' 50%,'+v.secondary+' 100%);background-size:200% auto;color:#fff;padding:14px 32px;border-radius:30px;font-weight:700;font-size:1rem;cursor:pointer;border:none;font-family:"Fredoka One",cursive;text-transform:uppercase;animation:pulseGlow 1.5s ease-in-out infinite;box-shadow:0 4px 15px '+v.primary+'60,0 0 30px '+v.primary+'30;transition:transform .2s}@keyframes pulseGlow{0%,100%{box-shadow:0 4px 15px '+v.primary+'60}50%{box-shadow:0 4px 25px '+v.primary+'80,0 0 50px '+v.primary+'50}}.btn-no{background:linear-gradient(135deg,#e0e0e0,#c0c0c0);color:#666;padding:10px 20px;border-radius:20px;font-size:.8rem;cursor:pointer;border:2px solid #b0b0b0;font-family:"Comic Neue",cursive;font-weight:700;transition:all .15s ease-out;position:absolute;right:10px}.response-text{color:'+(isDark?'#fff':v.secondary)+';margin:15px 0;font-size:.95rem;font-weight:700}.love{font-size:1.3rem;font-family:Pacifico,cursive;background:linear-gradient(135deg,'+v.primary+',#ff1493,'+v.secondary+');-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:heartbeat 1s ease-in-out infinite}@keyframes heartbeat{0%,100%{transform:scale(1)}25%{transform:scale(1.1)}50%{transform:scale(1)}75%{transform:scale(1.05)}}.y2k-star{position:fixed;font-size:1.2rem;animation:twinkle 1.5s ease-in-out infinite;pointer-events:none;z-index:0;color:'+v.primary+'}@keyframes twinkle{0%,100%{opacity:.3;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.2) rotate(180deg)}}.rainbow-border{background:linear-gradient(90deg,#ff0080,#ff8c00,#ffef00,#00ff88,#00cfff,#8000ff,#ff0080);background-size:400% 100%;animation:rainbow 3s linear infinite;padding:4px;border-radius:34px}@keyframes rainbow{to{background-position:400% 0}}.inner-container{background:'+(isDark?'rgba(30,10,60,.95)':'rgba(255,255,255,.95)')+';border-radius:30px;padding:25px 20px}.floating-emoji{position:fixed;animation:floatEmoji 4s ease-in forwards;pointer-events:none;font-size:1.8rem;filter:drop-shadow(0 0 10px '+v.primary+');z-index:10}@keyframes floatEmoji{0%{transform:translateY(100vh) rotate(0) scale(.5);opacity:1}50%{opacity:1}100%{transform:translateY(-50px) rotate(720deg) scale(1.2);opacity:0}}</style></head><body><div class="y2k-star" style="top:10%;left:10%">✦</div><div class="y2k-star" style="top:20%;right:15%;animation-delay:.3s">✧</div><div class="y2k-star" style="top:60%;left:8%;animation-delay:.6s">✦</div><div class="y2k-star" style="bottom:20%;right:10%;animation-delay:.9s">✧</div>'+(previewMode==='proposal'?'<div class="container"><div class="photo">'+photoContent+'</div><div class="hearts">'+emojis+'</div><h1>'+name+'</h1><p class="question">'+question+' 💕</p><div class="buttons"><button class="btn-yes">YES ♥</button><button class="btn-no" id="noBtn">no</button></div></div>':'<div class="rainbow-border"><div class="inner-container"><div class="hearts">'+emojis+'✨🎉✨</div><div class="photo">'+photoContent+'</div><h1>'+celebration+' 🎉</h1><p class="response-text">'+response+' 💕</p><p class="love">'+love+' ♥</p></div></div>')+'<script>'+(previewMode==='proposal'?'const noBtn=document.getElementById("noBtn");const yesBtn=document.querySelector(".btn-yes");let scale=1;let yesScale=1;document.addEventListener("mousemove",function(e){if(!noBtn)return;const rect=noBtn.getBoundingClientRect();const cx=rect.left+rect.width/2;const cy=rect.top+rect.height/2;const dx=e.clientX-cx;const dy=e.clientY-cy;const dist=Math.sqrt(dx*dx+dy*dy);if(dist<70){const angle=Math.atan2(dy,dx);const moveX=-Math.cos(angle)*50;const moveY=-Math.sin(angle)*50;const newLeft=Math.max(10,Math.min(window.innerWidth-80,rect.left+moveX));const newTop=Math.max(10,Math.min(window.innerHeight-40,rect.top+moveY));noBtn.style.position="fixed";noBtn.style.left=newLeft+"px";noBtn.style.top=newTop+"px";scale=Math.max(.4,scale-.03);noBtn.style.transform="scale("+scale+") rotate("+(Math.random()*20-10)+"deg)";noBtn.style.opacity=Math.max(.3,scale);yesScale=Math.min(1.4,yesScale+.02);yesBtn.style.transform="scale("+yesScale+")";}});':'const celebrationEmojis=["💕","💗","💖","🎉","🎊","✨","💫","⭐","🌟","💝","🦋","🌸"];function createEmoji(){const e=document.createElement("div");e.className="floating-emoji";e.textContent=celebrationEmojis[Math.floor(Math.random()*celebrationEmojis.length)];e.style.left=Math.random()*100+"vw";e.style.animationDuration=(2.5+Math.random()*2)+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),5000);}for(let i=0;i<25;i++)setTimeout(createEmoji,i*80);setInterval(createEmoji,400);')+'<\/script></body></html>';
+            const html = `<!DOCTYPE html><html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Bangers&family=Comic+Neue:wght@700&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@keyframes rainbow{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-5deg)}75%{transform:translateX(5px) rotate(5deg)}}
+@keyframes heartBeat{0%{transform:scale(1)}14%{transform:scale(1.3)}28%{transform:scale(1)}42%{transform:scale(1.3)}70%{transform:scale(1)}}
+@keyframes flyHeart{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-100vh) scale(0);opacity:0}}
+@keyframes disco{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes blink{0%,50%,100%{opacity:1}25%,75%{opacity:0.5}}
+@keyframes textGlow{0%,100%{text-shadow:0 0 10px ${v.primary},0 0 20px ${v.primary},0 0 30px ${v.primary}}50%{text-shadow:0 0 20px ${v.secondary},0 0 40px ${v.secondary},0 0 60px ${v.secondary}}}
+
+body{
+  min-height:100vh;
+  background:${isDark ? 
+    `linear-gradient(135deg,#0a0015 0%,#1a0a30 25%,#2d1050 50%,#1a0a30 75%,#0a0015 100%)` : 
+    `linear-gradient(135deg,#ffe6f2 0%,#fff0f5 25%,#ffe6ff 50%,#fff0f5 75%,#ffe6f2 100%)`};
+  background-size:400% 400%;
+  animation:disco 8s ease infinite;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:"Comic Neue",cursive;padding:20px;
+  color:${isDark?'#fff':'#333'};overflow-x:hidden;position:relative;
+}
+.bg-heart{position:fixed;font-size:24px;opacity:0.6;animation:flyHeart 6s linear infinite;pointer-events:none;z-index:0}
+.sparkle{position:fixed;width:10px;height:10px;background:${v.primary};clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:blink 1.5s ease-in-out infinite;pointer-events:none}
+.container{
+  text-align:center;
+  background:${isDark ? `linear-gradient(145deg,rgba(80,20,120,0.95),rgba(40,10,80,0.98))` : `linear-gradient(145deg,rgba(255,255,255,0.98),rgba(255,230,245,0.95))`};
+  padding:30px 25px;border-radius:30px;max-width:340px;width:100%;position:relative;z-index:10;
+  border:4px solid ${v.primary};
+  box-shadow:0 0 0 4px ${v.secondary},0 0 30px ${v.primary}80,0 0 60px ${v.secondary}40,inset 0 0 30px ${v.primary}20,0 20px 60px rgba(0,0,0,0.3);
+  animation:float 4s ease-in-out infinite;
+}
+.container::before{content:'';position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;background:linear-gradient(45deg,${v.primary},${v.secondary},#fff,${v.primary},${v.secondary});background-size:400% 400%;border-radius:34px;z-index:-1;animation:disco 3s linear infinite;filter:blur(8px);opacity:0.7}
+.photo{width:120px;height:140px;background:linear-gradient(135deg,${v.secondary},${v.primary});border-radius:20px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:3rem;border:5px solid #fff;box-shadow:0 0 0 3px ${v.primary},0 0 20px ${v.primary}80,inset 0 0 20px rgba(255,255,255,0.3);animation:pulse 2s ease-in-out infinite;overflow:hidden;position:relative}
+.photo::after{content:'✨';position:absolute;top:5px;right:5px;font-size:1.2rem;animation:blink 1s infinite}
+.photo svg{width:85%;height:85%}
+.emoji-header{font-size:1.8rem;margin-bottom:15px;animation:heartBeat 1s infinite;filter:drop-shadow(0 0 10px ${v.primary})}
+.name{font-family:'Bangers',cursive;font-size:2.8rem;letter-spacing:3px;background:linear-gradient(135deg,${v.primary},${v.secondary},#ff69b4,${v.primary});background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:disco 2s linear infinite;margin-bottom:10px;text-transform:uppercase}
+.question{color:${isDark?'#fff':v.primary};font-weight:700;font-size:1.1rem;margin-bottom:25px;text-shadow:${isDark?`0 0 20px ${v.primary}`:'none'};line-height:1.4}
+.buttons{display:flex;gap:15px;justify-content:center;align-items:center;position:relative;min-height:70px}
+.btn-yes{background:linear-gradient(135deg,${v.secondary},${v.primary},#ff1493,${v.secondary});background-size:300% 300%;animation:disco 2s linear infinite,pulse 1s infinite;color:#fff;padding:18px 45px;border-radius:50px;font-weight:700;font-size:1.4rem;cursor:pointer;border:4px solid #fff;font-family:'Fredoka One',cursive;text-transform:uppercase;letter-spacing:2px;box-shadow:0 0 20px ${v.primary},0 0 40px ${v.secondary}80,0 8px 0 ${v.primary}cc,0 15px 30px rgba(0,0,0,0.3);transition:all 0.2s;position:relative;overflow:hidden}
+.btn-yes::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(transparent,rgba(255,255,255,0.3),transparent);transform:rotate(45deg);animation:shine 2s infinite}
+@keyframes shine{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)}}
+.btn-yes:hover{transform:scale(1.1) translateY(-5px);box-shadow:0 0 40px ${v.primary},0 0 80px ${v.secondary}}
+.btn-no{background:linear-gradient(135deg,#ddd,#bbb);color:#888;padding:10px 20px;border-radius:25px;font-size:0.75rem;cursor:pointer;border:2px solid #aaa;font-family:'Comic Neue',cursive;transition:all 0.1s;position:absolute;right:0;box-shadow:0 3px 0 #999}
+.btn-no:hover{animation:shake 0.3s infinite}
+.marquee{position:fixed;bottom:20px;left:0;width:200%;font-family:'Bangers',cursive;font-size:1rem;color:${v.primary};white-space:nowrap;animation:marquee 15s linear infinite;opacity:0.7;z-index:5}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.corner-deco{position:fixed;font-size:3rem;opacity:0.8;animation:heartBeat 2s infinite;z-index:1}
+.rainbow-border{background:linear-gradient(90deg,#ff0080,#ff8c00,#ffef00,#00ff88,#00cfff,#8000ff,#ff0080);background-size:400% 100%;animation:disco 2s linear infinite;padding:6px;border-radius:36px;position:relative;z-index:10}
+.celebration{font-family:'Bangers',cursive;font-size:2.5rem;color:${isDark?'#fff':v.primary};text-shadow:3px 3px 0 ${v.secondary},-3px -3px 0 #ff69b4;animation:heartBeat 0.5s infinite;letter-spacing:4px}
+.response-text{color:${isDark?'#fff':v.secondary};font-size:1.1rem;margin:20px 0;font-weight:700}
+.love-text{font-family:'Pacifico',cursive;font-size:2rem;background:linear-gradient(135deg,${v.primary},#ff1493,${v.secondary});-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:textGlow 1s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div class="bg-heart" style="left:5%;animation-delay:0s">💕</div>
+<div class="bg-heart" style="left:15%;animation-delay:1s">💗</div>
+<div class="bg-heart" style="left:25%;animation-delay:2s">💖</div>
+<div class="bg-heart" style="left:35%;animation-delay:0.5s">❤️</div>
+<div class="bg-heart" style="left:45%;animation-delay:1.5s">💘</div>
+<div class="bg-heart" style="left:55%;animation-delay:2.5s">💕</div>
+<div class="bg-heart" style="left:65%;animation-delay:0.8s">💗</div>
+<div class="bg-heart" style="left:75%;animation-delay:1.8s">💖</div>
+<div class="bg-heart" style="left:85%;animation-delay:2.8s">❤️</div>
+<div class="bg-heart" style="left:95%;animation-delay:3.5s">💘</div>
+<div class="sparkle" style="top:10%;left:10%;animation-delay:0s"></div>
+<div class="sparkle" style="top:20%;left:80%;animation-delay:0.3s"></div>
+<div class="sparkle" style="top:50%;left:5%;animation-delay:0.6s"></div>
+<div class="sparkle" style="top:70%;left:90%;animation-delay:0.9s"></div>
+<div class="corner-deco" style="top:10px;left:10px">💝</div>
+<div class="corner-deco" style="top:10px;right:10px;animation-delay:0.5s">💖</div>
+<div class="corner-deco" style="bottom:60px;left:10px;animation-delay:1s">💗</div>
+<div class="corner-deco" style="bottom:60px;right:10px;animation-delay:1.5s">💕</div>
+${previewMode==='proposal' ? `
+<div class="container">
+  <div class="emoji-header">${emojis}</div>
+  <div class="photo">${photoContent}</div>
+  <h1 class="name">${name}</h1>
+  <p class="question">${question} 💕</p>
+  <div class="buttons">
+    <button class="btn-yes">YES! 💖</button>
+    <button class="btn-no" id="noBtn">no...</button>
+  </div>
+</div>
+<div class="marquee">💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕</div>
+` : `
+<div class="rainbow-border">
+  <div class="container" style="animation:none">
+    <div class="emoji-header">🎉✨${emojis}✨🎉</div>
+    <div class="photo">${photoContent}</div>
+    <h1 class="celebration">${celebration}</h1>
+    <p class="response-text">${response}</p>
+    <p class="love-text">${love} 💕</p>
+  </div>
+</div>
+<div class="marquee">🎉 THEY SAID YES 🎉 LOVE WINS 🎉 THEY SAID YES 🎉 LOVE WINS 🎉 THEY SAID YES 🎉 LOVE WINS 🎉</div>
+`}
+<script>
+${previewMode==='proposal' ? `
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.querySelector('.btn-yes');
+let scale = 1, yesScale = 1;
+function escapeButton(e) {
+  if (!noBtn) return;
+  const rect = noBtn.getBoundingClientRect();
+  const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  const dx = clientX - cx, dy = clientY - cy;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  if (dist < 100) {
+    const angle = Math.atan2(dy, dx);
+    const moveX = -Math.cos(angle) * (80 + Math.random()*40);
+    const moveY = -Math.sin(angle) * (80 + Math.random()*40);
+    let newLeft = Math.max(10, Math.min(window.innerWidth - 80, rect.left + moveX));
+    let newTop = Math.max(10, Math.min(window.innerHeight - 50, rect.top + moveY));
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = newLeft + 'px';
+    noBtn.style.top = newTop + 'px';
+    scale = Math.max(0.3, scale - 0.05);
+    noBtn.style.transform = 'scale('+scale+') rotate('+(Math.random()*30-15)+'deg)';
+    noBtn.style.opacity = Math.max(0.2, scale);
+    yesScale = Math.min(1.5, yesScale + 0.03);
+    yesBtn.style.transform = 'scale('+yesScale+')';
+  }
+}
+document.addEventListener('mousemove', escapeButton);
+document.addEventListener('touchmove', escapeButton);
+` : `
+const emojis = ['💕','💗','💖','🎉','🎊','✨','💫','⭐','🌟','💝','🦋','🌸','❤️','💘','🥳','🎆'];
+function createEmoji() {
+  const e = document.createElement('div');
+  e.style.cssText = 'position:fixed;font-size:'+(30+Math.random()*30)+'px;pointer-events:none;z-index:100;';
+  e.style.left = Math.random()*100+'vw';
+  e.style.top = '110vh';
+  e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+  document.body.appendChild(e);
+  const duration = 3000 + Math.random()*2000;
+  const startTime = Date.now();
+  function animate() {
+    const progress = (Date.now()-startTime)/duration;
+    if (progress >= 1) { e.remove(); return; }
+    e.style.top = (110 - progress*130) + 'vh';
+    e.style.transform = 'rotate('+progress*720+'deg) scale('+(1+Math.sin(progress*3.14)*0.3)+')';
+    e.style.opacity = progress > 0.7 ? 1-(progress-0.7)/0.3 : 1;
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+}
+for(let i=0;i<30;i++) setTimeout(createEmoji, i*50);
+setInterval(createEmoji, 200);
+`}
+<\/script>
+</body></html>`;
             document.getElementById('previewFrame').srcdoc = html;
         }
 
@@ -876,6 +1034,66 @@
 
         updatePreview();
         updatePricing();
+
+        // ==================== URL ROUTING ====================
+        function getRoute() {
+            const path = window.location.pathname.replace(/\/$/, '') || '/';
+            return path;
+        }
+
+        function navigateTo(route) {
+            window.history.pushState({}, '', route);
+            handleRoute();
+        }
+
+        function handleRoute() {
+            const path = getRoute();
+            
+            // Hide all pages first
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            // Route mapping
+            if (path === '/' || path === '') {
+                document.getElementById('landing').classList.add('active');
+            } else if (path === '/create') {
+                document.getElementById('editor').classList.add('active');
+                updatePreview();
+            } else if (path === '/checkout') {
+                document.getElementById('checkout').classList.add('active');
+                updateCheckout();
+            } else if (path === '/success') {
+                document.getElementById('success').classList.add('active');
+                updateSuccess();
+            } else {
+                // Custom page URL like /marie - show landing for now
+                // In production, this would load the saved page
+                document.getElementById('landing').classList.add('active');
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        // Override showPage function to use routing
+        function showPage(pageId) {
+            const routes = {
+                'landing': '/',
+                'editor': '/create',
+                'checkout': '/checkout',
+                'success': '/success'
+            };
+            navigateTo(routes[pageId] || '/');
+        }
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', handleRoute);
+
+        // Handle initial route on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            handleRoute();
+        });
+
+        // Run on load
+        handleRoute();
 
         // ==================== SOCIAL PROOF ====================
         const socialProofData = {
