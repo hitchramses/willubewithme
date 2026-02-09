@@ -1423,9 +1423,12 @@ setInterval(createEmoji, 300);
         function displayPersonalizedPage(page) {
             // Cacher tout le contenu normal
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelector('.site-header').style.display = 'none';
-            document.querySelector('.floating-hearts').style.display = 'none';
-            document.getElementById('socialProofToast').style.display = 'none';
+            const header = document.querySelector('.site-header');
+            if (header) header.style.display = 'none';
+            const hearts = document.querySelector('.floating-hearts');
+            if (hearts) hearts.style.display = 'none';
+            const toast = document.getElementById('socialProofToast');
+            if (toast) toast.style.display = 'none';
             
             // Créer la page personnalisée
             const container = document.createElement('div');
