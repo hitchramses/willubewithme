@@ -217,7 +217,7 @@
         .premium-badge { background: linear-gradient(135deg, #ffd700, #ffaa00); color: #000; font-size: 0.6rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; margin-left: 5px; }
         .hidden { display: none !important; }
         .preview-panel { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; position: sticky; top: 80px; height: calc(100vh - 80px); }
-        .preview-phone { width: 320px; height: 580px; background: linear-gradient(145deg, #2a2a4a, #1a1a3a); border-radius: 45px; padding: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .preview-phone { width: 300px; height: 600px; background: linear-gradient(145deg, #2a2a4a, #1a1a3a); border-radius: 45px; padding: 10px; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         .preview-iframe { width: 100%; height: 100%; border: none; border-radius: 35px; background: #fff; }
         .preview-label { margin-top: 20px; font-size: 0.9rem; color: rgba(255,255,255,0.6); }
         .preview-toggle { display: flex; gap: 10px; margin-top: 15px; }
@@ -626,7 +626,7 @@
                                 <div class="illust-preview"><svg viewBox="0 0 60 50" width="50" height="42"><ellipse cx="18" cy="32" rx="11" ry="13" fill="#f5deb3"/><ellipse cx="18" cy="23" rx="9" ry="8" fill="#f5deb3"/><ellipse cx="8" cy="20" rx="5" ry="8" fill="#deb887"/><ellipse cx="28" cy="20" rx="5" ry="8" fill="#deb887"/><circle cx="14" cy="22" r="2" fill="#333"/><circle cx="22" cy="22" r="2" fill="#333"/><ellipse cx="18" cy="27" rx="4" ry="3" fill="#deb887"/><circle cx="18" cy="26" r="2.5" fill="#333"/><path d="M15 30 Q18 33 21 30" stroke="#333" fill="none" stroke-width="1"/><path d="M30 22 C30 18, 27 17, 25 19 C24 21, 30 28, 30 28 C30 28, 36 21, 35 19 C33 17, 30 18, 30 22" fill="#ff1493"/><ellipse cx="42" cy="32" rx="11" ry="13" fill="#ffe4c4"/><ellipse cx="42" cy="23" rx="9" ry="8" fill="#ffe4c4"/><ellipse cx="32" cy="20" rx="5" ry="8" fill="#f5deb3"/><ellipse cx="52" cy="20" rx="5" ry="8" fill="#f5deb3"/><circle cx="38" cy="22" r="2" fill="#333"/><circle cx="46" cy="22" r="2" fill="#333"/><ellipse cx="42" cy="27" rx="4" ry="3" fill="#f5deb3"/><circle cx="42" cy="26" r="2.5" fill="#333"/><path d="M39 30 Q42 33 45 30" stroke="#333" fill="none" stroke-width="1"/></svg></div>
                                 <span>Puppies</span>
                             </div>
-                        </div></div><div id="photoUploadSection" class="hidden"><p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:15px;">Upload your photos (+€5)</p><div style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;margin-bottom:15px;" onclick="alert('Photo upload - Available in full version')"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Proposal photo</p></div><div style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;" onclick="alert('Photo upload - Available in full version')"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Response photo 💋</p></div></div></div>
+                        </div></div><div id="photoUploadSection" class="hidden"><p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:15px;">Upload your photos (+€5)</p><div id="proposalPhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;margin-bottom:15px;position:relative;overflow:hidden;"><input type="file" id="proposalPhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('proposal',this)"><div id="proposalPhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload proposal photo</p></div></div><div id="responsePhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;position:relative;overflow:hidden;"><input type="file" id="responsePhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('response',this)"><div id="responsePhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload response photo 💋</p></div></div><p id="uploadStatus" style="font-size:0.75rem;color:#ff69b4;margin-top:10px;text-align:center;"></p></div></div>
                 <div class="editor-section"><h3>Music <span class="premium-badge">+€5</span></h3><select id="musicSelector" onchange="updatePricing()"><option value="">🔇 No music (free)</option><option value="romantic-piano">🎹 Romantic Piano (+€5)</option><option value="soft-guitar">🎸 Soft Guitar (+€5)</option><option value="dreamy-waltz">💃 Dreamy Waltz (+€5)</option><option value="eternal-love">💖 Eternal Love (+€5)</option><option value="moonlight">🌙 Moonlight (+€5)</option></select></div>
                 <div class="continue-section"><button class="continue-btn" onclick="showPage('checkout')">Continue to payment 💕 <span class="price-tag" id="totalPrice">€4.99</span></button></div>
             </div>
@@ -691,6 +691,126 @@
         let hasPhotos = false;
         let hasMusic = false;
         let userRating = 0;
+        
+        // Cloudinary config
+        const CLOUDINARY_CLOUD_NAME = 'dl42cygq6';
+        const CLOUDINARY_UPLOAD_PRESET = 'willubewithme';
+        let proposalPhotoUrl = null;
+        let responsePhotoUrl = null;
+
+        // Supabase config
+        const SUPABASE_URL = 'https://abenjnsqgrnqtoduddrr.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZW5qbnNxZ3JucXRvZHVkZHJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2MzEwODksImV4cCI6MjA4NjIwNzA4OX0.6cDhwazTYPWuYA9iy_AN0udVftpTw79khsxZ1ISUDZ0';
+
+        // Save page to Supabase
+        async function savePage() {
+            const slug = document.getElementById('domainSlug').value || document.getElementById('recipientName').value.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const selectedEmojis = Array.from(document.querySelectorAll('.emoji-option.selected')).map(e => e.dataset.emoji);
+            
+            const pageData = {
+                slug: slug,
+                recipient_name: document.getElementById('recipientName').value || 'Name',
+                question: document.getElementById('proposalQuestion').value || 'Would you be my Valentine?',
+                celebration_text: document.getElementById('celebrationText').value || 'Yaaay!',
+                response_message: document.getElementById('responseMessage').value || 'You just made me the happiest person!',
+                love_text: document.getElementById('loveText').value || 'I love you!',
+                emojis: selectedEmojis.join('') || '💝✨💕',
+                vibe: selectedVibe,
+                illustration: selectedIllustration,
+                proposal_photo_url: proposalPhotoUrl,
+                response_photo_url: responsePhotoUrl,
+                music: document.getElementById('musicSelector').value || null,
+                email: document.getElementById('paymentEmail').value || null
+            };
+
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pages`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify(pageData)
+                });
+
+                if (response.ok) {
+                    return { success: true, slug: slug };
+                } else {
+                    const error = await response.json();
+                    if (error.code === '23505') {
+                        return { success: false, error: 'This link is already taken. Please choose another.' };
+                    }
+                    return { success: false, error: error.message || 'Failed to save' };
+                }
+            } catch (error) {
+                console.error(error);
+                return { success: false, error: 'Connection error' };
+            }
+        }
+
+        // Load page from Supabase
+        async function loadPage(slug) {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pages?slug=eq.${slug}&select=*`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.length > 0) {
+                        return { success: true, page: data[0] };
+                    }
+                }
+                return { success: false };
+            } catch (error) {
+                console.error(error);
+                return { success: false };
+            }
+        }
+
+        // Upload photo to Cloudinary
+        async function uploadPhoto(type, input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const statusEl = document.getElementById('uploadStatus');
+            statusEl.textContent = 'Uploading...';
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+            
+            try {
+                const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.secure_url) {
+                    if (type === 'proposal') {
+                        proposalPhotoUrl = data.secure_url;
+                        document.getElementById('proposalPhotoPreview').innerHTML = `<img src="${data.secure_url}" style="max-width:100%;max-height:120px;border-radius:8px;"><p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>`;
+                    } else {
+                        responsePhotoUrl = data.secure_url;
+                        document.getElementById('responsePhotoPreview').innerHTML = `<img src="${data.secure_url}" style="max-width:100%;max-height:120px;border-radius:8px;"><p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>`;
+                    }
+                    statusEl.textContent = '';
+                    updatePreview();
+                } else {
+                    statusEl.textContent = 'Error: ' + (data.error?.message || 'Upload failed');
+                }
+            } catch (error) {
+                statusEl.textContent = 'Error: Could not upload';
+                console.error(error);
+            }
+        }
 
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -798,7 +918,16 @@
                 pandas: '<svg viewBox="0 0 60 50" width="100%"><circle cx="18" cy="28" r="12" fill="#fff"/><circle cx="18" cy="20" r="9" fill="#fff"/><circle cx="10" cy="14" r="4" fill="#333"/><circle cx="26" cy="14" r="4" fill="#333"/><ellipse cx="13" cy="19" rx="4" ry="3" fill="#333"/><ellipse cx="23" cy="19" rx="4" ry="3" fill="#333"/><circle cx="13" cy="19" r="1.5" fill="#fff"/><circle cx="23" cy="19" r="1.5" fill="#fff"/><ellipse cx="18" cy="24" rx="3" ry="2" fill="#333"/><path d="M30 20 C30 16, 27 15, 25 17 C24 19, 30 26, 30 26 C30 26, 36 19, 35 17 C33 15, 30 16, 30 20" fill="#ff1493"/><circle cx="42" cy="28" r="12" fill="#fff"/><circle cx="42" cy="20" r="9" fill="#fff"/><circle cx="34" cy="14" r="4" fill="#333"/><circle cx="50" cy="14" r="4" fill="#333"/><ellipse cx="37" cy="19" rx="4" ry="3" fill="#333"/><ellipse cx="47" cy="19" rx="4" ry="3" fill="#333"/><circle cx="37" cy="19" r="1.5" fill="#fff"/><circle cx="47" cy="19" r="1.5" fill="#fff"/><ellipse cx="42" cy="24" rx="3" ry="2" fill="#333"/></svg>',
                 dogs: '<svg viewBox="0 0 60 50" width="100%"><ellipse cx="18" cy="32" rx="11" ry="13" fill="#f5deb3"/><ellipse cx="18" cy="23" rx="9" ry="8" fill="#f5deb3"/><ellipse cx="8" cy="20" rx="5" ry="8" fill="#deb887"/><ellipse cx="28" cy="20" rx="5" ry="8" fill="#deb887"/><circle cx="14" cy="22" r="2" fill="#333"/><circle cx="22" cy="22" r="2" fill="#333"/><ellipse cx="18" cy="27" rx="4" ry="3" fill="#deb887"/><circle cx="18" cy="26" r="2.5" fill="#333"/><path d="M15 30 Q18 33 21 30" stroke="#333" fill="none" stroke-width="1"/><path d="M30 22 C30 18, 27 17, 25 19 C24 21, 30 28, 30 28 C30 28, 36 21, 35 19 C33 17, 30 18, 30 22" fill="#ff1493"/><ellipse cx="42" cy="32" rx="11" ry="13" fill="#ffe4c4"/><ellipse cx="42" cy="23" rx="9" ry="8" fill="#ffe4c4"/><ellipse cx="32" cy="20" rx="5" ry="8" fill="#f5deb3"/><ellipse cx="52" cy="20" rx="5" ry="8" fill="#f5deb3"/><circle cx="38" cy="22" r="2" fill="#333"/><circle cx="46" cy="22" r="2" fill="#333"/><ellipse cx="42" cy="27" rx="4" ry="3" fill="#f5deb3"/><circle cx="42" cy="26" r="2.5" fill="#333"/><path d="M39 30 Q42 33 45 30" stroke="#333" fill="none" stroke-width="1"/></svg>'
             };
-            const photoContent = illustSVGs[selectedIllustration] || illustSVGs.cats;
+            
+            // Use uploaded photo or illustration
+            let photoContent;
+            if (hasPhotos && previewMode === 'proposal' && proposalPhotoUrl) {
+                photoContent = '<img src="' + proposalPhotoUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+            } else if (hasPhotos && previewMode === 'response' && responsePhotoUrl) {
+                photoContent = '<img src="' + responsePhotoUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+            } else {
+                photoContent = illustSVGs[selectedIllustration] || illustSVGs.cats;
+            }
             const vibeColors = { romantic: { bg: '#ffeef8', primary: '#e91e63', secondary: '#ff69b4' }, elegant: { bg: '#fff8e7', primary: '#d4af37', secondary: '#aa8c2c' }, playful: { bg: '#fff3e0', primary: '#ff6b6b', secondary: '#feca57' }, minimal: { bg: '#f8f9fa', primary: '#333', secondary: '#666' }, dark: { bg: '#1a1a2e', primary: '#e94560', secondary: '#ff69b4' }, ocean: { bg: '#e0f7fa', primary: '#00796b', secondary: '#0097a7' } };
             const v = vibeColors[selectedVibe];
             const isDark = selectedVibe === 'dark';
@@ -808,157 +937,150 @@
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Bangers&family=Comic+Neue:wght@700&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-@keyframes rainbow{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
-@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-5deg)}75%{transform:translateX(5px) rotate(5deg)}}
-@keyframes heartBeat{0%{transform:scale(1)}14%{transform:scale(1.3)}28%{transform:scale(1)}42%{transform:scale(1.3)}70%{transform:scale(1)}}
-@keyframes flyHeart{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-100vh) scale(0);opacity:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@keyframes heartBeat{0%{transform:scale(1)}14%{transform:scale(1.2)}28%{transform:scale(1)}42%{transform:scale(1.2)}70%{transform:scale(1)}}
 @keyframes disco{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes blink{0%,50%,100%{opacity:1}25%,75%{opacity:0.5}}
-@keyframes textGlow{0%,100%{text-shadow:0 0 10px ${v.primary},0 0 20px ${v.primary},0 0 30px ${v.primary}}50%{text-shadow:0 0 20px ${v.secondary},0 0 40px ${v.secondary},0 0 60px ${v.secondary}}}
+@keyframes shine{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)}}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes floatHeart{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.1)}}
 
 body{
   min-height:100vh;
   background:${isDark ? 
-    `linear-gradient(135deg,#0a0015 0%,#1a0a30 25%,#2d1050 50%,#1a0a30 75%,#0a0015 100%)` : 
-    `linear-gradient(135deg,#ffe6f2 0%,#fff0f5 25%,#ffe6ff 50%,#fff0f5 75%,#ffe6f2 100%)`};
+    `linear-gradient(135deg,#0a0015,#1a0a30,#2d1050,#1a0a30,#0a0015)` : 
+    `linear-gradient(135deg,#ffb6c1,#ffc0cb,#ffb6c1,#fff0f5,#ffc0cb)`};
   background-size:400% 400%;
   animation:disco 8s ease infinite;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   font-family:"Comic Neue",cursive;padding:20px;
-  color:${isDark?'#fff':'#333'};overflow-x:hidden;position:relative;
-}
-.bg-heart{position:fixed;font-size:24px;opacity:0.6;animation:flyHeart 6s linear infinite;pointer-events:none;z-index:0}
-.sparkle{position:fixed;width:10px;height:10px;background:${v.primary};clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:blink 1.5s ease-in-out infinite;pointer-events:none}
-.container{
+  color:${isDark?'#fff':'#333'};overflow:hidden;position:relative;
   text-align:center;
-  background:${isDark ? `linear-gradient(145deg,rgba(80,20,120,0.95),rgba(40,10,80,0.98))` : `linear-gradient(145deg,rgba(255,255,255,0.98),rgba(255,230,245,0.95))`};
-  padding:30px 25px;border-radius:30px;max-width:340px;width:100%;position:relative;z-index:10;
-  border:4px solid ${v.primary};
-  box-shadow:0 0 0 4px ${v.secondary},0 0 30px ${v.primary}80,0 0 60px ${v.secondary}40,inset 0 0 30px ${v.primary}20,0 20px 60px rgba(0,0,0,0.3);
-  animation:float 4s ease-in-out infinite;
 }
-.container::before{content:'';position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;background:linear-gradient(45deg,${v.primary},${v.secondary},#fff,${v.primary},${v.secondary});background-size:400% 400%;border-radius:34px;z-index:-1;animation:disco 3s linear infinite;filter:blur(8px);opacity:0.7}
-.photo{width:120px;height:140px;background:linear-gradient(135deg,${v.secondary},${v.primary});border-radius:20px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:3rem;border:5px solid #fff;box-shadow:0 0 0 3px ${v.primary},0 0 20px ${v.primary}80,inset 0 0 20px rgba(255,255,255,0.3);animation:pulse 2s ease-in-out infinite;overflow:hidden;position:relative}
-.photo::after{content:'✨';position:absolute;top:5px;right:5px;font-size:1.2rem;animation:blink 1s infinite}
-.photo svg{width:85%;height:85%}
-.emoji-header{font-size:1.8rem;margin-bottom:15px;animation:heartBeat 1s infinite;filter:drop-shadow(0 0 10px ${v.primary})}
-.name{font-family:'Bangers',cursive;font-size:2.8rem;letter-spacing:3px;background:linear-gradient(135deg,${v.primary},${v.secondary},#ff69b4,${v.primary});background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:disco 2s linear infinite;margin-bottom:10px;text-transform:uppercase}
-.question{color:${isDark?'#fff':v.primary};font-weight:700;font-size:1.1rem;margin-bottom:25px;text-shadow:${isDark?`0 0 20px ${v.primary}`:'none'};line-height:1.4}
-.buttons{display:flex;gap:15px;justify-content:center;align-items:center;position:relative;min-height:70px}
-.btn-yes{background:linear-gradient(135deg,${v.secondary},${v.primary},#ff1493,${v.secondary});background-size:300% 300%;animation:disco 2s linear infinite,pulse 1s infinite;color:#fff;padding:18px 45px;border-radius:50px;font-weight:700;font-size:1.4rem;cursor:pointer;border:4px solid #fff;font-family:'Fredoka One',cursive;text-transform:uppercase;letter-spacing:2px;box-shadow:0 0 20px ${v.primary},0 0 40px ${v.secondary}80,0 8px 0 ${v.primary}cc,0 15px 30px rgba(0,0,0,0.3);transition:all 0.2s;position:relative;overflow:hidden}
+body::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 25%),
+    radial-gradient(circle at 85% 15%, rgba(255,255,255,0.3) 0%, transparent 20%),
+    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.35) 0%, transparent 22%),
+    radial-gradient(circle at 25% 75%, rgba(255,255,255,0.3) 0%, transparent 18%),
+    radial-gradient(circle at 50% 50%, rgba(255,182,193,0.2) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+.deco-heart{position:fixed;font-size:1.2rem;opacity:0.5;animation:floatHeart 3s ease-in-out infinite;pointer-events:none;z-index:0}
+.deco-star{position:fixed;color:#fff;font-size:0.9rem;opacity:0.7;animation:pulse 2s ease-in-out infinite;pointer-events:none;z-index:0}
+.deco-cloud{position:fixed;font-size:2rem;opacity:0.3;pointer-events:none;z-index:0}
+.photo{width:95%;max-width:95vw;height:45vh;background:linear-gradient(135deg,${v.secondary},${v.primary});border-radius:15px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:2rem;border:4px solid #fff;box-shadow:0 5px 20px rgba(0,0,0,0.2);overflow:hidden}
+.photo svg{width:80%;height:80%}
+.emoji-header{font-size:0.9rem;margin-bottom:4px}
+.name{font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:1px;background:linear-gradient(135deg,${v.primary},${v.secondary},#ff69b4);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:3px;text-transform:uppercase}
+.question{color:${isDark?'#fff':v.primary};font-weight:700;font-size:0.8rem;margin-bottom:8px;line-height:1.2}
+.buttons{display:flex;gap:10px;justify-content:center;position:relative;height:40px;align-items:center}
+.btn-yes{background:linear-gradient(135deg,${v.secondary},${v.primary},#ff1493);background-size:200% 200%;color:#fff;padding:10px 22px;border-radius:25px;font-weight:700;font-size:0.85rem;cursor:pointer;border:none;font-family:'Fredoka One',cursive;text-transform:uppercase;box-shadow:0 4px 15px ${v.primary}60;position:relative;overflow:hidden}
 .btn-yes::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(transparent,rgba(255,255,255,0.3),transparent);transform:rotate(45deg);animation:shine 2s infinite}
-@keyframes shine{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)}}
-.btn-yes:hover{transform:scale(1.1) translateY(-5px);box-shadow:0 0 40px ${v.primary},0 0 80px ${v.secondary}}
-.btn-no{background:linear-gradient(135deg,#ddd,#bbb);color:#888;padding:10px 20px;border-radius:25px;font-size:0.75rem;cursor:pointer;border:2px solid #aaa;font-family:'Comic Neue',cursive;transition:all 0.1s;position:absolute;right:0;box-shadow:0 3px 0 #999}
-.btn-no:hover{animation:shake 0.3s infinite}
-.marquee{position:fixed;bottom:20px;left:0;width:200%;font-family:'Bangers',cursive;font-size:1rem;color:${v.primary};white-space:nowrap;animation:marquee 15s linear infinite;opacity:0.7;z-index:5}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.corner-deco{position:fixed;font-size:3rem;opacity:0.8;animation:heartBeat 2s infinite;z-index:1}
-.rainbow-border{background:linear-gradient(90deg,#ff0080,#ff8c00,#ffef00,#00ff88,#00cfff,#8000ff,#ff0080);background-size:400% 100%;animation:disco 2s linear infinite;padding:6px;border-radius:36px;position:relative;z-index:10}
-.celebration{font-family:'Bangers',cursive;font-size:2.5rem;color:${isDark?'#fff':v.primary};text-shadow:3px 3px 0 ${v.secondary},-3px -3px 0 #ff69b4;animation:heartBeat 0.5s infinite;letter-spacing:4px}
-.response-text{color:${isDark?'#fff':v.secondary};font-size:1.1rem;margin:20px 0;font-weight:700}
-.love-text{font-family:'Pacifico',cursive;font-size:2rem;background:linear-gradient(135deg,${v.primary},#ff1493,${v.secondary});-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:textGlow 1s ease-in-out infinite}
+.btn-no{background:linear-gradient(135deg,#e0e0e0,#c0c0c0);color:#666;padding:8px 16px;border-radius:20px;font-size:.7rem;cursor:pointer;border:2px solid #b0b0b0;font-family:'Comic Neue',cursive;font-weight:700;transition:all .15s ease-out}
+.marquee{position:fixed;bottom:5px;left:0;width:200%;font-family:'Bangers',cursive;font-size:0.65rem;color:${v.primary};white-space:nowrap;animation:marquee 12s linear infinite;opacity:0.5}
+.corner{position:fixed;font-size:1rem;opacity:0.4;animation:heartBeat 2s infinite}
+.celebration{font-family:'Bangers',cursive;font-size:1.3rem;color:${isDark?'#fff':v.primary};text-shadow:2px 2px 0 ${v.secondary};letter-spacing:2px;margin-bottom:5px}
+.response-text{color:${isDark?'#fff':v.secondary};font-size:0.75rem;margin:6px 0;font-weight:700}
+.love-text{font-family:'Pacifico',cursive;font-size:1rem;background:linear-gradient(135deg,${v.primary},#ff1493,${v.secondary});-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 </style>
 </head>
 <body>
-<div class="bg-heart" style="left:5%;animation-delay:0s">💕</div>
-<div class="bg-heart" style="left:15%;animation-delay:1s">💗</div>
-<div class="bg-heart" style="left:25%;animation-delay:2s">💖</div>
-<div class="bg-heart" style="left:35%;animation-delay:0.5s">❤️</div>
-<div class="bg-heart" style="left:45%;animation-delay:1.5s">💘</div>
-<div class="bg-heart" style="left:55%;animation-delay:2.5s">💕</div>
-<div class="bg-heart" style="left:65%;animation-delay:0.8s">💗</div>
-<div class="bg-heart" style="left:75%;animation-delay:1.8s">💖</div>
-<div class="bg-heart" style="left:85%;animation-delay:2.8s">❤️</div>
-<div class="bg-heart" style="left:95%;animation-delay:3.5s">💘</div>
-<div class="sparkle" style="top:10%;left:10%;animation-delay:0s"></div>
-<div class="sparkle" style="top:20%;left:80%;animation-delay:0.3s"></div>
-<div class="sparkle" style="top:50%;left:5%;animation-delay:0.6s"></div>
-<div class="sparkle" style="top:70%;left:90%;animation-delay:0.9s"></div>
-<div class="corner-deco" style="top:10px;left:10px">💝</div>
-<div class="corner-deco" style="top:10px;right:10px;animation-delay:0.5s">💖</div>
-<div class="corner-deco" style="bottom:60px;left:10px;animation-delay:1s">💗</div>
-<div class="corner-deco" style="bottom:60px;right:10px;animation-delay:1.5s">💕</div>
+<div class="corner" style="top:10px;left:10px">💝</div>
+<div class="corner" style="top:10px;right:10px">💖</div>
+<div class="corner" style="bottom:35px;left:10px">💗</div>
+<div class="corner" style="bottom:35px;right:10px">💕</div>
+<div class="deco-heart" style="top:15%;left:8%">💕</div>
+<div class="deco-heart" style="top:25%;right:12%;animation-delay:0.5s">💗</div>
+<div class="deco-heart" style="top:60%;left:5%;animation-delay:1s">💖</div>
+<div class="deco-heart" style="top:70%;right:8%;animation-delay:1.5s">💕</div>
+<div class="deco-star" style="top:12%;left:25%">✦</div>
+<div class="deco-star" style="top:8%;right:30%;animation-delay:0.3s">✧</div>
+<div class="deco-star" style="top:50%;left:3%;animation-delay:0.6s">✦</div>
+<div class="deco-star" style="top:45%;right:5%;animation-delay:0.9s">✧</div>
+<div class="deco-star" style="bottom:25%;left:15%;animation-delay:1.2s">✦</div>
+<div class="deco-star" style="bottom:20%;right:20%;animation-delay:1.5s">✧</div>
+<div class="deco-star" style="top:18%;left:5%">⭐</div>
+<div class="deco-star" style="top:5%;left:45%;animation-delay:0.4s">✦</div>
+<div class="deco-star" style="top:30%;right:3%;animation-delay:0.7s">⭐</div>
+<div class="deco-star" style="bottom:40%;left:8%;animation-delay:1s">✧</div>
+<div class="deco-star" style="bottom:10%;right:12%;animation-delay:1.3s">✦</div>
+<div class="deco-star" style="top:75%;left:18%;animation-delay:0.2s">⭐</div>
 ${previewMode==='proposal' ? `
-<div class="container">
-  <div class="emoji-header">${emojis}</div>
-  <div class="photo">${photoContent}</div>
-  <h1 class="name">${name}</h1>
-  <p class="question">${question} 💕</p>
-  <div class="buttons">
-    <button class="btn-yes">YES! 💖</button>
-    <button class="btn-no" id="noBtn">no...</button>
-  </div>
+<div class="emoji-header">${emojis}</div>
+<div class="photo">${photoContent}</div>
+<h1 class="name">${name}</h1>
+<p class="question">${question} 💕</p>
+<div class="buttons">
+  <button class="btn-yes">YES! 💖</button>
+  <button class="btn-no" id="noBtn">no...</button>
 </div>
-<div class="marquee">💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕</div>
+<div class="marquee">💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕</div>
 ` : `
-<div class="rainbow-border">
-  <div class="container" style="animation:none">
-    <div class="emoji-header">🎉✨${emojis}✨🎉</div>
-    <div class="photo">${photoContent}</div>
-    <h1 class="celebration">${celebration}</h1>
-    <p class="response-text">${response}</p>
-    <p class="love-text">${love} 💕</p>
-  </div>
-</div>
-<div class="marquee">🎉 THEY SAID YES 🎉 LOVE WINS 🎉 THEY SAID YES 🎉 LOVE WINS 🎉 THEY SAID YES 🎉 LOVE WINS 🎉</div>
+<div class="emoji-header">🎉✨${emojis}✨🎉</div>
+<div class="photo">${photoContent}</div>
+<h1 class="celebration">${celebration} 🎉</h1>
+<p class="response-text">${response}</p>
+<p class="love-text">${love} 💕</p>
+<div class="marquee">🎉 YES! 💕 LOVE WINS 🎉 YES! 💕 LOVE WINS 🎉</div>
 `}
 <script>
 ${previewMode==='proposal' ? `
-const noBtn = document.getElementById('noBtn');
-const yesBtn = document.querySelector('.btn-yes');
-let scale = 1, yesScale = 1;
-function escapeButton(e) {
-  if (!noBtn) return;
-  const rect = noBtn.getBoundingClientRect();
-  const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  const dx = clientX - cx, dy = clientY - cy;
-  const dist = Math.sqrt(dx*dx + dy*dy);
-  if (dist < 100) {
-    const angle = Math.atan2(dy, dx);
-    const moveX = -Math.cos(angle) * (80 + Math.random()*40);
-    const moveY = -Math.sin(angle) * (80 + Math.random()*40);
-    let newLeft = Math.max(10, Math.min(window.innerWidth - 80, rect.left + moveX));
-    let newTop = Math.max(10, Math.min(window.innerHeight - 50, rect.top + moveY));
-    noBtn.style.position = 'fixed';
-    noBtn.style.left = newLeft + 'px';
-    noBtn.style.top = newTop + 'px';
-    scale = Math.max(0.3, scale - 0.05);
-    noBtn.style.transform = 'scale('+scale+') rotate('+(Math.random()*30-15)+'deg)';
-    noBtn.style.opacity = Math.max(0.2, scale);
-    yesScale = Math.min(1.5, yesScale + 0.03);
-    yesBtn.style.transform = 'scale('+yesScale+')';
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.querySelector(".btn-yes");
+let scale=1;
+let yesScale=1;
+document.addEventListener("mousemove",function(e){
+  if(!noBtn)return;
+  const rect=noBtn.getBoundingClientRect();
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/2;
+  const dx=e.clientX-cx;
+  const dy=e.clientY-cy;
+  const dist=Math.sqrt(dx*dx+dy*dy);
+  if(dist<60){
+    const angle=Math.atan2(dy,dx);
+    const moveX=-Math.cos(angle)*25;
+    const moveY=-Math.sin(angle)*25;
+    let newLeft=rect.left+moveX;
+    let newTop=rect.top+moveY;
+    newLeft=Math.max(15,Math.min(window.innerWidth-rect.width-15,newLeft));
+    newTop=Math.max(15,Math.min(window.innerHeight-rect.height-15,newTop));
+    noBtn.style.position="fixed";
+    noBtn.style.left=newLeft+"px";
+    noBtn.style.top=newTop+"px";
+    scale=Math.max(.7,scale-.01);
+    noBtn.style.transform="scale("+scale+")";
+    yesScale=Math.min(1.2,yesScale+.008);
+    yesBtn.style.transform="scale("+yesScale+")";
   }
-}
-document.addEventListener('mousemove', escapeButton);
-document.addEventListener('touchmove', escapeButton);
+});
 ` : `
-const emojis = ['💕','💗','💖','🎉','🎊','✨','💫','⭐','🌟','💝','🦋','🌸','❤️','💘','🥳','🎆'];
+const emojis = ['💕','💗','💖','🎉','🎊','✨','💫','⭐','💝'];
 function createEmoji() {
   const e = document.createElement('div');
-  e.style.cssText = 'position:fixed;font-size:'+(30+Math.random()*30)+'px;pointer-events:none;z-index:100;';
+  e.style.cssText = 'position:fixed;font-size:'+(20+Math.random()*20)+'px;pointer-events:none;z-index:100;';
   e.style.left = Math.random()*100+'vw';
-  e.style.top = '110vh';
+  e.style.bottom = '-30px';
   e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
   document.body.appendChild(e);
-  const duration = 3000 + Math.random()*2000;
-  const startTime = Date.now();
-  function animate() {
-    const progress = (Date.now()-startTime)/duration;
-    if (progress >= 1) { e.remove(); return; }
-    e.style.top = (110 - progress*130) + 'vh';
-    e.style.transform = 'rotate('+progress*720+'deg) scale('+(1+Math.sin(progress*3.14)*0.3)+')';
-    e.style.opacity = progress > 0.7 ? 1-(progress-0.7)/0.3 : 1;
-    requestAnimationFrame(animate);
+  let y = -30, opacity = 1;
+  function rise() {
+    y += 2;
+    opacity = y > window.innerHeight * 0.7 ? opacity - 0.02 : 1;
+    e.style.bottom = y + 'px';
+    e.style.opacity = opacity;
+    if (opacity > 0) requestAnimationFrame(rise);
+    else e.remove();
   }
-  requestAnimationFrame(animate);
+  rise();
 }
-for(let i=0;i<30;i++) setTimeout(createEmoji, i*50);
-setInterval(createEmoji, 200);
+for(let i=0;i<15;i++) setTimeout(createEmoji, i*100);
+setInterval(createEmoji, 300);
 `}
 <\/script>
 </body></html>`;
@@ -985,10 +1107,23 @@ setInterval(createEmoji, 200);
             document.getElementById('payBtn').textContent = 'Pay €' + total.toFixed(2) + ' 💕';
         }
 
-        function processPayment() {
+        async function processPayment() {
             const email = document.getElementById('paymentEmail').value;
             if (!email) { alert('Please enter your email'); return; }
-            showPage('success');
+            
+            const payBtn = document.getElementById('payBtn');
+            payBtn.textContent = 'Saving... 💕';
+            payBtn.disabled = true;
+            
+            const result = await savePage();
+            
+            if (result.success) {
+                showPage('success');
+            } else {
+                alert(result.error || 'Error saving your page. Please try again.');
+                payBtn.textContent = 'Pay €4.99 💕';
+                payBtn.disabled = false;
+            }
         }
 
         function updateSuccess() {
@@ -1035,65 +1170,15 @@ setInterval(createEmoji, 200);
         updatePreview();
         updatePricing();
 
-        // ==================== URL ROUTING ====================
-        function getRoute() {
-            const path = window.location.pathname.replace(/\/$/, '') || '/';
-            return path;
-        }
-
-        function navigateTo(route) {
-            window.history.pushState({}, '', route);
-            handleRoute();
-        }
-
-        function handleRoute() {
-            const path = getRoute();
-            
-            // Hide all pages first
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            
-            // Route mapping
-            if (path === '/' || path === '') {
-                document.getElementById('landing').classList.add('active');
-            } else if (path === '/create') {
-                document.getElementById('editor').classList.add('active');
-                updatePreview();
-            } else if (path === '/checkout') {
-                document.getElementById('checkout').classList.add('active');
-                updateCheckout();
-            } else if (path === '/success') {
-                document.getElementById('success').classList.add('active');
-                updateSuccess();
-            } else {
-                // Custom page URL like /marie - show landing for now
-                // In production, this would load the saved page
-                document.getElementById('landing').classList.add('active');
-            }
-            
-            window.scrollTo(0, 0);
-        }
-
-        // Override showPage function to use routing
+        // Simple page navigation
         function showPage(pageId) {
-            const routes = {
-                'landing': '/',
-                'editor': '/create',
-                'checkout': '/checkout',
-                'success': '/success'
-            };
-            navigateTo(routes[pageId] || '/');
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+            if (pageId === 'editor') updatePreview();
+            if (pageId === 'checkout') updateCheckout();
+            if (pageId === 'success') updateSuccess();
         }
-
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', handleRoute);
-
-        // Handle initial route on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            handleRoute();
-        });
-
-        // Run on load
-        handleRoute();
 
         // ==================== SOCIAL PROOF ====================
         const socialProofData = {
@@ -1102,8 +1187,13 @@ setInterval(createEmoji, 200);
                     male: ['James', 'John', 'Michael', 'David', 'Chris', 'Daniel', 'Matthew', 'Andrew', 'Joshua', 'Ryan', 'Brandon', 'Tyler', 'Kevin', 'Jason', 'Justin', 'Austin', 'Kyle', 'Brian', 'Eric', 'Adam', 'Nick', 'Jake', 'Sean', 'Alex', 'Ben', 'Sam', 'Tom', 'Jack', 'Luke', 'Ethan'],
                     female: ['Emma', 'Olivia', 'Sophia', 'Isabella', 'Mia', 'Charlotte', 'Emily', 'Ashley', 'Sarah', 'Jessica', 'Amanda', 'Jennifer', 'Lauren', 'Brittany', 'Samantha', 'Stephanie', 'Rachel', 'Hannah', 'Megan', 'Nicole', 'Kayla', 'Amber', 'Tiffany', 'Natalie', 'Alyssa', 'Taylor', 'Chloe', 'Grace', 'Lily', 'Zoe']
                 },
-                cities: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami', 'Seattle', 'Boston', 'Denver', 'Atlanta', 'San Francisco', 'London', 'Manchester', 'Sydney', 'Melbourne', 'Toronto', 'Vancouver', 'Dublin', 'Edinburgh', 'Austin', 'Portland'],
-                countries: ['🇺🇸', '🇬🇧', '🇨🇦', '🇦🇺', '🇮🇪', '🇳🇿'],
+                cities: [
+                    {name: 'New York', flag: '🇺🇸'}, {name: 'Los Angeles', flag: '🇺🇸'}, {name: 'Chicago', flag: '🇺🇸'}, {name: 'Houston', flag: '🇺🇸'}, {name: 'Miami', flag: '🇺🇸'}, {name: 'Seattle', flag: '🇺🇸'}, {name: 'Boston', flag: '🇺🇸'}, {name: 'Denver', flag: '🇺🇸'}, {name: 'Atlanta', flag: '🇺🇸'}, {name: 'San Francisco', flag: '🇺🇸'}, {name: 'Austin', flag: '🇺🇸'}, {name: 'Portland', flag: '🇺🇸'},
+                    {name: 'London', flag: '🇬🇧'}, {name: 'Manchester', flag: '🇬🇧'}, {name: 'Edinburgh', flag: '🇬🇧'},
+                    {name: 'Sydney', flag: '🇦🇺'}, {name: 'Melbourne', flag: '🇦🇺'},
+                    {name: 'Toronto', flag: '🇨🇦'}, {name: 'Vancouver', flag: '🇨🇦'},
+                    {name: 'Dublin', flag: '🇮🇪'}
+                ],
                 occasions: ['Valentine', 'marriage proposal 💍', 'first date', 'trip together ✈️', 'moving in together 🏠', 'adopting a puppy 🐕', 'movie night 🎬', 'romantic dinner 🍷', 'surprise weekend', 'prom date 🎓'],
                 timesAgo: ['just now', '1 min ago', '2 min ago', '3 min ago', '5 min ago', '8 min ago', '10 min ago', '12 min ago', '15 min ago'],
                 messages: {
@@ -1118,8 +1208,13 @@ setInterval(createEmoji, 200);
                     male: ['Thomas', 'Lucas', 'Hugo', 'Nathan', 'Louis', 'Gabriel', 'Raphaël', 'Arthur', 'Noah', 'Jules', 'Adam', 'Léo', 'Ethan', 'Paul', 'Mathis', 'Alexandre', 'Maxime', 'Antoine', 'Théo', 'Marco', 'David', 'Kevin', 'Julien', 'Pierre', 'Mohamed', 'Karim', 'Youssef', 'Mehdi', 'Romain', 'Quentin'],
                     female: ['Emma', 'Léa', 'Chloé', 'Manon', 'Camille', 'Sarah', 'Jade', 'Louise', 'Alice', 'Lina', 'Rose', 'Anna', 'Inès', 'Eva', 'Zoé', 'Clara', 'Marie', 'Sofia', 'Julia', 'Charlotte', 'Juliette', 'Lucie', 'Pauline', 'Laura', 'Océane', 'Anaïs', 'Margot', 'Yasmine', 'Fatima', 'Amira']
                 },
-                cities: ['Paris', 'Lyon', 'Marseille', 'Bordeaux', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg', 'Montpellier', 'Lille', 'Rennes', 'Grenoble', 'Dijon', 'Angers', 'Tours', 'Bruxelles', 'Genève', 'Lausanne', 'Montréal', 'Monaco'],
-                countries: ['🇫🇷', '🇧🇪', '🇨🇭', '🇨🇦', '🇲🇦', '🇹🇳', '🇩🇿'],
+                cities: [
+                    {name: 'Paris', flag: '🇫🇷'}, {name: 'Lyon', flag: '🇫🇷'}, {name: 'Marseille', flag: '🇫🇷'}, {name: 'Bordeaux', flag: '🇫🇷'}, {name: 'Toulouse', flag: '🇫🇷'}, {name: 'Nice', flag: '🇫🇷'}, {name: 'Nantes', flag: '🇫🇷'}, {name: 'Strasbourg', flag: '🇫🇷'}, {name: 'Montpellier', flag: '🇫🇷'}, {name: 'Lille', flag: '🇫🇷'}, {name: 'Rennes', flag: '🇫🇷'}, {name: 'Grenoble', flag: '🇫🇷'}, {name: 'Dijon', flag: '🇫🇷'}, {name: 'Angers', flag: '🇫🇷'}, {name: 'Tours', flag: '🇫🇷'},
+                    {name: 'Bruxelles', flag: '🇧🇪'},
+                    {name: 'Genève', flag: '🇨🇭'}, {name: 'Lausanne', flag: '🇨🇭'},
+                    {name: 'Montréal', flag: '🇨🇦'},
+                    {name: 'Monaco', flag: '🇲🇨'}
+                ],
                 occasions: ['Saint-Valentin', 'demande en mariage 💍', 'premier rendez-vous', 'voyage ensemble ✈️', 'emménager ensemble 🏠', 'adopter un chien 🐕', 'soirée ciné 🎬', 'dîner romantique 🍷', 'week-end surprise', 'bal de promo 🎓'],
                 timesAgo: ['à l\'instant', 'il y a 1 min', 'il y a 2 min', 'il y a 3 min', 'il y a 5 min', 'il y a 8 min', 'il y a 10 min', 'il y a 12 min', 'il y a 15 min'],
                 messages: {
@@ -1134,8 +1229,14 @@ setInterval(createEmoji, 200);
                     male: ['Carlos', 'Miguel', 'José', 'Antonio', 'Juan', 'David', 'Pedro', 'Pablo', 'Alejandro', 'Daniel', 'Sergio', 'Fernando', 'Jorge', 'Luis', 'Javier', 'Rafael', 'Manuel', 'Francisco', 'Diego', 'Adrián', 'Álvaro', 'Marcos', 'Iván', 'Rubén', 'Hugo', 'Mario', 'Óscar', 'Raúl', 'Víctor', 'Andrés'],
                     female: ['María', 'Carmen', 'Ana', 'Laura', 'Lucía', 'Marta', 'Sara', 'Paula', 'Elena', 'Sofía', 'Isabel', 'Claudia', 'Andrea', 'Cristina', 'Alba', 'Natalia', 'Patricia', 'Julia', 'Irene', 'Beatriz', 'Daniela', 'Carla', 'Nuria', 'Rocío', 'Silvia', 'Raquel', 'Marina', 'Lorena', 'Alicia', 'Eva']
                 },
-                cities: ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Málaga', 'Bilbao', 'Zaragoza', 'Alicante', 'Granada', 'Córdoba', 'Murcia', 'Palma', 'Salamanca', 'San Sebastián', 'Ibiza', 'Tenerife', 'Marbella', 'Toledo', 'Cádiz', 'Girona'],
-                countries: ['🇪🇸', '🇲🇽', '🇦🇷', '🇨🇴', '🇨🇱', '🇵🇪'],
+                cities: [
+                    {name: 'Madrid', flag: '🇪🇸'}, {name: 'Barcelona', flag: '🇪🇸'}, {name: 'Valencia', flag: '🇪🇸'}, {name: 'Sevilla', flag: '🇪🇸'}, {name: 'Málaga', flag: '🇪🇸'}, {name: 'Bilbao', flag: '🇪🇸'}, {name: 'Zaragoza', flag: '🇪🇸'}, {name: 'Alicante', flag: '🇪🇸'}, {name: 'Granada', flag: '🇪🇸'}, {name: 'Córdoba', flag: '🇪🇸'}, {name: 'Murcia', flag: '🇪🇸'}, {name: 'Palma', flag: '🇪🇸'}, {name: 'Salamanca', flag: '🇪🇸'}, {name: 'San Sebastián', flag: '🇪🇸'}, {name: 'Ibiza', flag: '🇪🇸'}, {name: 'Tenerife', flag: '🇪🇸'}, {name: 'Marbella', flag: '🇪🇸'}, {name: 'Toledo', flag: '🇪🇸'}, {name: 'Cádiz', flag: '🇪🇸'}, {name: 'Girona', flag: '🇪🇸'},
+                    {name: 'México DF', flag: '🇲🇽'}, {name: 'Cancún', flag: '🇲🇽'},
+                    {name: 'Buenos Aires', flag: '🇦🇷'},
+                    {name: 'Bogotá', flag: '🇨🇴'}, {name: 'Medellín', flag: '🇨🇴'},
+                    {name: 'Santiago', flag: '🇨🇱'},
+                    {name: 'Lima', flag: '🇵🇪'}
+                ],
                 occasions: ['San Valentín', 'propuesta de matrimonio 💍', 'primera cita', 'viaje juntos ✈️', 'mudarse juntos 🏠', 'adoptar un perrito 🐕', 'noche de cine 🎬', 'cena romántica 🍷', 'fin de semana sorpresa', 'baile de graduación 🎓'],
                 timesAgo: ['ahora mismo', 'hace 1 min', 'hace 2 min', 'hace 3 min', 'hace 5 min', 'hace 8 min', 'hace 10 min', 'hace 12 min', 'hace 15 min'],
                 messages: {
@@ -1150,8 +1251,11 @@ setInterval(createEmoji, 200);
                     male: ['Lukas', 'Leon', 'Maximilian', 'Felix', 'Paul', 'Jonas', 'Tim', 'David', 'Niklas', 'Jan', 'Moritz', 'Simon', 'Florian', 'Alexander', 'Tobias', 'Sebastian', 'Philipp', 'Julian', 'Michael', 'Thomas', 'Daniel', 'Christian', 'Stefan', 'Matthias', 'Patrick', 'Kevin', 'Marcel', 'Dennis', 'Benjamin', 'Marco'],
                     female: ['Emma', 'Mia', 'Hannah', 'Sofia', 'Anna', 'Lea', 'Lena', 'Marie', 'Laura', 'Julia', 'Lisa', 'Sarah', 'Lina', 'Emilia', 'Amelie', 'Johanna', 'Katharina', 'Clara', 'Charlotte', 'Nina', 'Jana', 'Melanie', 'Sabrina', 'Christina', 'Stefanie', 'Jessica', 'Sandra', 'Nicole', 'Nadine', 'Vanessa']
                 },
-                cities: ['Berlin', 'München', 'Hamburg', 'Köln', 'Frankfurt', 'Stuttgart', 'Düsseldorf', 'Leipzig', 'Dresden', 'Hannover', 'Nürnberg', 'Bremen', 'Bonn', 'Münster', 'Freiburg', 'Wien', 'Zürich', 'Salzburg', 'Innsbruck', 'Graz'],
-                countries: ['🇩🇪', '🇦🇹', '🇨🇭'],
+                cities: [
+                    {name: 'Berlin', flag: '🇩🇪'}, {name: 'München', flag: '🇩🇪'}, {name: 'Hamburg', flag: '🇩🇪'}, {name: 'Köln', flag: '🇩🇪'}, {name: 'Frankfurt', flag: '🇩🇪'}, {name: 'Stuttgart', flag: '🇩🇪'}, {name: 'Düsseldorf', flag: '🇩🇪'}, {name: 'Leipzig', flag: '🇩🇪'}, {name: 'Dresden', flag: '🇩🇪'}, {name: 'Hannover', flag: '🇩🇪'}, {name: 'Nürnberg', flag: '🇩🇪'}, {name: 'Bremen', flag: '🇩🇪'}, {name: 'Bonn', flag: '🇩🇪'}, {name: 'Münster', flag: '🇩🇪'}, {name: 'Freiburg', flag: '🇩🇪'},
+                    {name: 'Wien', flag: '🇦🇹'}, {name: 'Salzburg', flag: '🇦🇹'}, {name: 'Innsbruck', flag: '🇦🇹'}, {name: 'Graz', flag: '🇦🇹'},
+                    {name: 'Zürich', flag: '🇨🇭'}
+                ],
                 occasions: ['Valentinstag', 'Heiratsantrag 💍', 'erstes Date', 'Reise zusammen ✈️', 'zusammenziehen 🏠', 'einen Hund adoptieren 🐕', 'Kinoabend 🎬', 'romantisches Abendessen 🍷', 'Überraschungswochenende', 'Abschlussball 🎓'],
                 timesAgo: ['gerade eben', 'vor 1 Min', 'vor 2 Min', 'vor 3 Min', 'vor 5 Min', 'vor 8 Min', 'vor 10 Min', 'vor 12 Min', 'vor 15 Min'],
                 messages: {
@@ -1198,8 +1302,9 @@ setInterval(createEmoji, 200);
             const types = ['created', 'yes', 'viewing', 'created', 'yes', 'created'];
             const type = getRandomItem(types);
             const person = getRandomName(lang);
-            const city = getRandomItem(data.cities);
-            const country = getRandomItem(data.countries);
+            const cityData = getRandomItem(data.cities);
+            const city = cityData.name;
+            const country = cityData.flag;
             const time = getRandomItem(data.timesAgo);
             const avatar = getRandomItem(avatars);
             const occasion = getRandomItem(data.occasions);
@@ -1270,7 +1375,7 @@ setInterval(createEmoji, 200);
             showSocialProofToast();
             
             function scheduleNextToast() {
-                const delay = Math.random() * 8000 + 5000;
+                const delay = Math.random() * 20000 + 25000;
                 setTimeout(() => {
                     showSocialProofToast();
                     scheduleNextToast();
@@ -1278,6 +1383,256 @@ setInterval(createEmoji, 200);
             }
             scheduleNextToast();
         }, 3000);
+
+        // ==================== ROUTING - LOAD PERSONALIZED PAGES ====================
+        async function checkForPersonalizedPage() {
+            const path = window.location.pathname;
+            const slug = path.replace('/', '').toLowerCase();
+            
+            // Si on est sur la racine ou une page système, ne pas charger
+            if (!slug || slug === '' || slug === 'create' || slug === 'checkout' || slug === 'success') {
+                return;
+            }
+            
+            // Chercher la page dans Supabase
+            const result = await loadPage(slug);
+            
+            if (result.success && result.page) {
+                // Afficher la page personnalisée
+                displayPersonalizedPage(result.page);
+            }
+        }
+
+        function displayPersonalizedPage(page) {
+            // Cacher tout le contenu normal
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelector('.site-header').style.display = 'none';
+            document.querySelector('.floating-hearts').style.display = 'none';
+            document.getElementById('socialProofToast').style.display = 'none';
+            
+            // Créer la page personnalisée
+            const container = document.createElement('div');
+            container.id = 'personalizedPage';
+            container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:10000;';
+            
+            const vibeColors = { romantic: { bg: '#ffeef8', primary: '#e91e63', secondary: '#ff69b4' }, elegant: { bg: '#fff8e7', primary: '#d4af37', secondary: '#aa8c2c' }, playful: { bg: '#fff3e0', primary: '#ff6b6b', secondary: '#feca57' }, minimal: { bg: '#f8f9fa', primary: '#333', secondary: '#666' }, dark: { bg: '#1a1a2e', primary: '#e94560', secondary: '#ff69b4' }, ocean: { bg: '#e0f7fa', primary: '#00796b', secondary: '#0097a7' } };
+            const v = vibeColors[page.vibe] || vibeColors.romantic;
+            const isDark = page.vibe === 'dark';
+            
+            let photoContent;
+            if (page.proposal_photo_url) {
+                photoContent = '<img src="' + page.proposal_photo_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+            } else {
+                photoContent = '💕';
+            }
+            
+            container.innerHTML = `
+                <iframe id="personalizedFrame" style="width:100%;height:100%;border:none;"></iframe>
+            `;
+            
+            document.body.appendChild(container);
+            
+            const iframe = document.getElementById('personalizedFrame');
+            const html = generatePageHTML(page, 'proposal', v, isDark, photoContent);
+            iframe.srcdoc = html;
+        }
+
+        function generatePageHTML(page, mode, v, isDark, photoContent) {
+            const name = page.recipient_name || 'Name';
+            const question = page.question || 'Would you be my Valentine?';
+            const emojis = page.emojis || '💝✨💕';
+            const celebration = page.celebration_text || 'Yaaay!';
+            const response = page.response_message || 'You just made me the happiest person!';
+            const love = page.love_text || 'I love you!';
+            
+            let responsePhotoContent = photoContent;
+            if (mode === 'response' && page.response_photo_url) {
+                responsePhotoContent = '<img src="' + page.response_photo_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+            }
+            
+            return `<!DOCTYPE html><html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Bangers&family=Comic+Neue:wght@700&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@keyframes heartBeat{0%{transform:scale(1)}14%{transform:scale(1.2)}28%{transform:scale(1)}42%{transform:scale(1.2)}70%{transform:scale(1)}}
+@keyframes disco{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes shine{0%{transform:translateX(-100%) rotate(45deg)}100%{transform:translateX(100%) rotate(45deg)}}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes floatHeart{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.1)}}
+
+body{
+  min-height:100vh;
+  background:${isDark ? 
+    'linear-gradient(135deg,#0a0015,#1a0a30,#2d1050,#1a0a30,#0a0015)' : 
+    'linear-gradient(135deg,#ffb6c1,#ffc0cb,#ffb6c1,#fff0f5,#ffc0cb)'};
+  background-size:400% 400%;
+  animation:disco 8s ease infinite;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:"Comic Neue",cursive;padding:20px;
+  color:${isDark?'#fff':'#333'};overflow:hidden;position:relative;
+  text-align:center;
+}
+body::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 25%),
+    radial-gradient(circle at 85% 15%, rgba(255,255,255,0.3) 0%, transparent 20%),
+    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.35) 0%, transparent 22%),
+    radial-gradient(circle at 25% 75%, rgba(255,255,255,0.3) 0%, transparent 18%),
+    radial-gradient(circle at 50% 50%, rgba(255,182,193,0.2) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+.deco-heart{position:fixed;font-size:1.2rem;opacity:0.5;animation:floatHeart 3s ease-in-out infinite;pointer-events:none;z-index:0}
+.deco-star{position:fixed;color:#fff;font-size:0.9rem;opacity:0.7;animation:pulse 2s ease-in-out infinite;pointer-events:none;z-index:0}
+.photo{width:95%;max-width:95vw;height:45vh;background:linear-gradient(135deg,${v.secondary},${v.primary});border-radius:15px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:2rem;border:4px solid #fff;box-shadow:0 5px 20px rgba(0,0,0,0.2);overflow:hidden}
+.photo svg{width:80%;height:80%}
+.emoji-header{font-size:0.9rem;margin-bottom:4px}
+.name{font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:1px;background:linear-gradient(135deg,${v.primary},${v.secondary},#ff69b4);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:3px;text-transform:uppercase}
+.question{color:${isDark?'#fff':v.primary};font-weight:700;font-size:0.8rem;margin-bottom:8px;line-height:1.2}
+.buttons{display:flex;gap:10px;justify-content:center;position:relative;height:40px;align-items:center}
+.btn-yes{background:linear-gradient(135deg,${v.secondary},${v.primary},#ff1493);background-size:200% 200%;color:#fff;padding:10px 22px;border-radius:25px;font-weight:700;font-size:0.85rem;cursor:pointer;border:none;font-family:'Fredoka One',cursive;text-transform:uppercase;box-shadow:0 4px 15px ${v.primary}60;position:relative;overflow:hidden}
+.btn-yes::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(transparent,rgba(255,255,255,0.3),transparent);transform:rotate(45deg);animation:shine 2s infinite}
+.btn-no{background:linear-gradient(135deg,#e0e0e0,#c0c0c0);color:#666;padding:8px 16px;border-radius:20px;font-size:.7rem;cursor:pointer;border:2px solid #b0b0b0;font-family:'Comic Neue',cursive;font-weight:700;transition:all .15s ease-out}
+.marquee{position:fixed;bottom:5px;left:0;width:200%;font-family:'Bangers',cursive;font-size:0.65rem;color:${v.primary};white-space:nowrap;animation:marquee 12s linear infinite;opacity:0.5}
+.corner{position:fixed;font-size:1rem;opacity:0.4;animation:heartBeat 2s infinite}
+.celebration{font-family:'Bangers',cursive;font-size:1.3rem;color:${isDark?'#fff':v.primary};text-shadow:2px 2px 0 ${v.secondary};letter-spacing:2px;margin-bottom:5px}
+.response-text{color:${isDark?'#fff':v.secondary};font-size:0.75rem;margin:6px 0;font-weight:700}
+.love-text{font-family:'Pacifico',cursive;font-size:1rem;background:linear-gradient(135deg,${v.primary},#ff1493,${v.secondary});-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+</style>
+</head>
+<body>
+<div class="corner" style="top:10px;left:10px">💝</div>
+<div class="corner" style="top:10px;right:10px">💖</div>
+<div class="corner" style="bottom:35px;left:10px">💗</div>
+<div class="corner" style="bottom:35px;right:10px">💕</div>
+<div class="deco-heart" style="top:15%;left:8%">💕</div>
+<div class="deco-heart" style="top:25%;right:12%;animation-delay:0.5s">💗</div>
+<div class="deco-heart" style="top:60%;left:5%;animation-delay:1s">💖</div>
+<div class="deco-heart" style="top:70%;right:8%;animation-delay:1.5s">💕</div>
+<div class="deco-star" style="top:12%;left:25%">✦</div>
+<div class="deco-star" style="top:8%;right:30%;animation-delay:0.3s">✧</div>
+<div class="deco-star" style="top:50%;left:3%;animation-delay:0.6s">✦</div>
+<div class="deco-star" style="top:45%;right:5%;animation-delay:0.9s">✧</div>
+<div class="deco-star" style="bottom:25%;left:15%;animation-delay:1.2s">✦</div>
+<div class="deco-star" style="bottom:20%;right:20%;animation-delay:1.5s">✧</div>
+<div class="deco-star" style="top:18%;left:5%">⭐</div>
+<div class="deco-star" style="top:5%;left:45%;animation-delay:0.4s">✦</div>
+<div class="deco-star" style="top:30%;right:3%;animation-delay:0.7s">⭐</div>
+<div class="deco-star" style="bottom:40%;left:8%;animation-delay:1s">✧</div>
+<div class="deco-star" style="bottom:10%;right:12%;animation-delay:1.3s">✦</div>
+<div class="deco-star" style="top:75%;left:18%;animation-delay:0.2s">⭐</div>
+${mode==='proposal' ? `
+<div class="emoji-header">${emojis}</div>
+<div class="photo">${photoContent}</div>
+<h1 class="name">${name}</h1>
+<p class="question">${question} 💕</p>
+<div class="buttons">
+  <button class="btn-yes" onclick="showResponse()">YES! 💖</button>
+  <button class="btn-no" id="noBtn">no...</button>
+</div>
+<div class="marquee">💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕</div>
+` : `
+<div class="emoji-header">🎉✨${emojis}✨🎉</div>
+<div class="photo">${responsePhotoContent}</div>
+<h1 class="celebration">${celebration} 🎉</h1>
+<p class="response-text">${response}</p>
+<p class="love-text">${love} 💕</p>
+<div class="marquee">🎉 YES! 💕 LOVE WINS 🎉 YES! 💕 LOVE WINS 🎉</div>
+`}
+<script>
+${mode==='proposal' ? `
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.querySelector(".btn-yes");
+let scale=1;
+let yesScale=1;
+document.addEventListener("mousemove",function(e){
+  if(!noBtn)return;
+  const rect=noBtn.getBoundingClientRect();
+  const cx=rect.left+rect.width/2;
+  const cy=rect.top+rect.height/2;
+  const dx=e.clientX-cx;
+  const dy=e.clientY-cy;
+  const dist=Math.sqrt(dx*dx+dy*dy);
+  if(dist<70){
+    const angle=Math.atan2(dy,dx);
+    const moveX=-Math.cos(angle)*25;
+    const moveY=-Math.sin(angle)*25;
+    let newLeft=Math.max(15,Math.min(window.innerWidth-rect.width-15,rect.left+moveX));
+    let newTop=Math.max(15,Math.min(window.innerHeight-rect.height-15,rect.top+moveY));
+    noBtn.style.position="fixed";
+    noBtn.style.left=newLeft+"px";
+    noBtn.style.top=newTop+"px";
+    scale=Math.max(.7,scale-.01);
+    noBtn.style.transform="scale("+scale+")";
+    yesScale=Math.min(1.2,yesScale+.008);
+    yesBtn.style.transform="scale("+yesScale+")";
+  }
+});
+
+function showResponse() {
+  window.parent.postMessage('showResponse', '*');
+}
+` : `
+const emojis = ['💕','💗','💖','🎉','🎊','✨','💫','⭐','💝'];
+function createEmoji() {
+  const e = document.createElement('div');
+  e.style.cssText = 'position:fixed;font-size:'+(20+Math.random()*20)+'px;pointer-events:none;z-index:100;';
+  e.style.left = Math.random()*100+'vw';
+  e.style.bottom = '-30px';
+  e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+  document.body.appendChild(e);
+  let y = -30, opacity = 1;
+  function rise() {
+    y += 2;
+    opacity = y > window.innerHeight * 0.7 ? opacity - 0.02 : 1;
+    e.style.bottom = y + 'px';
+    e.style.opacity = opacity;
+    if (opacity > 0) requestAnimationFrame(rise);
+    else e.remove();
+  }
+  rise();
+}
+for(let i=0;i<15;i++) setTimeout(createEmoji, i*100);
+setInterval(createEmoji, 300);
+`}
+<\/script>
+</body></html>`;
+        }
+
+        // Écouter le message pour afficher la réponse
+        window.addEventListener('message', async function(event) {
+            if (event.data === 'showResponse') {
+                const path = window.location.pathname;
+                const slug = path.replace('/', '').toLowerCase();
+                const result = await loadPage(slug);
+                
+                if (result.success && result.page) {
+                    const vibeColors = { romantic: { bg: '#ffeef8', primary: '#e91e63', secondary: '#ff69b4' }, elegant: { bg: '#fff8e7', primary: '#d4af37', secondary: '#aa8c2c' }, playful: { bg: '#fff3e0', primary: '#ff6b6b', secondary: '#feca57' }, minimal: { bg: '#f8f9fa', primary: '#333', secondary: '#666' }, dark: { bg: '#1a1a2e', primary: '#e94560', secondary: '#ff69b4' }, ocean: { bg: '#e0f7fa', primary: '#00796b', secondary: '#0097a7' } };
+                    const v = vibeColors[result.page.vibe] || vibeColors.romantic;
+                    const isDark = result.page.vibe === 'dark';
+                    
+                    let photoContent = '💕';
+                    if (result.page.response_photo_url) {
+                        photoContent = '<img src="' + result.page.response_photo_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+                    } else if (result.page.proposal_photo_url) {
+                        photoContent = '<img src="' + result.page.proposal_photo_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+                    }
+                    
+                    const iframe = document.getElementById('personalizedFrame');
+                    const html = generatePageHTML(result.page, 'response', v, isDark, photoContent);
+                    iframe.srcdoc = html;
+                }
+            }
+        });
+
+        // Au chargement de la page, vérifier si c'est une page personnalisée
+        checkForPersonalizedPage();
     </script>
 </body>
 </html>
