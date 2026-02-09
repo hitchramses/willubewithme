@@ -659,8 +659,7 @@
                 <h2>Secure payment 🔒</h2>
                 <div class="payment-form">
                     <label>Email</label><input type="email" placeholder="your@email.com" id="paymentEmail">
-                    <label>Card number</label><input type="text" placeholder="4242 4242 4242 4242">
-                    <div class="card-row"><div><label>Expiry</label><input type="text" placeholder="MM/YY"></div><div><label>CVC</label><input type="text" placeholder="123"></div></div>
+                    <p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin:15px 0;">You'll be redirected to Stripe's secure payment page</p>
                     <button class="pay-btn" onclick="processPayment()" id="payBtn">Pay €4.99 💕</button>
                     <div class="stripe-badge"><span>🔒 Secured by Stripe</span></div>
                 </div>
@@ -676,7 +675,7 @@
             <p>Your page has been created. Send it to your special someone! 🤞💕</p>
             <div class="success-link-box"><div class="success-link-label">Your personalized link</div><div class="success-link"><input type="text" id="finalLink" value="willubewith.me/ellina" readonly><button class="copy-btn" onclick="copyLink()">Copy</button></div></div>
             <div class="success-share"><button class="share-btn whatsapp" onclick="shareWhatsApp()">📱 WhatsApp</button><button class="share-btn sms" onclick="shareSMS()">💬 SMS</button></div>
-            <button class="btn-secondary" onclick="window.open('https://willubewith.me/'+(document.getElementById('domainSlug').value||'demo'),'_blank')">👀 View my page</button>
+            <button class="btn-secondary" id="viewPageBtn" onclick="viewMyPage()">👀 View my page</button>
             <div class="review-submission">
                 <h3>Leave a review ⭐</h3>
                 <p style="text-align:center;font-size:0.9rem;color:rgba(255,255,255,0.6);margin-bottom:20px;">Share your experience and help others!</p>
@@ -1181,6 +1180,17 @@ setInterval(createEmoji, 300);
             alert('Link copied! 💕');
         }
 
+        function viewMyPage() {
+            const link = document.getElementById('finalLink').value;
+            if (link && link !== 'willubewith.me/your-page') {
+                window.open('https://' + link, '_blank');
+            } else if (currentPageSlug) {
+                window.open('https://willubewith.me/' + currentPageSlug, '_blank');
+            } else {
+                alert('No page link found');
+            }
+        }
+
         function shareWhatsApp() {
             const link = 'https://' + document.getElementById('finalLink').value;
             window.open('https://wa.me/?text=I have something to ask you... 💕 ' + link, '_blank');
@@ -1428,6 +1438,9 @@ setInterval(createEmoji, 300);
         }, 3000);
 
         // ==================== ROUTING - LOAD PERSONALIZED PAGES ====================
+        // Variable pour stocker le slug actuel
+        let currentPageSlug = '';
+
         async function checkForPersonalizedPage() {
             const path = window.location.pathname;
             const slug = path.replace(/^\//, '').toLowerCase().split('/')[0];
@@ -1439,9 +1452,10 @@ setInterval(createEmoji, 300);
             // Gérer le retour de Stripe (success avec slug en paramètre)
             if (slug === 'success' && urlParams.get('slug')) {
                 console.log('Payment success, showing success page');
+                const successSlug = urlParams.get('slug');
+                currentPageSlug = successSlug;
                 document.getElementById('landing').classList.add('active');
                 // Mettre à jour le lien final
-                const successSlug = urlParams.get('slug');
                 setTimeout(() => {
                     document.getElementById('finalLink').value = 'willubewith.me/' + successSlug;
                     showPage('success');
