@@ -1389,21 +1389,29 @@ setInterval(createEmoji, 300);
             const path = window.location.pathname;
             const slug = path.replace(/^\//, '').toLowerCase().split('/')[0];
             
+            console.log('Path:', path);
+            console.log('Slug:', slug);
+            
             // Si on est sur la racine ou une page système, afficher la page d'accueil
             if (!slug || slug === '' || slug === 'index.html' || slug === 'create' || slug === 'checkout' || slug === 'success') {
+                console.log('Showing landing page');
                 document.getElementById('landing').classList.add('active');
                 return;
             }
             
             // Chercher la page dans Supabase
             try {
+                console.log('Loading page from Supabase:', slug);
                 const result = await loadPage(slug);
+                console.log('Supabase result:', result);
                 
                 if (result.success && result.page) {
                     // Afficher la page personnalisée
+                    console.log('Displaying personalized page');
                     displayPersonalizedPage(result.page);
                 } else {
                     // Page non trouvée, afficher la page d'accueil
+                    console.log('Page not found, showing landing');
                     document.getElementById('landing').classList.add('active');
                 }
             } catch (error) {
