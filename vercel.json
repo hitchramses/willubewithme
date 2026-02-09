@@ -1,5 +1,9 @@
 {
   "rewrites": [
+    { "source": "/terms.html", "destination": "/terms.html" },
+    { "source": "/privacy.html", "destination": "/privacy.html" },
+    { "source": "/refund.html", "destination": "/refund.html" },
+    { "source": "/contact.html", "destination": "/contact.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
