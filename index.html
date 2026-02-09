@@ -449,7 +449,7 @@
         </div>
     </header>
     <!-- PAGE 1: LANDING -->
-    <div id="landing" class="page active">
+    <div id="landing" class="page">
         <section class="hero">
             <div class="hero-content">
                 <div class="hero-badge">💕 Embrace the cringe, harvest the love</div>
@@ -1387,19 +1387,28 @@ setInterval(createEmoji, 300);
         // ==================== ROUTING - LOAD PERSONALIZED PAGES ====================
         async function checkForPersonalizedPage() {
             const path = window.location.pathname;
-            const slug = path.replace('/', '').toLowerCase();
+            const slug = path.replace(/^\//, '').toLowerCase().split('/')[0];
             
-            // Si on est sur la racine ou une page système, ne pas charger
-            if (!slug || slug === '' || slug === 'create' || slug === 'checkout' || slug === 'success') {
+            // Si on est sur la racine ou une page système, afficher la page d'accueil
+            if (!slug || slug === '' || slug === 'index.html' || slug === 'create' || slug === 'checkout' || slug === 'success') {
+                document.getElementById('landing').classList.add('active');
                 return;
             }
             
             // Chercher la page dans Supabase
-            const result = await loadPage(slug);
-            
-            if (result.success && result.page) {
-                // Afficher la page personnalisée
-                displayPersonalizedPage(result.page);
+            try {
+                const result = await loadPage(slug);
+                
+                if (result.success && result.page) {
+                    // Afficher la page personnalisée
+                    displayPersonalizedPage(result.page);
+                } else {
+                    // Page non trouvée, afficher la page d'accueil
+                    document.getElementById('landing').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error loading page:', error);
+                document.getElementById('landing').classList.add('active');
             }
         }
 
