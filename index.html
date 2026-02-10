@@ -1182,7 +1182,7 @@ setInterval(createEmoji, 300);
 
         function viewMyPage() {
             const link = document.getElementById('finalLink').value;
-            if (link && link !== 'willubewith.me/your-page') {
+            if (link && link !== 'willubewith.me/your-page' && link !== 'willubewith.me/ellina') {
                 window.open('https://' + link, '_blank');
             } else if (currentPageSlug) {
                 window.open('https://willubewith.me/' + currentPageSlug, '_blank');
@@ -1192,13 +1192,23 @@ setInterval(createEmoji, 300);
         }
 
         function shareWhatsApp() {
-            const link = 'https://' + document.getElementById('finalLink').value;
-            window.open('https://wa.me/?text=I have something to ask you... 💕 ' + link, '_blank');
+            let link = document.getElementById('finalLink').value;
+            if (link === 'willubewith.me/your-page' || link === 'willubewith.me/ellina') {
+                if (currentPageSlug) {
+                    link = 'willubewith.me/' + currentPageSlug;
+                }
+            }
+            window.open('https://wa.me/?text=I have something to ask you... 💕 https://' + link, '_blank');
         }
 
         function shareSMS() {
-            const link = 'https://' + document.getElementById('finalLink').value;
-            window.open('sms:?body=I have something to ask you... 💕 ' + link, '_blank');
+            let link = document.getElementById('finalLink').value;
+            if (link === 'willubewith.me/your-page' || link === 'willubewith.me/ellina') {
+                if (currentPageSlug) {
+                    link = 'willubewith.me/' + currentPageSlug;
+                }
+            }
+            window.open('sms:?body=I have something to ask you... 💕 https://' + link, '_blank');
         }
 
         function setRating(rating) {
@@ -1454,11 +1464,21 @@ setInterval(createEmoji, 300);
                 console.log('Payment success, showing success page');
                 const successSlug = urlParams.get('slug');
                 currentPageSlug = successSlug;
+                
+                // D'abord montrer la page landing pour que le DOM soit prêt
                 document.getElementById('landing').classList.add('active');
-                // Mettre à jour le lien final
+                
+                // Attendre que le DOM soit prêt, puis afficher success
                 setTimeout(() => {
-                    document.getElementById('finalLink').value = 'willubewith.me/' + successSlug;
                     showPage('success');
+                    // Mettre à jour le lien APRÈS avoir affiché la page
+                    setTimeout(() => {
+                        const finalLink = document.getElementById('finalLink');
+                        if (finalLink) {
+                            finalLink.value = 'willubewith.me/' + successSlug;
+                            console.log('Link updated to:', finalLink.value);
+                        }
+                    }, 50);
                 }, 100);
                 return;
             }
