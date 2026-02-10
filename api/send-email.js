@@ -35,7 +35,21 @@ module.exports = async (req, res) => {
         <body style="margin:0;padding:0;font-family:Arial,sans-serif;background-color:#1a1a2e;">
           <div style="max-width:600px;margin:0 auto;padding:40px 20px;">
             <div style="text-align:center;margin-bottom:30px;">
-              <h1 style="color:#ff69b4;font-size:28px;margin:0;">Will U Be With Me 💕</h1>
+              <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+                <tr>
+                  <td style="vertical-align:middle;padding-right:12px;">
+                    <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M25 45L7 27C-2 18-2 4 7 4C16 4 25 14 25 14C25 14 34 4 43 4C52 4 52 18 43 27L25 45Z" fill="#ff69b4"/>
+                      <text x="25" y="30" text-anchor="middle" fill="white" font-size="16" font-weight="bold">?</text>
+                    </svg>
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <span style="font-size:22px;color:#fff;font-family:Arial,sans-serif;">Will </span>
+                    <span style="font-size:24px;color:#ff69b4;font-family:Georgia,serif;font-style:italic;">U</span>
+                    <span style="font-size:22px;color:#fff;font-family:Arial,sans-serif;"> Be With Me</span>
+                  </td>
+                </tr>
+              </table>
             </div>
             
             <div style="background:linear-gradient(135deg,#2a2a4e,#1a1a2e);border-radius:20px;padding:40px;text-align:center;border:1px solid rgba(255,105,180,0.3);">
