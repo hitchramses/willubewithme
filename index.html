@@ -631,7 +631,7 @@
                                 <span>Puppies</span>
                             </div>
                         </div></div><div id="photoUploadSection" class="hidden"><p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:15px;">Upload your photos (+€5)</p><div id="proposalPhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;margin-bottom:15px;position:relative;overflow:hidden;"><input type="file" id="proposalPhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('proposal',this)"><div id="proposalPhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload proposal photo</p></div></div><div id="responsePhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;position:relative;overflow:hidden;"><input type="file" id="responsePhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('response',this)"><div id="responsePhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload response photo 💋</p></div></div><p id="uploadStatus" style="font-size:0.75rem;color:#ff69b4;margin-top:10px;text-align:center;"></p></div></div>
-                <div class="editor-section"><h3>Music <span class="premium-badge">+€5</span></h3><select id="musicSelector" onchange="updatePricing()"><option value="">🔇 No music (free)</option><option value="romantic-piano">🎹 Romantic Piano (+€5)</option><option value="soft-guitar">🎸 Soft Guitar (+€5)</option><option value="dreamy-waltz">💃 Dreamy Waltz (+€5)</option><option value="eternal-love">💖 Eternal Love (+€5)</option><option value="moonlight">🌙 Moonlight (+€5)</option></select></div>
+                <div class="editor-section"><h3>Music <span class="premium-badge">+€5</span></h3><select id="musicSelector" onchange="selectMusic(this.value)"><option value="">🔇 No music (free)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/John_Legend_-_All_of_Me_Official_Video_y3q1az.mp3">🎵 John Legend - All of Me (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Elvis_Presley_-_Can_t_Help_Falling_in_Love_Lyrics_xbhora.mp3">🎵 Elvis Presley - Can't Help Falling In Love (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Whitney_Houston_-_I_Will_Always_Love_You_Official_4K_Video_vwj4e0.mp3">🎵 Whitney Houston - I Will Always Love You (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Celine_Dion_-_My_Heart_Will_Go_On_Lyrics_yif3fd.mp3">🎵 Celine Dion - My Heart Will Go On (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/George_Michael_-_Careless_Whisper_Official_Video_plc0xs.mp3">🎵 George Michael - Careless Whisper (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Frank_Sinatra_-_L.O.V.E._lyrics_-_lIBioHazardIl_ljsxgx.mp3">🎵 Frank Sinatra - L.O.V.E. (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/fF6x1ta9j1w_rr2dks.mp3">🎵 Ella Fitzgerald - Let's Fall In Love (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Sade_-_Paradise_vfbo5f.mp3">🎵 Sade - Paradise (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/Luther_Vandross_-_Your_Secret_Love_Official_Video_kcmcgr.mp3">🎵 Luther Vandross - Your Secret Love (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Miki_Matsubara_-_Stay_With_Me_HD_Club_Mix_qs3f3p.mp3">🎵 Miki Matsubara - Stay With Me (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Zaho_-_Je_Te_Promets_Clip_Officiel_kkszgz.mp3">🎵 Zaho - Je Te Promets (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/AmrDiab_-_Tamally_Maak_Official_Music_Video_-_HD_Version_%D8%B9%D9%85%D8%B1%D9%88_%D8%AF%D9%8A%D8%A7%D8%A8_-_%D8%AA%D9%85%D9%84%D9%8A_%D9%85%D8%B9%D8%A7%D9%83_glu4aa.mp3">🎵 Amr Diab - Tamally Maak (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Epic_Sax_Guy_Loop_-_320_Kbps_oep74l.mp3">🎷 Epic Sax Guy (+€5)</option></select><div id="musicPreview" style="margin-top:10px;display:none;"><audio id="musicAudio" controls style="width:100%;height:35px;"></audio></div></div>
                 <div class="continue-section"><button class="continue-btn" onclick="showPage('checkout')">Continue to payment 💕 <span class="price-tag" id="totalPrice">€4.99</span></button></div>
             </div>
             <div class="preview-panel">
@@ -700,6 +700,7 @@
         const CLOUDINARY_UPLOAD_PRESET = 'willubewithme';
         let proposalPhotoUrl = null;
         let responsePhotoUrl = null;
+        let selectedMusicUrl = null;
 
         // Supabase config
         const SUPABASE_URL = 'https://abenjnsqgrnqtoduddrr.supabase.co';
@@ -855,6 +856,25 @@
             document.querySelectorAll('.illustration-option').forEach(i => i.classList.remove('selected'));
             el.classList.add('selected');
             selectedIllustration = type;
+            updatePreview();
+        }
+
+        function selectMusic(url) {
+            selectedMusicUrl = url;
+            const preview = document.getElementById('musicPreview');
+            const audio = document.getElementById('musicAudio');
+            
+            if (url) {
+                hasMusic = true;
+                audio.src = url;
+                preview.style.display = 'block';
+            } else {
+                hasMusic = false;
+                audio.pause();
+                audio.src = '';
+                preview.style.display = 'none';
+            }
+            updatePricing();
             updatePreview();
         }
 
@@ -1594,6 +1614,7 @@ setInterval(createEmoji, 300);
             const celebration = page.celebration_text || 'Yaaay!';
             const response = page.response_message || 'You just made me the happiest person!';
             const love = page.love_text || 'I love you!';
+            const musicUrl = page.music || null;
             
             let responsePhotoContent = photoContent;
             if (mode === 'response' && page.response_photo_url) {
@@ -1669,9 +1690,13 @@ body::before{
   .love-text{font-size:1.2rem}
   .corner{font-size:1.2rem}
 }
+.music-control{position:fixed;bottom:50px;right:15px;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:none;border-radius:50%;width:50px;height:50px;font-size:1.5rem;cursor:pointer;z-index:1000;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);transition:transform 0.2s}
+.music-control:hover{transform:scale(1.1)}
+.music-control.playing{animation:pulse 1s infinite}
 </style>
 </head>
 <body>
+${musicUrl ? `<audio id="bgMusic" loop><source src="${musicUrl}" type="audio/mpeg"></audio><button class="music-control" id="musicBtn" onclick="toggleMusic()">🔇</button>` : ''}
 <div class="corner" style="top:10px;left:10px">💝</div>
 <div class="corner" style="top:10px;right:10px">💖</div>
 <div class="corner" style="bottom:35px;left:10px">💗</div>
@@ -1766,6 +1791,39 @@ function createEmoji() {
 for(let i=0;i<15;i++) setTimeout(createEmoji, i*100);
 setInterval(createEmoji, 300);
 `}
+
+// Music control
+const bgMusic = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+let isPlaying = false;
+
+function toggleMusic() {
+  if (!bgMusic) return;
+  if (isPlaying) {
+    bgMusic.pause();
+    musicBtn.textContent = '🔇';
+    musicBtn.classList.remove('playing');
+  } else {
+    bgMusic.play();
+    musicBtn.textContent = '🎵';
+    musicBtn.classList.add('playing');
+  }
+  isPlaying = !isPlaying;
+}
+
+// Auto-play on first click
+document.addEventListener('click', function autoPlay() {
+  if (bgMusic && !isPlaying) {
+    bgMusic.play().then(() => {
+      isPlaying = true;
+      if (musicBtn) {
+        musicBtn.textContent = '🎵';
+        musicBtn.classList.add('playing');
+      }
+    }).catch(() => {});
+  }
+  document.removeEventListener('click', autoPlay);
+}, { once: true });
 <\/script>
 </body></html>`;
         }
