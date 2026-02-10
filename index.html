@@ -1468,6 +1468,9 @@ setInterval(createEmoji, 300);
                 // D'abord montrer la page landing pour que le DOM soit prêt
                 document.getElementById('landing').classList.add('active');
                 
+                // Envoyer l'email de confirmation (en arrière-plan)
+                sendConfirmationEmail(successSlug);
+                
                 // Attendre que le DOM soit prêt, puis afficher success
                 setTimeout(() => {
                     showPage('success');
@@ -1482,6 +1485,42 @@ setInterval(createEmoji, 300);
                 }, 100);
                 return;
             }
+            
+        async function sendConfirmationEmail(slug) {
+            try {
+                // Récupérer les infos de la page depuis Supabase
+                const pageResult = await loadPage(slug);
+                if (!pageResult.success || !pageResult.page) {
+                    console.log('Could not load page for email');
+                    return;
+                }
+                
+                const page = pageResult.page;
+                if (!page.email) {
+                    console.log('No email found for this page');
+                    return;
+                }
+                
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: page.email,
+                        slug: slug,
+                        recipientName: page.recipient_name
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    console.log('Confirmation email sent!');
+                } else {
+                    console.log('Email error:', data.error);
+                }
+            } catch (error) {
+                console.error('Failed to send email:', error);
+            }
+        }
             
             // Si on est sur la racine ou une page système, afficher la page d'accueil
             if (!slug || slug === '' || slug === 'index.html' || slug === 'create' || slug === 'checkout' || slug === 'success') {
