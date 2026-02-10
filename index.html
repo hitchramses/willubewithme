@@ -433,9 +433,111 @@
             .success-icon { font-size: 3.5rem; }
             .success-container h1 { font-size: 1.7rem; }
         }
+        
+        /* Custom Popup */
+        .custom-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .custom-popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .custom-popup {
+            background: linear-gradient(135deg, #2a2a4e, #1a1a2e);
+            border: 1px solid rgba(255,105,180,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        .custom-popup-overlay.active .custom-popup {
+            transform: scale(1);
+        }
+        .custom-popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .custom-popup-close:hover {
+            background: rgba(255,105,180,0.3);
+        }
+        .custom-popup-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .custom-popup-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .custom-popup-message {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .custom-popup-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            transition: all 0.2s;
+        }
+        .custom-popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,105,180,0.4);
+        }
     </style>
 </head>
 <body>
+    <!-- Custom Popup -->
+    <div class="custom-popup-overlay" id="customPopup">
+        <div class="custom-popup">
+            <button class="custom-popup-close" onclick="closePopup()">×</button>
+            <div class="custom-popup-icon" id="popupIcon">⚠️</div>
+            <div class="custom-popup-title" id="popupTitle">Oops!</div>
+            <div class="custom-popup-message" id="popupMessage">Something went wrong.</div>
+            <button class="custom-popup-btn" onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
     <div class="floating-hearts" id="floatingHearts"></div>
     <div class="social-proof-container" id="socialProofContainer"></div>
     <header class="site-header">
@@ -544,7 +646,7 @@
         <div class="editor-container">
             <div class="editor-panel">
                 <div class="tier-indicator"><div>Plan: <span class="current-tier" id="currentTier">Basic - €4.99</span></div><div class="tier-breakdown"><span class="breakdown-item">Basic €4.99</span><span class="breakdown-item hidden" id="breakdownPhotos">+ Photos €5</span><span class="breakdown-item hidden" id="breakdownMusic">+ Music €5</span></div></div>
-                <div class="editor-section"><h3>Your page link 🔗</h3><div class="domain-input"><span class="domain-prefix">willubewith.me/</span><input type="text" id="domainSlug" placeholder="ellina" oninput="updateDomain()"></div><div class="domain-preview" id="domainPreview">willubewith.me/your-name</div></div>
+                <div class="editor-section"><h3>Your page link 🔗</h3><div class="domain-input"><span class="domain-prefix">willubewith.me/</span><input type="text" id="domainSlug" placeholder="ellina" oninput="checkSlugAvailability()"></div><div class="domain-preview" id="domainPreview">willubewith.me/your-name</div><div id="slugStatus" style="margin-top:8px;font-size:0.85rem;display:none;"><span id="slugStatusIcon"></span> <span id="slugStatusText"></span></div></div>
                 <div class="editor-section"><h3>Theme 🎨</h3><div class="vibe-options"><div class="vibe-option selected" onclick="selectVibe(this,'romantic')"><span>💕</span>Romantic</div><div class="vibe-option" onclick="selectVibe(this,'elegant')"><span>✨</span>Elegant</div><div class="vibe-option" onclick="selectVibe(this,'playful')"><span>🎉</span>Playful</div><div class="vibe-option" onclick="selectVibe(this,'minimal')"><span>🤍</span>Minimal</div><div class="vibe-option" onclick="selectVibe(this,'dark')"><span>🖤</span>Dark</div><div class="vibe-option" onclick="selectVibe(this,'ocean')"><span>🌊</span>Ocean</div></div></div>
                 <div class="editor-section"><h3>Texts ✍️</h3><label>Person's name</label><input type="text" id="recipientName" placeholder="Ellina" oninput="updatePreview();autoFillDomain()"><label>Proposal question</label><input type="text" id="proposalQuestion" value="Would you be my Valentine?" oninput="updatePreview()"><label>Response message</label><textarea id="responseMessage" oninput="updatePreview()">You just made me the happiest person!</textarea><label>Celebration text</label><input type="text" id="celebrationText" value="Yaaay!" oninput="updatePreview()"><label>Love text</label><input type="text" id="loveText" value="I love you!" oninput="updatePreview()"></div>
                 <div class="editor-section"><h3>Emojis 🎉</h3><div class="emoji-selector">
@@ -632,7 +734,7 @@
                             </div>
                         </div></div><div id="photoUploadSection" class="hidden"><p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:15px;">Upload your photos (+€5)</p><div id="proposalPhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;margin-bottom:15px;position:relative;overflow:hidden;"><input type="file" id="proposalPhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('proposal',this)"><div id="proposalPhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload proposal photo</p></div></div><div id="responsePhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;position:relative;overflow:hidden;"><input type="file" id="responsePhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('response',this)"><div id="responsePhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload response photo 💋</p></div></div><p id="uploadStatus" style="font-size:0.75rem;color:#ff69b4;margin-top:10px;text-align:center;"></p></div></div>
                 <div class="editor-section"><h3>Music <span class="premium-badge">+€5</span></h3><select id="musicSelector" onchange="selectMusic(this.value)"><option value="">🔇 No music (free)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/John_Legend_-_All_of_Me_Official_Video_y3q1az.mp3">🎵 John Legend - All of Me (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Elvis_Presley_-_Can_t_Help_Falling_in_Love_Lyrics_xbhora.mp3">🎵 Elvis Presley - Can't Help Falling In Love (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Whitney_Houston_-_I_Will_Always_Love_You_Official_4K_Video_vwj4e0.mp3">🎵 Whitney Houston - I Will Always Love You (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Celine_Dion_-_My_Heart_Will_Go_On_Lyrics_yif3fd.mp3">🎵 Celine Dion - My Heart Will Go On (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/George_Michael_-_Careless_Whisper_Official_Video_plc0xs.mp3">🎵 George Michael - Careless Whisper (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Frank_Sinatra_-_L.O.V.E._lyrics_-_lIBioHazardIl_ljsxgx.mp3">🎵 Frank Sinatra - L.O.V.E. (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/fF6x1ta9j1w_rr2dks.mp3">🎵 Ella Fitzgerald - Let's Fall In Love (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Sade_-_Paradise_vfbo5f.mp3">🎵 Sade - Paradise (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/Luther_Vandross_-_Your_Secret_Love_Official_Video_kcmcgr.mp3">🎵 Luther Vandross - Your Secret Love (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Miki_Matsubara_-_Stay_With_Me_HD_Club_Mix_qs3f3p.mp3">🎵 Miki Matsubara - Stay With Me (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Zaho_-_Je_Te_Promets_Clip_Officiel_kkszgz.mp3">🎵 Zaho - Je Te Promets (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/AmrDiab_-_Tamally_Maak_Official_Music_Video_-_HD_Version_%D8%B9%D9%85%D8%B1%D9%88_%D8%AF%D9%8A%D8%A7%D8%A8_-_%D8%AA%D9%85%D9%84%D9%8A_%D9%85%D8%B9%D8%A7%D9%83_glu4aa.mp3">🎵 Amr Diab - Tamally Maak (+€5)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Epic_Sax_Guy_Loop_-_320_Kbps_oep74l.mp3">🎷 Epic Sax Guy (+€5)</option></select><div id="musicPreview" style="margin-top:10px;display:none;"><audio id="musicAudio" controls style="width:100%;height:35px;"></audio></div></div>
-                <div class="continue-section"><button class="continue-btn" onclick="showPage('checkout')">Continue to payment 💕 <span class="price-tag" id="totalPrice">€4.99</span></button></div>
+                <div class="continue-section"><button class="continue-btn" onclick="goToCheckout()">Continue to payment 💕 <span class="price-tag" id="totalPrice">€4.99</span></button></div>
             </div>
             <div class="preview-panel">
                 <div class="preview-phone"><iframe id="previewFrame" class="preview-iframe"></iframe></div>
@@ -688,6 +790,32 @@
         </div>
     </div>
     <script>
+        // Custom Popup Functions
+        function showPopup(icon, title, message) {
+            document.getElementById('popupIcon').textContent = icon;
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupMessage').textContent = message;
+            document.getElementById('customPopup').classList.add('active');
+        }
+        
+        function closePopup() {
+            document.getElementById('customPopup').classList.remove('active');
+        }
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'customPopup') {
+                closePopup();
+            }
+        });
+        
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
+
         let selectedVibe = 'romantic';
         let previewMode = 'proposal';
         let selectedIllustration = 'cats';
@@ -895,10 +1023,68 @@
             updatePreview();
         }
 
+        let slugCheckTimeout = null;
+        let isSlugAvailable = false;
+        
         function updateDomain() {
             const slug = document.getElementById('domainSlug').value.toLowerCase().replace(/[^a-z0-9-]/g, '');
             document.getElementById('domainSlug').value = slug;
             document.getElementById('domainPreview').textContent = 'willubewith.me/' + (slug || 'your-name');
+        }
+        
+        async function checkSlugAvailability() {
+            updateDomain();
+            
+            const slug = document.getElementById('domainSlug').value;
+            const statusDiv = document.getElementById('slugStatus');
+            const statusIcon = document.getElementById('slugStatusIcon');
+            const statusText = document.getElementById('slugStatusText');
+            
+            // Reset
+            if (!slug || slug.length < 2) {
+                statusDiv.style.display = 'none';
+                isSlugAvailable = false;
+                return;
+            }
+            
+            // Montrer "vérification..."
+            statusDiv.style.display = 'block';
+            statusIcon.textContent = '⏳';
+            statusText.textContent = 'Checking...';
+            statusText.style.color = 'rgba(255,255,255,0.6)';
+            
+            // Debounce - attendre que l'utilisateur arrête de taper
+            clearTimeout(slugCheckTimeout);
+            slugCheckTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`${SUPABASE_URL}/rest/v1/pages?slug=eq.${slug}&select=slug`, {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.length > 0) {
+                        // Slug déjà pris
+                        statusIcon.textContent = '❌';
+                        statusText.textContent = 'This link is already taken';
+                        statusText.style.color = '#ff6b6b';
+                        isSlugAvailable = false;
+                    } else {
+                        // Slug disponible
+                        statusIcon.textContent = '✅';
+                        statusText.textContent = 'Available!';
+                        statusText.style.color = '#4ade80';
+                        isSlugAvailable = true;
+                    }
+                } catch (error) {
+                    console.error('Error checking slug:', error);
+                    statusDiv.style.display = 'none';
+                    isSlugAvailable = false;
+                }
+            }, 500);
         }
 
         function autoFillDomain() {
@@ -906,7 +1092,42 @@
             if (!document.getElementById('domainSlug').value) {
                 document.getElementById('domainSlug').value = name;
                 document.getElementById('domainPreview').textContent = 'willubewith.me/' + (name || 'your-name');
+                checkSlugAvailability();
             }
+        }
+
+        async function goToCheckout() {
+            const slug = document.getElementById('domainSlug').value;
+            
+            // Vérifier si le slug est vide
+            if (!slug || slug.length < 2) {
+                showPopup('📝', 'Link Required', 'Please enter a custom link (at least 2 characters)');
+                document.getElementById('domainSlug').focus();
+                return;
+            }
+            
+            // Vérifier une dernière fois si le slug est disponible
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pages?slug=eq.${slug}&select=slug`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.length > 0) {
+                    showPopup('❌', 'Link Unavailable', 'This link is already taken. Please choose another one.');
+                    document.getElementById('domainSlug').focus();
+                    return;
+                }
+            } catch (error) {
+                console.error('Error checking slug:', error);
+            }
+            
+            // Tout est bon, aller au checkout
+            showPage('checkout');
         }
 
         function updatePricing() {
@@ -1132,7 +1353,7 @@ setInterval(createEmoji, 300);
 
         async function processPayment() {
             const email = document.getElementById('paymentEmail').value;
-            if (!email) { alert('Please enter your email'); return; }
+            if (!email) { showPopup('📧', 'Email Required', 'Please enter your email address'); return; }
             
             const payBtn = document.getElementById('payBtn');
             payBtn.textContent = 'Processing... 💕';
@@ -1142,7 +1363,7 @@ setInterval(createEmoji, 300);
             const saveResult = await savePage();
             
             if (!saveResult.success) {
-                alert(saveResult.error || 'Error saving your page. Please try again.');
+                showPopup('😕', 'Oops!', saveResult.error || 'Error saving your page. Please try again.');
                 payBtn.textContent = 'Pay 💕';
                 payBtn.disabled = false;
                 return;
@@ -1182,7 +1403,7 @@ setInterval(createEmoji, 300);
                 }
             } catch (error) {
                 console.error('Payment error:', error);
-                alert('Payment error. Please try again.');
+                showPopup('💳', 'Payment Error', 'Something went wrong. Please try again.');
                 payBtn.textContent = 'Pay 💕';
                 payBtn.disabled = false;
             }
@@ -1197,7 +1418,7 @@ setInterval(createEmoji, 300);
             const link = document.getElementById('finalLink');
             link.select();
             document.execCommand('copy');
-            alert('Link copied! 💕');
+            showPopup('✅', 'Copied!', 'Link copied to clipboard 💕');
         }
 
         function viewMyPage() {
@@ -1207,7 +1428,7 @@ setInterval(createEmoji, 300);
             } else if (currentPageSlug) {
                 window.open('https://willubewith.me/' + currentPageSlug, '_blank');
             } else {
-                alert('No page link found');
+                showPopup('🔗', 'No Link', 'No page link found');
             }
         }
 
@@ -1241,10 +1462,10 @@ setInterval(createEmoji, 300);
         function submitReview() {
             const text = document.getElementById('reviewText').value;
             const name = document.getElementById('reviewerName').value;
-            if (!userRating) { alert('Please select a rating'); return; }
-            if (!text) { alert('Please write a review'); return; }
-            if (!name) { alert('Please enter your name'); return; }
-            alert('Thank you for your review! 💕\n\n' + userRating + ' stars\n"' + text + '"\n- ' + name);
+            if (!userRating) { showPopup('⭐', 'Rating Required', 'Please select a rating'); return; }
+            if (!text) { showPopup('✍️', 'Review Required', 'Please write a review'); return; }
+            if (!name) { showPopup('👤', 'Name Required', 'Please enter your name'); return; }
+            showPopup('💕', 'Thank You!', 'Thanks for your ' + userRating + '-star review! We appreciate it.');
             document.getElementById('reviewText').value = '';
             document.getElementById('reviewerName').value = '';
             setRating(0);
