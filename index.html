@@ -37,7 +37,9 @@
         .hero-buttons { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
         .hero-price { font-size: 0.95rem; color: rgba(255,255,255,0.6); }
         .phone-frame { width: 280px; height: 500px; background: linear-gradient(145deg, #2a2a4a, #1a1a3a); border-radius: 40px; padding: 15px; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-        .phone-content { width: 100%; height: 100%; background: linear-gradient(135deg, #ffeef8, #fff); border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+        .phone-content { width: 100%; height: 100%; background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ffb6c1, #fff0f5, #ffc0cb); background-size: 400% 400%; animation: disco 8s ease infinite; border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; position: relative; overflow: hidden; }
+        .phone-deco { position: absolute; font-size: 1.2rem; opacity: 0.7; animation: floatHeart 3s ease-in-out infinite; }
+        @keyframes floatHeart { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.1); } }
         .demo-photo { width: 80px; height: 95px; background: linear-gradient(135deg, #ff69b4, #ff1493); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 15px; }
         .demo-name { font-family: 'Pacifico', cursive; font-size: 1.6rem; color: #e91e63; margin-bottom: 5px; }
         .demo-question { color: #ff69b4; font-size: 0.9rem; font-weight: 600; margin-bottom: 20px; }
@@ -566,9 +568,14 @@
             <div class="hero-demo">
                 <div class="phone-frame">
                     <div class="phone-content">
+                        <div class="phone-deco" style="top:8%;left:10%">💕</div>
+                        <div class="phone-deco" style="top:15%;right:12%;animation-delay:0.5s">💗</div>
+                        <div class="phone-deco" style="top:60%;left:8%;animation-delay:1s">💖</div>
+                        <div class="phone-deco" style="top:70%;right:10%;animation-delay:1.5s">💝</div>
+                        <div class="phone-deco" style="top:35%;left:5%;animation-delay:0.3s">✨</div>
+                        <div class="phone-deco" style="top:85%;right:15%;animation-delay:0.8s">💕</div>
                         <div class="demo-photo">💕</div>
-                        <div style="font-size:1rem;margin-bottom:10px;">💝✨💕✨💝</div>
-                        <div class="demo-name">Marie</div>
+                        <div class="demo-name">Ellina</div>
                         <div class="demo-question">Would you be my Valentine? 💕</div>
                         <div class="demo-buttons"><div class="demo-yes">YES ♥</div><div class="demo-no">no</div></div>
                     </div>
@@ -706,7 +713,7 @@
                                 <span>Love Cats</span>
                             </div>
                             <div class="illustration-option" onclick="selectIllustration(this,'bears')">
-                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777182/teddy_bears_vkclzx.png" alt="Bears" style="width:50px;height:42px;object-fit:contain;"></div>
+                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770778175/Gemini_Generated_Image_q0d2u1q0d2u1q0d2_ex28hc.png" alt="Bears" style="width:50px;height:42px;object-fit:contain;"></div>
                                 <span>Teddy Bears</span>
                             </div>
                             <div class="illustration-option" onclick="selectIllustration(this,'bunnies')">
@@ -1150,7 +1157,7 @@
             const getEmoji = (index) => emojiArray[index % emojiArray.length];
             const illustImages = {
                 cats: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/cats_xk6ccm.png" style="width:100%;height:100%;object-fit:contain;">',
-                bears: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777182/teddy_bears_vkclzx.png" style="width:100%;height:100%;object-fit:contain;">',
+                bears: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770778175/Gemini_Generated_Image_q0d2u1q0d2u1q0d2_ex28hc.png" style="width:100%;height:100%;object-fit:contain;">',
                 bunnies: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777157/bunnies_ozzh5c.png" style="width:100%;height:100%;object-fit:contain;">',
                 manga: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/manga_af1z27.png" style="width:100%;height:100%;object-fit:contain;">',
                 pandas: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/panda_aic4ps.png" style="width:100%;height:100%;object-fit:contain;">',
@@ -1833,7 +1840,7 @@ setInterval(createEmoji, 300);
             // Illustrations SVG
             const illustrations = {
                 cats: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/cats_xk6ccm.png" style="width:100%;height:100%;object-fit:contain;">',
-                bears: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777182/teddy_bears_vkclzx.png" style="width:100%;height:100%;object-fit:contain;">',
+                bears: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770778175/Gemini_Generated_Image_q0d2u1q0d2u1q0d2_ex28hc.png" style="width:100%;height:100%;object-fit:contain;">',
                 bunnies: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777157/bunnies_ozzh5c.png" style="width:100%;height:100%;object-fit:contain;">',
                 manga: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/manga_af1z27.png" style="width:100%;height:100%;object-fit:contain;">',
                 pandas: '<img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/panda_aic4ps.png" style="width:100%;height:100%;object-fit:contain;">',
