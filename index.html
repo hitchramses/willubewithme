@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will U Be With Me 💕</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L7H8Z7CSKB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-L7H8Z7CSKB');
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -948,8 +956,14 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0);
-            if (pageId === 'editor') updatePreview();
-            if (pageId === 'checkout') updateCheckout();
+            if (pageId === 'editor') {
+                updatePreview();
+                gtag('event', 'create_page_started', { 'event_category': 'engagement' });
+            }
+            if (pageId === 'checkout') {
+                updateCheckout();
+                gtag('event', 'begin_checkout', { 'event_category': 'ecommerce' });
+            }
             if (pageId === 'success') updateSuccess();
         }
 
@@ -1350,6 +1364,9 @@ setInterval(createEmoji, 300);
             const email = document.getElementById('paymentEmail').value;
             if (!email) { showPopup('📧', 'Email Required', 'Please enter your email address'); return; }
             
+            // Track checkout email
+            gtag('event', 'checkout_email', { 'event_category': 'ecommerce' });
+            
             const payBtn = document.getElementById('payBtn');
             payBtn.textContent = 'Processing... 💕';
             payBtn.disabled = true;
@@ -1391,6 +1408,8 @@ setInterval(createEmoji, 300);
                 const data = await response.json();
                 
                 if (data.url) {
+                    // Track checkout payment
+                    gtag('event', 'checkout_payment', { 'event_category': 'ecommerce', 'value': total });
                     // Rediriger vers Stripe Checkout
                     window.location.href = data.url;
                 } else {
@@ -1700,6 +1719,9 @@ setInterval(createEmoji, 300);
                 console.log('Payment success, showing success page');
                 const successSlug = urlParams.get('slug');
                 currentPageSlug = successSlug;
+                
+                // Track conversion
+                gtag('event', 'purchase', { 'event_category': 'ecommerce', 'event_label': successSlug });
                 
                 // D'abord montrer la page landing pour que le DOM soit prêt
                 document.getElementById('landing').classList.add('active');
