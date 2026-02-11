@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will U Be With Me 💕</title>
+    <title>Will U Be With Me? 🥀</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dl42cygq6/image/upload/v1770823219/Capture_d_e%CC%81cran_2026-02-11_a%CC%80_5.37.30_AM_cinglf.png">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dl42cygq6/image/upload/v1770823219/Capture_d_e%CC%81cran_2026-02-11_a%CC%80_5.37.30_AM_cinglf.png">
+    <meta property="og:title" content="Will U Be With Me? 🥀">
+    <meta property="og:description" content="Create an ultra-cheesy page to ask THE question. Valentine, date, trip, marriage proposal... The NO button escapes when you try to click it 😏">
+    <meta property="og:image" content="https://res.cloudinary.com/dl42cygq6/image/upload/v1770823219/Capture_d_e%CC%81cran_2026-02-11_a%CC%80_5.37.30_AM_cinglf.png">
+    <meta property="og:url" content="https://willubewith.me">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Will U Be With Me? 🥀">
+    <meta name="twitter:description" content="Create an ultra-cheesy page to ask THE question. Valentine, date, trip, marriage proposal... The NO button escapes when you try to click it 😏">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dl42cygq6/image/upload/v1770823219/Capture_d_e%CC%81cran_2026-02-11_a%CC%80_5.37.30_AM_cinglf.png">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L7H8Z7CSKB"></script>
     <script>
@@ -556,7 +567,7 @@
             <div class="logo-text">Will <span>U</span> Be With Me</div>
         </div>
         <div class="header-right">
-            <select class="lang-selector"><option>🇬🇧 EN</option><option>🇫🇷 FR</option><option>🇪🇸 ES</option></select>
+            <select class="lang-selector" onchange="changeLanguage(this.value)"><option value="en">🇬🇧 EN</option><option value="fr">🇫🇷 FR</option><option value="es">🇪🇸 ES</option><option value="it">🇮🇹 IT</option><option value="de">🇩🇪 DE</option><option value="ru">🇷🇺 RU</option></select>
             <button class="header-cta" onclick="showPage('editor')">Create my page 💕</button>
         </div>
     </header>
@@ -1683,10 +1694,735 @@ setInterval(createEmoji, 300);
             }
         }
 
-        // Language selector listener
-        document.querySelector('.lang-selector')?.addEventListener('change', function() {
-            currentLang = getCurrentLang();
-        });
+        // ==================== TRANSLATION SYSTEM ====================
+        const translations = {
+            en: {
+                headerCta: "Create my page 💕",
+                heroBadge: "💕 Embrace the cringe, harvest the love",
+                heroTitle: "So cringy<br>it's <span class=\"highlight\">irresistible</span>",
+                heroDesc: "Create an ultra-cheesy page to ask THE question. Valentine, date, trip, marriage proposal... The NO button escapes when you try to click it 😏",
+                heroBtn1: "Create my page →",
+                heroBtn2: "See how it works",
+                heroPrice: "From <strong>4.99€</strong> • Ready in 2 minutes • 100% unapologetic",
+                demoQuestion: "Would you be my Valentine? 💕",
+                statsPages: "Pages created",
+                statsYes: "Said YES!",
+                statsRating: "Average rating",
+                statsCountries: "Countries",
+                useCasesTitle: "For every occasion 🎯",
+                useCasesSubtitle: "Yes, even the most unexpected ones",
+                useCase1: "Be my Valentine?",
+                useCase2: "Marriage proposal",
+                useCase3: "Movie date?",
+                useCase4: "Trip together?",
+                useCase5: "Move in together?",
+                useCase6: "Work promotion",
+                useCase7: "Adopt a dog?",
+                useCase8: "Come to my party?",
+                featuresTitle: "Why it's genius(ly cringy)? 💘",
+                featuresSubtitle: "Embrace the cheese, they'll melt",
+                feature1Title: "The NO button escapes",
+                feature1Desc: "Impossible to click NO! The button runs away and shrinks.",
+                feature2Title: "So cheesy it works",
+                feature2Desc: "Flying hearts, emojis everywhere, romantic music...",
+                feature3Title: "Perfect on mobile",
+                feature3Desc: "Send via SMS or WhatsApp. Watch them struggle live.",
+                feature4Title: "Explosion of joy",
+                feature4Desc: "When it's YES: avalanche of emojis and your photo!",
+                feature5Title: "Background music",
+                feature5Desc: "Add romantic music to push the cringe to the max.",
+                feature6Title: "Your best photos",
+                feature6Desc: "Your photo on proposal, your kiss on response.",
+                howTitle: "How does it work? ✨",
+                howSubtitle: "3 steps and you're done",
+                step1Title: "Customize",
+                step1Desc: "Add photos, choose colors, write your message",
+                step2Title: "Pay",
+                step2Desc: "From 4.99€. Secure payment via Stripe",
+                step3Title: "Send",
+                step3Desc: "Get your link and send it! 💕",
+                reviewsTitle: "They dared, they won 💪",
+                reviewsSubtitle: "Real reviews from real lovers",
+                pricingTitle: "Choose your plan 💝",
+                pricingSubtitle: "A small price for a big moment",
+                pricingBasic: "Basic",
+                pricingPhoto: "Photo+",
+                pricingMusic: "Music",
+                pricingChoose: "Choose",
+                pricingPopular: "⭐ Popular",
+                basicF1: "✓ Proposal + response page",
+                basicF2: "✓ Cute illustrations",
+                basicF3: "✓ Custom texts & emojis",
+                basicF4: "✓ Escaping NO button",
+                basicF5: "✓ Hosted 30 days",
+                photoF1: "✓ All Basic features +",
+                photoF2: "✓ Your proposal photo",
+                photoF3: "✓ Your couple photo 💋",
+                photoF4: "✓ 6 themes",
+                photoF5: "✓ Hosted 1 year",
+                musicF1: "✓ All Photo+ features +",
+                musicF2: "✓ Background music",
+                musicF3: "✓ 15 romantic songs",
+                musicF4: "✓ Custom sounds",
+                musicF5: "✓ Hosted 1 year",
+                ctaTitle: "Ready to embrace the <span class=\"highlight\">cringe</span>?",
+                ctaDesc: "It's awkward, cheesy, full of emojis... and that's why it works! 🤞",
+                ctaBtn: "Create my page now 💕",
+                footerMade: "Made with 💕 by RamsesVibes",
+                editorLink: "Your page link 🔗",
+                editorTheme: "Theme 🎨",
+                editorProposal: "Proposal page 💕",
+                editorResponse: "Response page 🎉",
+                editorEmojis: "Emojis 🎉",
+                editorIllustration: "Illustration 🎨",
+                editorPhotos: "Photos 📸",
+                editorMusic: "Music 🎵",
+                personName: "Person's name",
+                proposalQuestion: "Proposal question",
+                celebrationText: "Celebration text",
+                responseMessage: "Response message",
+                loveText: "Love text",
+                continueCheckout: "Continue to checkout →",
+                checkoutTitle: "One last step 💕",
+                checkoutSubtitle: "Enter your email to receive your page link",
+                checkoutEmail: "Your email",
+                checkoutPay: "Pay",
+                successTitle: "It's done! 🎉",
+                successSubtitle: "Your page is ready to be shared",
+                successLinkLabel: "Your personalized link:",
+                successCopy: "Copy",
+                successShare: "Share on",
+                successTip: "💡 Pro tip: Send it via WhatsApp or SMS for maximum effect!"
+            },
+            fr: {
+                headerCta: "Créer ma page 💕",
+                heroBadge: "💕 Assumez le cringe, récoltez l'amour",
+                heroTitle: "Tellement cringe<br>que c'est <span class=\"highlight\">irrésistible</span>",
+                heroDesc: "Créez une page ultra-cheesy pour poser LA question. Saint-Valentin, date, voyage, demande en mariage... Le bouton NON s'enfuit quand on essaie de cliquer 😏",
+                heroBtn1: "Créer ma page →",
+                heroBtn2: "Voir comment ça marche",
+                heroPrice: "À partir de <strong>4.99€</strong> • Prêt en 2 minutes • 100% assumé",
+                demoQuestion: "Veux-tu être ma Valentine ? 💕",
+                statsPages: "Pages créées",
+                statsYes: "Ont dit OUI !",
+                statsRating: "Note moyenne",
+                statsCountries: "Pays",
+                useCasesTitle: "Pour toutes les occasions 🎯",
+                useCasesSubtitle: "Oui, même les plus inattendues",
+                useCase1: "Sois ma Valentine ?",
+                useCase2: "Demande en mariage",
+                useCase3: "Ciné ensemble ?",
+                useCase4: "Voyage ensemble ?",
+                useCase5: "Emménager ensemble ?",
+                useCase6: "Promotion au travail",
+                useCase7: "Adopter un chien ?",
+                useCase8: "Venir à ma fête ?",
+                featuresTitle: "Pourquoi c'est génial(ement cringe) ? 💘",
+                featuresSubtitle: "Assumez le fromage, ils vont fondre",
+                feature1Title: "Le bouton NON s'enfuit",
+                feature1Desc: "Impossible de cliquer NON ! Le bouton s'échappe et rétrécit.",
+                feature2Title: "Tellement cheesy que ça marche",
+                feature2Desc: "Cœurs volants, emojis partout, musique romantique...",
+                feature3Title: "Parfait sur mobile",
+                feature3Desc: "Envoyez par SMS ou WhatsApp. Regardez-les galérer en direct.",
+                feature4Title: "Explosion de joie",
+                feature4Desc: "Quand c'est OUI : avalanche d'emojis et votre photo !",
+                feature5Title: "Musique de fond",
+                feature5Desc: "Ajoutez une musique romantique pour pousser le cringe au max.",
+                feature6Title: "Vos plus belles photos",
+                feature6Desc: "Votre photo sur la demande, votre bisou sur la réponse.",
+                howTitle: "Comment ça marche ? ✨",
+                howSubtitle: "3 étapes et c'est fait",
+                step1Title: "Personnalisez",
+                step1Desc: "Ajoutez des photos, choisissez les couleurs, écrivez votre message",
+                step2Title: "Payez",
+                step2Desc: "À partir de 4.99€. Paiement sécurisé via Stripe",
+                step3Title: "Envoyez",
+                step3Desc: "Recevez votre lien et envoyez-le ! 💕",
+                reviewsTitle: "Ils ont osé, ils ont gagné 💪",
+                reviewsSubtitle: "De vrais avis de vrais amoureux",
+                pricingTitle: "Choisissez votre formule 💝",
+                pricingSubtitle: "Un petit prix pour un grand moment",
+                pricingBasic: "Basique",
+                pricingPhoto: "Photo+",
+                pricingMusic: "Musique",
+                pricingChoose: "Choisir",
+                pricingPopular: "⭐ Populaire",
+                basicF1: "✓ Page demande + réponse",
+                basicF2: "✓ Illustrations mignonnes",
+                basicF3: "✓ Textes & emojis personnalisés",
+                basicF4: "✓ Bouton NON qui s'échappe",
+                basicF5: "✓ Hébergé 30 jours",
+                photoF1: "✓ Toutes les fonctions Basique +",
+                photoF2: "✓ Votre photo de demande",
+                photoF3: "✓ Votre photo de couple 💋",
+                photoF4: "✓ 6 thèmes",
+                photoF5: "✓ Hébergé 1 an",
+                musicF1: "✓ Toutes les fonctions Photo+ +",
+                musicF2: "✓ Musique de fond",
+                musicF3: "✓ 15 chansons romantiques",
+                musicF4: "✓ Sons personnalisés",
+                musicF5: "✓ Hébergé 1 an",
+                ctaTitle: "Prêt à assumer le <span class=\"highlight\">cringe</span> ?",
+                ctaDesc: "C'est gênant, cheesy, plein d'emojis... et c'est pour ça que ça marche ! 🤞",
+                ctaBtn: "Créer ma page maintenant 💕",
+                footerMade: "Fait avec 💕 par RamsesVibes",
+                editorLink: "Lien de votre page 🔗",
+                editorTheme: "Thème 🎨",
+                editorProposal: "Page de demande 💕",
+                editorResponse: "Page de réponse 🎉",
+                editorEmojis: "Emojis 🎉",
+                editorIllustration: "Illustration 🎨",
+                editorPhotos: "Photos 📸",
+                editorMusic: "Musique 🎵",
+                personName: "Prénom de la personne",
+                proposalQuestion: "Question de demande",
+                celebrationText: "Texte de célébration",
+                responseMessage: "Message de réponse",
+                loveText: "Texte d'amour",
+                continueCheckout: "Continuer vers le paiement →",
+                checkoutTitle: "Une dernière étape 💕",
+                checkoutSubtitle: "Entrez votre email pour recevoir le lien de votre page",
+                checkoutEmail: "Votre email",
+                checkoutPay: "Payer",
+                successTitle: "C'est fait ! 🎉",
+                successSubtitle: "Votre page est prête à être partagée",
+                successLinkLabel: "Votre lien personnalisé :",
+                successCopy: "Copier",
+                successShare: "Partager sur",
+                successTip: "💡 Astuce : Envoyez-le par WhatsApp ou SMS pour un effet maximal !"
+            },
+            es: {
+                headerCta: "Crear mi página 💕",
+                heroBadge: "💕 Acepta lo cursi, cosecha el amor",
+                heroTitle: "Tan cursi<br>que es <span class=\"highlight\">irresistible</span>",
+                heroDesc: "Crea una página ultra-cursi para hacer LA pregunta. San Valentín, cita, viaje, propuesta de matrimonio... El botón NO escapa cuando intentas clickearlo 😏",
+                heroBtn1: "Crear mi página →",
+                heroBtn2: "Ver cómo funciona",
+                heroPrice: "Desde <strong>4.99€</strong> • Listo en 2 minutos • 100% sin vergüenza",
+                demoQuestion: "¿Quieres ser mi San Valentín? 💕",
+                statsPages: "Páginas creadas",
+                statsYes: "¡Dijeron SÍ!",
+                statsRating: "Puntuación media",
+                statsCountries: "Países",
+                useCasesTitle: "Para toda ocasión 🎯",
+                useCasesSubtitle: "Sí, incluso las más inesperadas",
+                useCase1: "¿Sé mi Valentín?",
+                useCase2: "Propuesta de matrimonio",
+                useCase3: "¿Cine juntos?",
+                useCase4: "¿Viaje juntos?",
+                useCase5: "¿Vivir juntos?",
+                useCase6: "Promoción laboral",
+                useCase7: "¿Adoptar un perro?",
+                useCase8: "¿Venir a mi fiesta?",
+                featuresTitle: "¿Por qué es genial(mente cursi)? 💘",
+                featuresSubtitle: "Acepta lo cursi, se derretirán",
+                feature1Title: "El botón NO escapa",
+                feature1Desc: "¡Imposible clickear NO! El botón huye y se encoge.",
+                feature2Title: "Tan cursi que funciona",
+                feature2Desc: "Corazones voladores, emojis por todos lados, música romántica...",
+                feature3Title: "Perfecto en móvil",
+                feature3Desc: "Envía por SMS o WhatsApp. Míralos sufrir en directo.",
+                feature4Title: "Explosión de alegría",
+                feature4Desc: "Cuando es SÍ: ¡avalancha de emojis y tu foto!",
+                feature5Title: "Música de fondo",
+                feature5Desc: "Añade música romántica para llevar lo cursi al máximo.",
+                feature6Title: "Tus mejores fotos",
+                feature6Desc: "Tu foto en la propuesta, tu beso en la respuesta.",
+                howTitle: "¿Cómo funciona? ✨",
+                howSubtitle: "3 pasos y listo",
+                step1Title: "Personaliza",
+                step1Desc: "Añade fotos, elige colores, escribe tu mensaje",
+                step2Title: "Paga",
+                step2Desc: "Desde 4.99€. Pago seguro con Stripe",
+                step3Title: "Envía",
+                step3Desc: "¡Recibe tu enlace y envíalo! 💕",
+                reviewsTitle: "Se atrevieron y ganaron 💪",
+                reviewsSubtitle: "Opiniones reales de amantes reales",
+                pricingTitle: "Elige tu plan 💝",
+                pricingSubtitle: "Un pequeño precio para un gran momento",
+                pricingBasic: "Básico",
+                pricingPhoto: "Foto+",
+                pricingMusic: "Música",
+                pricingChoose: "Elegir",
+                pricingPopular: "⭐ Popular",
+                basicF1: "✓ Página propuesta + respuesta",
+                basicF2: "✓ Ilustraciones bonitas",
+                basicF3: "✓ Textos y emojis personalizados",
+                basicF4: "✓ Botón NO que escapa",
+                basicF5: "✓ Alojado 30 días",
+                photoF1: "✓ Todo lo de Básico +",
+                photoF2: "✓ Tu foto de propuesta",
+                photoF3: "✓ Tu foto de pareja 💋",
+                photoF4: "✓ 6 temas",
+                photoF5: "✓ Alojado 1 año",
+                musicF1: "✓ Todo lo de Foto+ +",
+                musicF2: "✓ Música de fondo",
+                musicF3: "✓ 15 canciones románticas",
+                musicF4: "✓ Sonidos personalizados",
+                musicF5: "✓ Alojado 1 año",
+                ctaTitle: "¿Listo para aceptar lo <span class=\"highlight\">cursi</span>?",
+                ctaDesc: "Es incómodo, cursi, lleno de emojis... ¡y por eso funciona! 🤞",
+                ctaBtn: "Crear mi página ahora 💕",
+                footerMade: "Hecho con 💕 por RamsesVibes",
+                editorLink: "Enlace de tu página 🔗",
+                editorTheme: "Tema 🎨",
+                editorProposal: "Página de propuesta 💕",
+                editorResponse: "Página de respuesta 🎉",
+                editorEmojis: "Emojis 🎉",
+                editorIllustration: "Ilustración 🎨",
+                editorPhotos: "Fotos 📸",
+                editorMusic: "Música 🎵",
+                personName: "Nombre de la persona",
+                proposalQuestion: "Pregunta de propuesta",
+                celebrationText: "Texto de celebración",
+                responseMessage: "Mensaje de respuesta",
+                loveText: "Texto de amor",
+                continueCheckout: "Continuar al pago →",
+                checkoutTitle: "Un último paso 💕",
+                checkoutSubtitle: "Introduce tu email para recibir el enlace de tu página",
+                checkoutEmail: "Tu email",
+                checkoutPay: "Pagar",
+                successTitle: "¡Hecho! 🎉",
+                successSubtitle: "Tu página está lista para compartir",
+                successLinkLabel: "Tu enlace personalizado:",
+                successCopy: "Copiar",
+                successShare: "Compartir en",
+                successTip: "💡 Consejo: ¡Envíalo por WhatsApp o SMS para máximo efecto!"
+            },
+            it: {
+                headerCta: "Crea la mia pagina 💕",
+                heroBadge: "💕 Abbraccia l'imbarazzo, raccogli l'amore",
+                heroTitle: "Così imbarazzante<br>che è <span class=\"highlight\">irresistibile</span>",
+                heroDesc: "Crea una pagina ultra-sdolcinata per fare LA domanda. San Valentino, appuntamento, viaggio, proposta di matrimonio... Il pulsante NO scappa quando provi a cliccarlo 😏",
+                heroBtn1: "Crea la mia pagina →",
+                heroBtn2: "Scopri come funziona",
+                heroPrice: "Da <strong>4.99€</strong> • Pronto in 2 minuti • 100% senza vergogna",
+                demoQuestion: "Vuoi essere la mia Valentina? 💕",
+                statsPages: "Pagine create",
+                statsYes: "Hanno detto SÌ!",
+                statsRating: "Voto medio",
+                statsCountries: "Paesi",
+                useCasesTitle: "Per ogni occasione 🎯",
+                useCasesSubtitle: "Sì, anche le più inaspettate",
+                useCase1: "Sii il mio Valentino?",
+                useCase2: "Proposta di matrimonio",
+                useCase3: "Cinema insieme?",
+                useCase4: "Viaggio insieme?",
+                useCase5: "Andare a vivere insieme?",
+                useCase6: "Promozione al lavoro",
+                useCase7: "Adottare un cane?",
+                useCase8: "Venire alla mia festa?",
+                featuresTitle: "Perché è geniale (e imbarazzante)? 💘",
+                featuresSubtitle: "Abbraccia lo sdolcinato, si scioglieranno",
+                feature1Title: "Il pulsante NO scappa",
+                feature1Desc: "Impossibile cliccare NO! Il pulsante fugge e si rimpicciolisce.",
+                feature2Title: "Così sdolcinato che funziona",
+                feature2Desc: "Cuori volanti, emoji ovunque, musica romantica...",
+                feature3Title: "Perfetto su mobile",
+                feature3Desc: "Invia via SMS o WhatsApp. Guardali lottare in diretta.",
+                feature4Title: "Esplosione di gioia",
+                feature4Desc: "Quando è SÌ: valanga di emoji e la tua foto!",
+                feature5Title: "Musica di sottofondo",
+                feature5Desc: "Aggiungi musica romantica per massimizzare l'imbarazzo.",
+                feature6Title: "Le tue migliori foto",
+                feature6Desc: "La tua foto sulla proposta, il tuo bacio sulla risposta.",
+                howTitle: "Come funziona? ✨",
+                howSubtitle: "3 passi e hai finito",
+                step1Title: "Personalizza",
+                step1Desc: "Aggiungi foto, scegli i colori, scrivi il tuo messaggio",
+                step2Title: "Paga",
+                step2Desc: "Da 4.99€. Pagamento sicuro con Stripe",
+                step3Title: "Invia",
+                step3Desc: "Ricevi il tuo link e invialo! 💕",
+                reviewsTitle: "Hanno osato e hanno vinto 💪",
+                reviewsSubtitle: "Recensioni vere da veri innamorati",
+                pricingTitle: "Scegli il tuo piano 💝",
+                pricingSubtitle: "Un piccolo prezzo per un grande momento",
+                pricingBasic: "Base",
+                pricingPhoto: "Foto+",
+                pricingMusic: "Musica",
+                pricingChoose: "Scegli",
+                pricingPopular: "⭐ Popolare",
+                basicF1: "✓ Pagina proposta + risposta",
+                basicF2: "✓ Illustrazioni carine",
+                basicF3: "✓ Testi ed emoji personalizzati",
+                basicF4: "✓ Pulsante NO che scappa",
+                basicF5: "✓ Ospitato 30 giorni",
+                photoF1: "✓ Tutto del Base +",
+                photoF2: "✓ La tua foto proposta",
+                photoF3: "✓ La tua foto di coppia 💋",
+                photoF4: "✓ 6 temi",
+                photoF5: "✓ Ospitato 1 anno",
+                musicF1: "✓ Tutto del Foto+ +",
+                musicF2: "✓ Musica di sottofondo",
+                musicF3: "✓ 15 canzoni romantiche",
+                musicF4: "✓ Suoni personalizzati",
+                musicF5: "✓ Ospitato 1 anno",
+                ctaTitle: "Pronto ad abbracciare l'<span class=\"highlight\">imbarazzo</span>?",
+                ctaDesc: "È imbarazzante, sdolcinato, pieno di emoji... ed è per questo che funziona! 🤞",
+                ctaBtn: "Crea la mia pagina ora 💕",
+                footerMade: "Fatto con 💕 da RamsesVibes",
+                editorLink: "Link della tua pagina 🔗",
+                editorTheme: "Tema 🎨",
+                editorProposal: "Pagina proposta 💕",
+                editorResponse: "Pagina risposta 🎉",
+                editorEmojis: "Emoji 🎉",
+                editorIllustration: "Illustrazione 🎨",
+                editorPhotos: "Foto 📸",
+                editorMusic: "Musica 🎵",
+                personName: "Nome della persona",
+                proposalQuestion: "Domanda proposta",
+                celebrationText: "Testo celebrazione",
+                responseMessage: "Messaggio risposta",
+                loveText: "Testo d'amore",
+                continueCheckout: "Continua al pagamento →",
+                checkoutTitle: "Un ultimo passo 💕",
+                checkoutSubtitle: "Inserisci la tua email per ricevere il link della tua pagina",
+                checkoutEmail: "La tua email",
+                checkoutPay: "Paga",
+                successTitle: "Fatto! 🎉",
+                successSubtitle: "La tua pagina è pronta per essere condivisa",
+                successLinkLabel: "Il tuo link personalizzato:",
+                successCopy: "Copia",
+                successShare: "Condividi su",
+                successTip: "💡 Suggerimento: Invialo via WhatsApp o SMS per il massimo effetto!"
+            },
+            de: {
+                headerCta: "Meine Seite erstellen 💕",
+                heroBadge: "💕 Umarme das Peinliche, ernte die Liebe",
+                heroTitle: "So peinlich<br>dass es <span class=\"highlight\">unwiderstehlich</span> ist",
+                heroDesc: "Erstelle eine ultra-kitschige Seite, um DIE Frage zu stellen. Valentinstag, Date, Reise, Heiratsantrag... Der NEIN-Button flieht, wenn du versuchst ihn zu klicken 😏",
+                heroBtn1: "Meine Seite erstellen →",
+                heroBtn2: "Wie es funktioniert",
+                heroPrice: "Ab <strong>4.99€</strong> • Fertig in 2 Minuten • 100% unverschämt",
+                demoQuestion: "Willst du mein Valentinsschatz sein? 💕",
+                statsPages: "Erstellte Seiten",
+                statsYes: "Sagten JA!",
+                statsRating: "Durchschnittsbewertung",
+                statsCountries: "Länder",
+                useCasesTitle: "Für jeden Anlass 🎯",
+                useCasesSubtitle: "Ja, auch die unerwartetsten",
+                useCase1: "Sei mein Valentinsschatz?",
+                useCase2: "Heiratsantrag",
+                useCase3: "Kinoabend?",
+                useCase4: "Reise zusammen?",
+                useCase5: "Zusammenziehen?",
+                useCase6: "Beförderung",
+                useCase7: "Hund adoptieren?",
+                useCase8: "Zu meiner Party kommen?",
+                featuresTitle: "Warum es genial (peinlich) ist? 💘",
+                featuresSubtitle: "Umarme den Kitsch, sie werden schmelzen",
+                feature1Title: "Der NEIN-Button flieht",
+                feature1Desc: "Unmöglich NEIN zu klicken! Der Button rennt weg und schrumpft.",
+                feature2Title: "So kitschig, dass es funktioniert",
+                feature2Desc: "Fliegende Herzen, Emojis überall, romantische Musik...",
+                feature3Title: "Perfekt auf dem Handy",
+                feature3Desc: "Sende per SMS oder WhatsApp. Schau ihnen live beim Kämpfen zu.",
+                feature4Title: "Explosion der Freude",
+                feature4Desc: "Bei JA: Emoji-Lawine und dein Foto!",
+                feature5Title: "Hintergrundmusik",
+                feature5Desc: "Füge romantische Musik hinzu, um das Peinliche zu maximieren.",
+                feature6Title: "Deine besten Fotos",
+                feature6Desc: "Dein Foto beim Antrag, dein Kuss bei der Antwort.",
+                howTitle: "Wie funktioniert es? ✨",
+                howSubtitle: "3 Schritte und fertig",
+                step1Title: "Anpassen",
+                step1Desc: "Füge Fotos hinzu, wähle Farben, schreibe deine Nachricht",
+                step2Title: "Bezahlen",
+                step2Desc: "Ab 4.99€. Sichere Zahlung über Stripe",
+                step3Title: "Senden",
+                step3Desc: "Erhalte deinen Link und sende ihn! 💕",
+                reviewsTitle: "Sie haben es gewagt und gewonnen 💪",
+                reviewsSubtitle: "Echte Bewertungen von echten Verliebten",
+                pricingTitle: "Wähle deinen Plan 💝",
+                pricingSubtitle: "Ein kleiner Preis für einen großen Moment",
+                pricingBasic: "Basis",
+                pricingPhoto: "Foto+",
+                pricingMusic: "Musik",
+                pricingChoose: "Wählen",
+                pricingPopular: "⭐ Beliebt",
+                basicF1: "✓ Antrags- + Antwortseite",
+                basicF2: "✓ Süße Illustrationen",
+                basicF3: "✓ Eigene Texte & Emojis",
+                basicF4: "✓ Fliehender NEIN-Button",
+                basicF5: "✓ 30 Tage gehostet",
+                photoF1: "✓ Alles von Basis +",
+                photoF2: "✓ Dein Antragsfoto",
+                photoF3: "✓ Dein Paarfoto 💋",
+                photoF4: "✓ 6 Themes",
+                photoF5: "✓ 1 Jahr gehostet",
+                musicF1: "✓ Alles von Foto+ +",
+                musicF2: "✓ Hintergrundmusik",
+                musicF3: "✓ 15 romantische Songs",
+                musicF4: "✓ Eigene Sounds",
+                musicF5: "✓ 1 Jahr gehostet",
+                ctaTitle: "Bereit, das <span class=\"highlight\">Peinliche</span> zu umarmen?",
+                ctaDesc: "Es ist peinlich, kitschig, voller Emojis... und deshalb funktioniert es! 🤞",
+                ctaBtn: "Jetzt meine Seite erstellen 💕",
+                footerMade: "Gemacht mit 💕 von RamsesVibes",
+                editorLink: "Dein Seitenlink 🔗",
+                editorTheme: "Theme 🎨",
+                editorProposal: "Antragsseite 💕",
+                editorResponse: "Antwortseite 🎉",
+                editorEmojis: "Emojis 🎉",
+                editorIllustration: "Illustration 🎨",
+                editorPhotos: "Fotos 📸",
+                editorMusic: "Musik 🎵",
+                personName: "Name der Person",
+                proposalQuestion: "Antragsfrage",
+                celebrationText: "Feiertext",
+                responseMessage: "Antwortnachricht",
+                loveText: "Liebestext",
+                continueCheckout: "Weiter zur Kasse →",
+                checkoutTitle: "Ein letzter Schritt 💕",
+                checkoutSubtitle: "Gib deine E-Mail ein, um deinen Seitenlink zu erhalten",
+                checkoutEmail: "Deine E-Mail",
+                checkoutPay: "Bezahlen",
+                successTitle: "Fertig! 🎉",
+                successSubtitle: "Deine Seite ist bereit zum Teilen",
+                successLinkLabel: "Dein persönlicher Link:",
+                successCopy: "Kopieren",
+                successShare: "Teilen auf",
+                successTip: "💡 Tipp: Sende es per WhatsApp oder SMS für maximale Wirkung!"
+            },
+            ru: {
+                headerCta: "Создать страницу 💕",
+                heroBadge: "💕 Прими неловкость, пожни любовь",
+                heroTitle: "Настолько мило<br>что <span class=\"highlight\">неотразимо</span>",
+                heroDesc: "Создай супер-милую страницу, чтобы задать ЭТОТ вопрос. Валентинка, свидание, путешествие, предложение руки... Кнопка НЕТ убегает, когда пытаешься нажать 😏",
+                heroBtn1: "Создать страницу →",
+                heroBtn2: "Как это работает",
+                heroPrice: "От <strong>4.99€</strong> • Готово за 2 минуты • 100% без стеснения",
+                demoQuestion: "Будешь моей Валентинкой? 💕",
+                statsPages: "Страниц создано",
+                statsYes: "Сказали ДА!",
+                statsRating: "Средняя оценка",
+                statsCountries: "Стран",
+                useCasesTitle: "Для любого случая 🎯",
+                useCasesSubtitle: "Да, даже самого неожиданного",
+                useCase1: "Будь моей Валентинкой?",
+                useCase2: "Предложение руки",
+                useCase3: "В кино вместе?",
+                useCase4: "В путешествие вместе?",
+                useCase5: "Жить вместе?",
+                useCase6: "Повышение на работе",
+                useCase7: "Завести собаку?",
+                useCase8: "Придёшь на вечеринку?",
+                featuresTitle: "Почему это гениально (и мило)? 💘",
+                featuresSubtitle: "Прими милоту, они растают",
+                feature1Title: "Кнопка НЕТ убегает",
+                feature1Desc: "Невозможно нажать НЕТ! Кнопка убегает и уменьшается.",
+                feature2Title: "Так мило, что работает",
+                feature2Desc: "Летящие сердечки, эмодзи везде, романтическая музыка...",
+                feature3Title: "Идеально на телефоне",
+                feature3Desc: "Отправь через SMS или WhatsApp. Смотри, как они мучаются.",
+                feature4Title: "Взрыв радости",
+                feature4Desc: "Когда ДА: лавина эмодзи и твоё фото!",
+                feature5Title: "Фоновая музыка",
+                feature5Desc: "Добавь романтическую музыку для максимальной милоты.",
+                feature6Title: "Твои лучшие фото",
+                feature6Desc: "Твоё фото на предложении, твой поцелуй на ответе.",
+                howTitle: "Как это работает? ✨",
+                howSubtitle: "3 шага и готово",
+                step1Title: "Настрой",
+                step1Desc: "Добавь фото, выбери цвета, напиши сообщение",
+                step2Title: "Оплати",
+                step2Desc: "От 4.99€. Безопасная оплата через Stripe",
+                step3Title: "Отправь",
+                step3Desc: "Получи ссылку и отправь её! 💕",
+                reviewsTitle: "Они рискнули и победили 💪",
+                reviewsSubtitle: "Реальные отзывы от реальных влюблённых",
+                pricingTitle: "Выбери свой план 💝",
+                pricingSubtitle: "Маленькая цена за большой момент",
+                pricingBasic: "Базовый",
+                pricingPhoto: "Фото+",
+                pricingMusic: "Музыка",
+                pricingChoose: "Выбрать",
+                pricingPopular: "⭐ Популярный",
+                basicF1: "✓ Страница предложения + ответа",
+                basicF2: "✓ Милые иллюстрации",
+                basicF3: "✓ Свои тексты и эмодзи",
+                basicF4: "✓ Убегающая кнопка НЕТ",
+                basicF5: "✓ Хостинг 30 дней",
+                photoF1: "✓ Всё из Базового +",
+                photoF2: "✓ Твоё фото предложения",
+                photoF3: "✓ Ваше фото вместе 💋",
+                photoF4: "✓ 6 тем",
+                photoF5: "✓ Хостинг 1 год",
+                musicF1: "✓ Всё из Фото+ +",
+                musicF2: "✓ Фоновая музыка",
+                musicF3: "✓ 15 романтических песен",
+                musicF4: "✓ Свои звуки",
+                musicF5: "✓ Хостинг 1 год",
+                ctaTitle: "Готов принять <span class=\"highlight\">милоту</span>?",
+                ctaDesc: "Это неловко, мило, полно эмодзи... и именно поэтому работает! 🤞",
+                ctaBtn: "Создать страницу сейчас 💕",
+                footerMade: "Сделано с 💕 от RamsesVibes",
+                editorLink: "Ссылка на страницу 🔗",
+                editorTheme: "Тема 🎨",
+                editorProposal: "Страница предложения 💕",
+                editorResponse: "Страница ответа 🎉",
+                editorEmojis: "Эмодзи 🎉",
+                editorIllustration: "Иллюстрация 🎨",
+                editorPhotos: "Фото 📸",
+                editorMusic: "Музыка 🎵",
+                personName: "Имя человека",
+                proposalQuestion: "Вопрос предложения",
+                celebrationText: "Текст празднования",
+                responseMessage: "Сообщение ответа",
+                loveText: "Текст любви",
+                continueCheckout: "Перейти к оплате →",
+                checkoutTitle: "Последний шаг 💕",
+                checkoutSubtitle: "Введи email, чтобы получить ссылку на страницу",
+                checkoutEmail: "Твой email",
+                checkoutPay: "Оплатить",
+                successTitle: "Готово! 🎉",
+                successSubtitle: "Твоя страница готова к отправке",
+                successLinkLabel: "Твоя персональная ссылка:",
+                successCopy: "Копировать",
+                successShare: "Поделиться в",
+                successTip: "💡 Совет: Отправь через WhatsApp или SMS для максимального эффекта!"
+            }
+        };
+
+        function changeLanguage(lang) {
+            const t = translations[lang] || translations.en;
+            
+            // Header
+            document.querySelector('.header-cta').innerHTML = t.headerCta;
+            
+            // Hero
+            document.querySelector('.hero-badge').innerHTML = t.heroBadge;
+            document.querySelector('.hero-content h1').innerHTML = t.heroTitle;
+            document.querySelector('.hero-content > p').innerHTML = t.heroDesc;
+            document.querySelector('.btn-primary').innerHTML = t.heroBtn1;
+            document.querySelector('.btn-secondary').innerHTML = t.heroBtn2;
+            document.querySelector('.hero-price').innerHTML = t.heroPrice;
+            document.querySelector('.demo-question').innerHTML = t.demoQuestion;
+            
+            // Stats
+            const statLabels = document.querySelectorAll('.stat-label');
+            if(statLabels[0]) statLabels[0].textContent = t.statsPages;
+            if(statLabels[1]) statLabels[1].textContent = t.statsYes;
+            if(statLabels[2]) statLabels[2].textContent = t.statsRating;
+            if(statLabels[3]) statLabels[3].textContent = t.statsCountries;
+            
+            // Use cases
+            document.querySelector('.use-cases .section-title h2').innerHTML = t.useCasesTitle;
+            document.querySelector('.use-cases .section-title p').innerHTML = t.useCasesSubtitle;
+            const useCases = document.querySelectorAll('.use-case h4');
+            if(useCases[0]) useCases[0].textContent = t.useCase1;
+            if(useCases[1]) useCases[1].textContent = t.useCase2;
+            if(useCases[2]) useCases[2].textContent = t.useCase3;
+            if(useCases[3]) useCases[3].textContent = t.useCase4;
+            if(useCases[4]) useCases[4].textContent = t.useCase5;
+            if(useCases[5]) useCases[5].textContent = t.useCase6;
+            if(useCases[6]) useCases[6].textContent = t.useCase7;
+            if(useCases[7]) useCases[7].textContent = t.useCase8;
+            
+            // Features
+            document.querySelector('.features .section-title h2').innerHTML = t.featuresTitle;
+            document.querySelector('.features .section-title p').innerHTML = t.featuresSubtitle;
+            const featureCards = document.querySelectorAll('.feature-card');
+            if(featureCards[0]) { featureCards[0].querySelector('h3').textContent = t.feature1Title; featureCards[0].querySelector('p').textContent = t.feature1Desc; }
+            if(featureCards[1]) { featureCards[1].querySelector('h3').textContent = t.feature2Title; featureCards[1].querySelector('p').textContent = t.feature2Desc; }
+            if(featureCards[2]) { featureCards[2].querySelector('h3').textContent = t.feature3Title; featureCards[2].querySelector('p').textContent = t.feature3Desc; }
+            if(featureCards[3]) { featureCards[3].querySelector('h3').textContent = t.feature4Title; featureCards[3].querySelector('p').textContent = t.feature4Desc; }
+            if(featureCards[4]) { featureCards[4].querySelector('h3').textContent = t.feature5Title; featureCards[4].querySelector('p').textContent = t.feature5Desc; }
+            if(featureCards[5]) { featureCards[5].querySelector('h3').textContent = t.feature6Title; featureCards[5].querySelector('p').textContent = t.feature6Desc; }
+            
+            // How it works
+            document.querySelector('.how-it-works .section-title h2').innerHTML = t.howTitle;
+            document.querySelector('.how-it-works .section-title p').innerHTML = t.howSubtitle;
+            const steps = document.querySelectorAll('.step');
+            if(steps[0]) { steps[0].querySelector('h3').textContent = t.step1Title; steps[0].querySelector('p').textContent = t.step1Desc; }
+            if(steps[1]) { steps[1].querySelector('h3').textContent = t.step2Title; steps[1].querySelector('p').textContent = t.step2Desc; }
+            if(steps[2]) { steps[2].querySelector('h3').textContent = t.step3Title; steps[2].querySelector('p').textContent = t.step3Desc; }
+            
+            // Reviews
+            document.querySelector('.reviews-section .section-title h2').innerHTML = t.reviewsTitle;
+            document.querySelector('.reviews-section .section-title p').innerHTML = t.reviewsSubtitle;
+            
+            // Pricing
+            document.querySelector('.pricing .section-title h2').innerHTML = t.pricingTitle;
+            document.querySelector('.pricing .section-title p').innerHTML = t.pricingSubtitle;
+            const pricingCards = document.querySelectorAll('.pricing-card');
+            if(pricingCards[0]) { 
+                pricingCards[0].querySelector('h3').textContent = t.pricingBasic; 
+                pricingCards[0].querySelector('.pricing-btn').textContent = t.pricingChoose;
+                const lis = pricingCards[0].querySelectorAll('li');
+                if(lis[0]) lis[0].textContent = t.basicF1;
+                if(lis[1]) lis[1].textContent = t.basicF2;
+                if(lis[2]) lis[2].textContent = t.basicF3;
+                if(lis[3]) lis[3].textContent = t.basicF4;
+                if(lis[4]) lis[4].textContent = t.basicF5;
+            }
+            if(pricingCards[1]) { 
+                pricingCards[1].querySelector('.popular-badge').textContent = t.pricingPopular;
+                pricingCards[1].querySelector('h3').textContent = t.pricingPhoto; 
+                pricingCards[1].querySelector('.pricing-btn').textContent = t.pricingChoose;
+                const lis = pricingCards[1].querySelectorAll('li');
+                if(lis[0]) lis[0].textContent = t.photoF1;
+                if(lis[1]) lis[1].textContent = t.photoF2;
+                if(lis[2]) lis[2].textContent = t.photoF3;
+                if(lis[3]) lis[3].textContent = t.photoF4;
+                if(lis[4]) lis[4].textContent = t.photoF5;
+            }
+            if(pricingCards[2]) { 
+                pricingCards[2].querySelector('h3').textContent = t.pricingMusic; 
+                pricingCards[2].querySelector('.pricing-btn').textContent = t.pricingChoose;
+                const lis = pricingCards[2].querySelectorAll('li');
+                if(lis[0]) lis[0].textContent = t.musicF1;
+                if(lis[1]) lis[1].textContent = t.musicF2;
+                if(lis[2]) lis[2].textContent = t.musicF3;
+                if(lis[3]) lis[3].textContent = t.musicF4;
+                if(lis[4]) lis[4].textContent = t.musicF5;
+            }
+            
+            // CTA
+            document.querySelector('.cta h2').innerHTML = t.ctaTitle;
+            document.querySelector('.cta p').innerHTML = t.ctaDesc;
+            document.querySelector('.cta .btn-primary').innerHTML = t.ctaBtn;
+            
+            // Footer
+            document.querySelector('.site-footer p').innerHTML = t.footerMade;
+            
+            // Editor sections
+            const editorSections = document.querySelectorAll('.editor-section h3');
+            if(editorSections[0]) editorSections[0].innerHTML = t.editorLink;
+            if(editorSections[1]) editorSections[1].innerHTML = t.editorTheme;
+            if(editorSections[2]) editorSections[2].innerHTML = t.editorProposal;
+            if(editorSections[3]) editorSections[3].innerHTML = t.editorResponse;
+            if(editorSections[4]) editorSections[4].innerHTML = t.editorEmojis;
+            if(editorSections[5]) editorSections[5].innerHTML = t.editorIllustration;
+            if(editorSections[6]) editorSections[6].innerHTML = t.editorPhotos;
+            if(editorSections[7]) editorSections[7].innerHTML = t.editorMusic;
+            
+            // Editor labels
+            const editorLabels = document.querySelectorAll('.editor-section label');
+            if(editorLabels[0]) editorLabels[0].textContent = t.personName;
+            if(editorLabels[1]) editorLabels[1].textContent = t.proposalQuestion;
+            if(editorLabels[2]) editorLabels[2].textContent = t.celebrationText;
+            if(editorLabels[3]) editorLabels[3].textContent = t.responseMessage;
+            if(editorLabels[4]) editorLabels[4].textContent = t.loveText;
+            
+            // Continue button
+            const continueBtn = document.querySelector('.editor-actions .btn-primary');
+            if(continueBtn) continueBtn.innerHTML = t.continueCheckout;
+            
+            // Checkout
+            const checkoutTitle = document.querySelector('#checkout h2');
+            const checkoutSubtitle = document.querySelector('#checkout > p, .checkout-container > p');
+            if(checkoutTitle) checkoutTitle.innerHTML = t.checkoutTitle;
+            
+            // Success
+            const successTitle = document.querySelector('.success-container h1');
+            if(successTitle) successTitle.innerHTML = t.successTitle;
+            
+            // Store current language
+            currentLang = lang;
+        }
 
         // Start social proof after 3 seconds
         setTimeout(() => {
