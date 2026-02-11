@@ -1812,52 +1812,11 @@ setInterval(createEmoji, 300);
                 photoContent = '💕';
             }
             
-            // Musique en dehors de l'iframe pour qu'elle continue entre les pages
-            const musicUrl = page.music_url || '';
-            let musicHTML = '';
-            if (musicUrl) {
-                musicHTML = `
-                    <audio id="bgMusicMain" loop><source src="${musicUrl}" type="audio/mpeg"></audio>
-                    <button id="musicBtnMain" style="position:fixed;bottom:50px;right:15px;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);border:none;border-radius:50%;width:50px;height:50px;font-size:1.5rem;cursor:pointer;z-index:10002;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.2);">🎵</button>
-                `;
-            }
-            
             container.innerHTML = `
                 <iframe id="personalizedFrame" style="width:100%;height:100%;border:none;"></iframe>
-                ${musicHTML}
             `;
             
             document.body.appendChild(container);
-            
-            // Ajouter le script de musique APRÈS que le container soit dans le DOM
-            if (musicUrl) {
-                window.isPlayingMain = false;
-                window.toggleMusicMain = function() {
-                    const audio = document.getElementById('bgMusicMain');
-                    const btn = document.getElementById('musicBtnMain');
-                    if (window.isPlayingMain) {
-                        audio.pause();
-                        btn.textContent = '🔇';
-                    } else {
-                        audio.play();
-                        btn.textContent = '🎵';
-                    }
-                    window.isPlayingMain = !window.isPlayingMain;
-                };
-                
-                document.getElementById('musicBtnMain').onclick = window.toggleMusicMain;
-                
-                // Démarrer la musique au premier clic n'importe où
-                document.addEventListener('click', function initAudio() {
-                    const audio = document.getElementById('bgMusicMain');
-                    if (audio && !window.isPlayingMain) {
-                        audio.play().then(() => {
-                            window.isPlayingMain = true;
-                            document.getElementById('musicBtnMain').textContent = '🎵';
-                        }).catch(() => {});
-                    }
-                }, { once: true });
-            }
             
             const iframe = document.getElementById('personalizedFrame');
             const html = generatePageHTML(page, 'proposal', v, isDark, photoContent);
@@ -1973,7 +1932,7 @@ body::before{
 </style>
 </head>
 <body>
-
+${musicUrl ? `<audio id="bgMusic" loop><source src="${musicUrl}" type="audio/mpeg"></audio><button class="music-control" id="musicBtn" onclick="toggleMusic()">🔇</button>` : ''}
 <div class="corner" style="top:10px;left:10px">${getEmoji(0)}</div>
 <div class="corner" style="top:10px;right:10px">${getEmoji(1)}</div>
 <div class="corner" style="bottom:35px;left:10px">${getEmoji(2)}</div>
@@ -2064,6 +2023,39 @@ function createEmoji() {
 for(let i=0;i<15;i++) setTimeout(createEmoji, i*100);
 setInterval(createEmoji, 300);
 `}
+
+// Music control
+const bgMusic = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+let isPlaying = false;
+
+function toggleMusic() {
+  if (!bgMusic) return;
+  if (isPlaying) {
+    bgMusic.pause();
+    musicBtn.textContent = '🔇';
+    musicBtn.classList.remove('playing');
+  } else {
+    bgMusic.play();
+    musicBtn.textContent = '🎵';
+    musicBtn.classList.add('playing');
+  }
+  isPlaying = !isPlaying;
+}
+
+// Auto-play on first click
+document.addEventListener('click', function autoPlay() {
+  if (bgMusic && !isPlaying) {
+    bgMusic.play().then(() => {
+      isPlaying = true;
+      if (musicBtn) {
+        musicBtn.textContent = '🎵';
+        musicBtn.classList.add('playing');
+      }
+    }).catch(() => {});
+  }
+  document.removeEventListener('click', autoPlay);
+}, { once: true });
 <\/script>
 </body></html>`;
         }
