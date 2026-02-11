@@ -1949,7 +1949,7 @@ ${musicUrl ? `<audio id="bgMusic" loop><source src="${musicUrl}" type="audio/mpe
 <div class="deco-star" style="top:45%;right:5%;animation-delay:0.9s">✧</div>
 <div class="deco-star" style="bottom:25%;left:15%;animation-delay:1.2s">✦</div>
 <div class="deco-star" style="bottom:20%;right:20%;animation-delay:1.5s">✧</div>
-${mode==='proposal' ? `
+<div id="proposalContent" style="${mode==='proposal' ? '' : 'display:none;'}">
 ${photoContent !== '💕' ? `<div class="photo">${photoContent}</div>` : ''}
 <h1 class="name">${name}</h1>
 <p class="question">${question} 💕</p>
@@ -1958,19 +1958,20 @@ ${photoContent !== '💕' ? `<div class="photo">${photoContent}</div>` : ''}
   <button class="btn-no" id="noBtn">no...</button>
 </div>
 <div class="marquee">💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕 SAY YES 💕</div>
-` : `
+</div>
+<div id="responseContent" style="${mode==='response' ? '' : 'display:none;'}">
 <div class="photo">${responsePhotoContent}</div>
 <h1 class="celebration">${celebration} 🎉</h1>
 <p class="response-text">${response}</p>
 <p class="love-text">${love} 💕</p>
-<div class="marquee">🎉 YES! 💕 LOVE WINS 🎉 YES! 💕 LOVE WINS 🎉</div>
-`}
+<div class="marquee" style="animation-delay:0s">🎉 YES! 💕 LOVE WINS 🎉 YES! 💕 LOVE WINS 🎉</div>
+</div>
 <script>
-${mode==='proposal' ? `
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.querySelector(".btn-yes");
 let scale=1;
 let yesScale=1;
+if(noBtn) {
 document.addEventListener("mousemove",function(e){
   if(!noBtn)return;
   const rect=noBtn.getBoundingClientRect();
@@ -1994,14 +1995,13 @@ document.addEventListener("mousemove",function(e){
     yesBtn.style.transform="scale("+yesScale+")";
   }
 });
-
-function showResponse() {
-  window.parent.postMessage('showResponse', '*');
 }
-` : `
+
 const userEmojis = ${JSON.stringify(emojiArray)};
 const defaultEmojis = ['💕','💗','💖','🎉','🎊','✨','💫','⭐','💝'];
 const emojiList = userEmojis.length > 0 ? [...userEmojis, '🎉', '✨'] : defaultEmojis;
+let emojiInterval = null;
+
 function createEmoji() {
   const e = document.createElement('div');
   e.style.cssText = 'position:fixed;font-size:'+(20+Math.random()*20)+'px;pointer-events:none;z-index:100;';
@@ -2020,9 +2020,21 @@ function createEmoji() {
   }
   rise();
 }
-for(let i=0;i<15;i++) setTimeout(createEmoji, i*100);
-setInterval(createEmoji, 300);
-`}
+
+function showResponse() {
+  // Cacher proposal, montrer response
+  document.getElementById('proposalContent').style.display = 'none';
+  document.getElementById('responseContent').style.display = 'block';
+  // Démarrer l'avalanche d'emojis
+  for(let i=0;i<15;i++) setTimeout(createEmoji, i*100);
+  emojiInterval = setInterval(createEmoji, 300);
+}
+
+// Si on est déjà en mode response, démarrer l'avalanche
+if(document.getElementById('responseContent').style.display !== 'none') {
+  for(let i=0;i<15;i++) setTimeout(createEmoji, i*100);
+  emojiInterval = setInterval(createEmoji, 300);
+}
 
 // Music control
 const bgMusic = document.getElementById('bgMusic');
