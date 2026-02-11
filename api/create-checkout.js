@@ -1,4 +1,4 @@
-const stripe = require('stripe')('sk_test_eJFxi6m9ljwB6gbmOSM516Un');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 module.exports = async (req, res) => {
   // CORS headers
