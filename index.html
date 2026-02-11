@@ -1932,7 +1932,7 @@ body::before{
 </style>
 </head>
 <body>
-${musicUrl ? `<audio id="bgMusic" loop><source src="${musicUrl}" type="audio/mpeg"></audio><button class="music-control" id="musicBtn" onclick="toggleMusic()">🔇</button>` : ''}
+${musicUrl ? `<audio id="bgMusic" loop><source src="${musicUrl}" type="audio/mpeg"></audio><button class="music-control" id="musicBtn" onclick="toggleMusic()">🎵</button>` : ''}
 <div class="corner" style="top:10px;left:10px">${getEmoji(0)}</div>
 <div class="corner" style="top:10px;right:10px">${getEmoji(1)}</div>
 <div class="corner" style="bottom:35px;left:10px">${getEmoji(2)}</div>
@@ -2068,6 +2068,19 @@ document.addEventListener('click', function autoPlay() {
   }
   document.removeEventListener('click', autoPlay);
 }, { once: true });
+
+// Essayer de lancer la musique automatiquement au chargement
+if (bgMusic) {
+  bgMusic.play().then(() => {
+    isPlaying = true;
+    if (musicBtn) {
+      musicBtn.textContent = '🎵';
+      musicBtn.classList.add('playing');
+    }
+  }).catch(() => {
+    // Navigateur bloque l'autoplay, on attend le premier clic
+  });
+}
 <\/script>
 </body></html>`;
         }
