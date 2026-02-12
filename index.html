@@ -1131,8 +1131,7 @@
                 proposal_photo_url: proposalPhotoUrl,
                 response_photo_url: responsePhotoUrl,
                 music: selectedMusicUrl || null,
-                email: document.getElementById('paymentEmail')?.value || null,
-                paid: true
+                email: document.getElementById('paymentEmail')?.value || null
             };
 
             try {
@@ -1618,19 +1617,6 @@
                 console.error('Error checking slug:', error);
             }
             
-            // Mode Admin : sauvegarder directement sans paiement
-            if (isAdminMode) {
-                const result = await savePage();
-                if (result.success) {
-                    createdSlug = result.slug;
-                    showPage('success');
-                    showPopup('🔓', 'Admin Mode', 'Page created for free!');
-                } else {
-                    showPopup('❌', 'Error', result.error || 'Failed to save page');
-                }
-                return;
-            }
-            
             // Tout est bon, aller au checkout
             showPage('checkout');
         }
@@ -1869,6 +1855,13 @@ setInterval(createEmoji, 300);
                 showPopup('😕', 'Oops!', saveResult.error || 'Error saving your page. Please try again.');
                 payBtn.textContent = 'Pay 💕';
                 payBtn.disabled = false;
+                return;
+            }
+            
+            // Mode Admin : bypass Stripe, aller directement au succès
+            if (isAdminMode) {
+                createdSlug = saveResult.slug;
+                showPage('success');
                 return;
             }
             
