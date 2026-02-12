@@ -856,7 +856,7 @@
                 <div class="editor-section"><h3>Music 🎵 <span class="premium-badge">+5€</span></h3>
                     <p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:15px;">Add romantic music that plays when they open your page</p>
                     <div class="music-grid">
-                        <div class="music-option" onclick="selectMusicOption(this, '')">
+                        <div class="music-option selected" onclick="selectMusicOption(this, '')">
                             <div class="music-icon">🔇</div>
                             <div class="music-info">
                                 <div class="music-name">No music</div>
@@ -1622,8 +1622,7 @@
         }
 
         function updatePricing() {
-            const musicEl = document.getElementById('musicSelector');
-            hasMusic = musicEl && musicEl.value !== '';
+            hasMusic = selectedMusicUrl && selectedMusicUrl !== '';
             let total = 4.99 + (hasPhotos ? 5 : 0) + (hasMusic ? 5 : 0);
             let tierName = 'Basic';
             if (hasPhotos && hasMusic) tierName = 'Photo+ & Music';
