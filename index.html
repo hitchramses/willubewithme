@@ -219,10 +219,13 @@
         .breakdown-item { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 3px 10px; border-radius: 15px; }
         .breakdown-item.hidden { display: none; }
         .vibe-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .vibe-option { padding: 12px 8px; border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; font-size: 0.8rem; }
+        .vibe-option { padding: 12px 8px; border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; font-size: 0.8rem; position: relative; }
         .vibe-option:hover { border-color: rgba(255,105,180,0.5); }
         .vibe-option.selected { border-color: #ff69b4; background: rgba(255,105,180,0.15); }
+        .vibe-option.recommended { border-color: rgba(255,215,0,0.4); }
+        .vibe-option.recommended.selected { border-color: #ff69b4; }
         .vibe-option span { display: block; font-size: 1.3rem; margin-bottom: 5px; }
+        .vibe-badge { position: absolute; top: -10px; right: -8px; font-size: 1.1rem !important; margin: 0 !important; }
         .emoji-selector { display: flex; flex-wrap: wrap; gap: 6px; }
         .emoji-option { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
         .emoji-option:hover { transform: scale(1.1); }
@@ -281,6 +284,21 @@
         .share-btn.whatsapp { background: #25d366; color: #fff; }
         .share-btn.sms { background: #0088cc; color: #fff; }
         .share-btn:hover { transform: translateY(-2px); }
+        /* Music Grid Styles */
+        .music-grid { display: flex; flex-direction: column; gap: 8px; }
+        .music-option { display: flex; align-items: center; gap: 12px; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 2px solid transparent; border-radius: 12px; cursor: pointer; transition: all 0.2s; position: relative; }
+        .music-option:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,105,180,0.3); }
+        .music-option.selected { background: rgba(255,105,180,0.15); border-color: #ff69b4; }
+        .music-option.recommended { border-color: rgba(255,215,0,0.4); background: rgba(255,215,0,0.08); }
+        .music-option.recommended.selected { background: rgba(255,105,180,0.15); border-color: #ff69b4; }
+        .music-badge { position: absolute; top: -8px; right: 10px; background: linear-gradient(135deg, #ffd700, #ffaa00); color: #000; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
+        .music-icon { font-size: 1.5rem; width: 40px; text-align: center; }
+        .music-info { flex: 1; }
+        .music-name { font-weight: 600; font-size: 0.9rem; color: #fff; }
+        .music-artist { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+        .music-play-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,105,180,0.2); border: none; color: #ff69b4; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .music-play-btn:hover { background: #ff69b4; color: #fff; transform: scale(1.1); }
+        .music-play-btn.playing { background: #ff69b4; color: #fff; }
         .review-submission { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; margin-top: 40px; text-align: left; }
         .review-submission h3 { text-align: center; margin-bottom: 20px; font-size: 1.2rem; }
         .star-rating { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
@@ -809,7 +827,135 @@
             <div class="editor-panel">
                 <div class="tier-indicator"><div>Plan: <span class="current-tier" id="currentTier">Basic - 4.99€</span></div><div class="tier-breakdown"><span class="breakdown-item">Basic 4.99€</span><span class="breakdown-item hidden" id="breakdownPhotos">+ Photos 5€</span><span class="breakdown-item hidden" id="breakdownMusic">+ Music 5€</span></div></div>
                 <div class="editor-section"><h3>Your page link 🔗</h3><div class="domain-input"><span class="domain-prefix">willubewith.me/</span><input type="text" id="domainSlug" placeholder="ellina" oninput="checkSlugAvailability()"></div><div class="domain-preview" id="domainPreview">willubewith.me/your-name</div><div id="slugStatus" style="margin-top:8px;font-size:0.85rem;display:none;"><span id="slugStatusIcon"></span> <span id="slugStatusText"></span></div></div>
-                <div class="editor-section"><h3>Theme 🎨</h3><div class="vibe-options"><div class="vibe-option selected" onclick="selectVibe(this,'romantic')"><span>💕</span>Romantic</div><div class="vibe-option" onclick="selectVibe(this,'elegant')"><span>✨</span>Elegant</div><div class="vibe-option" onclick="selectVibe(this,'playful')"><span>🎉</span>Playful</div><div class="vibe-option" onclick="selectVibe(this,'minimal')"><span>🤍</span>Minimal</div><div class="vibe-option" onclick="selectVibe(this,'dark')"><span>🖤</span>Dark</div><div class="vibe-option" onclick="selectVibe(this,'ocean')"><span>🌊</span>Ocean</div></div></div>
+                <div class="editor-section"><h3>Photos 📸 <span class="premium-badge">+5€</span></h3><div class="photo-type-toggle"><button class="photo-type-btn" onclick="setPhotoType('illustration',this)">🎨 Illustration</button><button class="photo-type-btn active" onclick="setPhotoType('upload',this)">📷 My photos</button></div><div id="illustrationsSection" class="hidden"><div class="illustrations-grid">
+                            <div class="illustration-option selected" onclick="selectIllustration(this,'cats')">
+                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/cats_xk6ccm.png" alt="Cats" style="width:50px;height:42px;object-fit:contain;"></div>
+                                <span>Love Cats</span>
+                            </div>
+                            <div class="illustration-option" onclick="selectIllustration(this,'bears')">
+                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770778175/Gemini_Generated_Image_q0d2u1q0d2u1q0d2_ex28hc.png" alt="Bears" style="width:50px;height:42px;object-fit:contain;"></div>
+                                <span>Teddy Bears</span>
+                            </div>
+                            <div class="illustration-option" onclick="selectIllustration(this,'bunnies')">
+                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777157/bunnies_ozzh5c.png" alt="Bunnies" style="width:50px;height:42px;object-fit:contain;"></div>
+                                <span>Bunnies</span>
+                            </div>
+                            <div class="illustration-option" onclick="selectIllustration(this,'manga')">
+                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/manga_af1z27.png" alt="Manga" style="width:50px;height:42px;object-fit:contain;"></div>
+                                <span>Manga</span>
+                            </div>
+                            <div class="illustration-option" onclick="selectIllustration(this,'pandas')">
+                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/panda_aic4ps.png" alt="Pandas" style="width:50px;height:42px;object-fit:contain;"></div>
+                                <span>Pandas</span>
+                            </div>
+                            <div class="illustration-option" onclick="selectIllustration(this,'dogs')">
+                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/dog_opjte4.png" alt="Dogs" style="width:50px;height:42px;object-fit:contain;"></div>
+                                <span>Puppies</span>
+                            </div>
+                        </div></div><div id="photoUploadSection"><p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:15px;">Upload your photos (+5€)</p><div id="proposalPhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;margin-bottom:15px;position:relative;overflow:hidden;"><input type="file" id="proposalPhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('proposal',this)"><div id="proposalPhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload proposal photo</p></div></div><div id="responsePhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;position:relative;overflow:hidden;"><input type="file" id="responsePhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('response',this)"><div id="responsePhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload response photo 💋</p></div></div><p id="uploadStatus" style="font-size:0.75rem;color:#ff69b4;margin-top:10px;text-align:center;"></p></div></div>
+                <div class="editor-section"><h3>Music 🎵 <span class="premium-badge">+5€</span></h3>
+                    <p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:15px;">Add romantic music that plays when they open your page</p>
+                    <div class="music-grid">
+                        <div class="music-option" onclick="selectMusicOption(this, '')">
+                            <div class="music-icon">🔇</div>
+                            <div class="music-info">
+                                <div class="music-name">No music</div>
+                                <div class="music-artist">Free</div>
+                            </div>
+                        </div>
+                        <div class="music-option recommended" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/George_Michael_-_Careless_Whisper_Official_Video_plc0xs.mp3')">
+                            <div class="music-badge">🔥 TOP</div>
+                            <div class="music-icon">🎷</div>
+                            <div class="music-info">
+                                <div class="music-name">Careless Whisper</div>
+                                <div class="music-artist">George Michael</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/George_Michael_-_Careless_Whisper_Official_Video_plc0xs.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/John_Legend_-_All_of_Me_Official_Video_y3q1az.mp3')">
+                            <div class="music-icon">🎹</div>
+                            <div class="music-info">
+                                <div class="music-name">All of Me</div>
+                                <div class="music-artist">John Legend</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/John_Legend_-_All_of_Me_Official_Video_y3q1az.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Elvis_Presley_-_Can_t_Help_Falling_in_Love_Lyrics_xbhora.mp3')">
+                            <div class="music-icon">🎸</div>
+                            <div class="music-info">
+                                <div class="music-name">Can't Help Falling In Love</div>
+                                <div class="music-artist">Elvis Presley</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Elvis_Presley_-_Can_t_Help_Falling_in_Love_Lyrics_xbhora.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Celine_Dion_-_My_Heart_Will_Go_On_Lyrics_yif3fd.mp3')">
+                            <div class="music-icon">🚢</div>
+                            <div class="music-info">
+                                <div class="music-name">My Heart Will Go On</div>
+                                <div class="music-artist">Celine Dion</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Celine_Dion_-_My_Heart_Will_Go_On_Lyrics_yif3fd.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Whitney_Houston_-_I_Will_Always_Love_You_Official_4K_Video_vwj4e0.mp3')">
+                            <div class="music-icon">🎤</div>
+                            <div class="music-info">
+                                <div class="music-name">I Will Always Love You</div>
+                                <div class="music-artist">Whitney Houston</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Whitney_Houston_-_I_Will_Always_Love_You_Official_4K_Video_vwj4e0.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Frank_Sinatra_-_L.O.V.E._lyrics_-_lIBioHazardIl_ljsxgx.mp3')">
+                            <div class="music-icon">🎩</div>
+                            <div class="music-info">
+                                <div class="music-name">L.O.V.E.</div>
+                                <div class="music-artist">Frank Sinatra</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Frank_Sinatra_-_L.O.V.E._lyrics_-_lIBioHazardIl_ljsxgx.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Miki_Matsubara_-_Stay_With_Me_HD_Club_Mix_qs3f3p.mp3')">
+                            <div class="music-icon">🇯🇵</div>
+                            <div class="music-info">
+                                <div class="music-name">Stay With Me</div>
+                                <div class="music-artist">Miki Matsubara</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Miki_Matsubara_-_Stay_With_Me_HD_Club_Mix_qs3f3p.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/AmrDiab_-_Tamally_Maak_Official_Music_Video_-_HD_Version_%D8%B9%D9%85%D8%B1%D9%88_%D8%AF%D9%8A%D8%A7%D8%A8_-_%D8%AA%D9%85%D9%84%D9%8A_%D9%85%D8%B9%D8%A7%D9%83_glu4aa.mp3')">
+                            <div class="music-icon">🇪🇬</div>
+                            <div class="music-info">
+                                <div class="music-name">Tamally Maak</div>
+                                <div class="music-artist">Amr Diab</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/AmrDiab_-_Tamally_Maak_Official_Music_Video_-_HD_Version_%D8%B9%D9%85%D8%B1%D9%88_%D8%AF%D9%8A%D8%A7%D8%A8_-_%D8%AA%D9%85%D9%84%D9%8A_%D9%85%D8%B9%D8%A7%D9%83_glu4aa.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Epic_Sax_Guy_Loop_-_320_Kbps_oep74l.mp3')">
+                            <div class="music-icon">🎷</div>
+                            <div class="music-info">
+                                <div class="music-name">Epic Sax Guy</div>
+                                <div class="music-artist">Funny</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Epic_Sax_Guy_Loop_-_320_Kbps_oep74l.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Zaho_-_Je_Te_Promets_Clip_Officiel_kkszgz.mp3')">
+                            <div class="music-icon">🇫🇷</div>
+                            <div class="music-info">
+                                <div class="music-name">Je Te Promets</div>
+                                <div class="music-artist">Zaho</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Zaho_-_Je_Te_Promets_Clip_Officiel_kkszgz.mp3', this)">▶</button>
+                        </div>
+                        <div class="music-option" onclick="selectMusicOption(this, 'https://res.cloudinary.com/dl42cygq6/video/upload/v1770913734/%D0%93%D0%B0%D0%B8%CC%86%D1%82%D0%B0%D0%BD%D0%B0_-_%D0%A8%D0%B0%D0%BB%D0%B5%D0%BD%D1%96%D0%B8%CC%86_-_Gaitana_Official_Video_gb9ght.mp3')">
+                            <div class="music-icon">🇺🇦</div>
+                            <div class="music-info">
+                                <div class="music-name">Шаленій (Shalenii)</div>
+                                <div class="music-artist">Gaitana</div>
+                            </div>
+                            <button class="music-play-btn" onclick="event.stopPropagation();previewMusic('https://res.cloudinary.com/dl42cygq6/video/upload/v1770913734/%D0%93%D0%B0%D0%B8%CC%86%D1%82%D0%B0%D0%BD%D0%B0_-_%D0%A8%D0%B0%D0%BB%D0%B5%D0%BD%D1%96%D0%B8%CC%86_-_Gaitana_Official_Video_gb9ght.mp3', this)">▶</button>
+                        </div>
+                    </div>
+                    <audio id="musicPreviewAudio" style="display:none;"></audio>
+                </div>
+                <div class="editor-section"><h3>Theme 🎨</h3><div class="vibe-options"><div class="vibe-option selected recommended" onclick="selectVibe(this,'romantic')"><span class="vibe-badge">🔥</span><span>💕</span>Romantic</div><div class="vibe-option" onclick="selectVibe(this,'elegant')"><span>✨</span>Elegant</div><div class="vibe-option" onclick="selectVibe(this,'playful')"><span>🎉</span>Playful</div><div class="vibe-option" onclick="selectVibe(this,'minimal')"><span>🤍</span>Minimal</div><div class="vibe-option recommended" onclick="selectVibe(this,'dark')"><span class="vibe-badge">🔥</span><span>🖤</span>Dark</div><div class="vibe-option" onclick="selectVibe(this,'ocean')"><span>🌊</span>Ocean</div></div></div>
                 <div class="editor-section"><h3>Proposal page 💕</h3><label>Person's name</label><input type="text" id="recipientName" placeholder="Ellina" oninput="updatePreview();autoFillDomain()"><label>Proposal question</label><input type="text" id="proposalQuestion" value="Would you be my Valentine?" oninput="updatePreview()"></div>
                 <div class="editor-section"><h3>Response page 🎉</h3><label>Celebration text</label><input type="text" id="celebrationText" value="Yaaay!" oninput="updatePreview()"><label>Response message</label><textarea id="responseMessage" oninput="updatePreview()">You just made me the happiest person!</textarea><label>Love text</label><input type="text" id="loveText" value="I love you!" oninput="updatePreview()"></div>
                 <div class="editor-section"><h3>Emojis 🎉</h3><div class="emoji-selector">
@@ -862,33 +1008,6 @@
                         <div class="emoji-option" data-emoji="🍾" onclick="toggleEmoji(this)">🍾</div>
                         <div class="emoji-option" data-emoji="🥂" onclick="toggleEmoji(this)">🥂</div>
                     </div></div>
-                <div class="editor-section"><h3>Photos <span class="premium-badge">+5€</span></h3><div class="photo-type-toggle"><button class="photo-type-btn active" onclick="setPhotoType('illustration',this)">🎨 Illustration</button><button class="photo-type-btn" onclick="setPhotoType('upload',this)">📷 My photos</button></div><div id="illustrationsSection"><div class="illustrations-grid">
-                            <div class="illustration-option selected" onclick="selectIllustration(this,'cats')">
-                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/cats_xk6ccm.png" alt="Cats" style="width:50px;height:42px;object-fit:contain;"></div>
-                                <span>Love Cats</span>
-                            </div>
-                            <div class="illustration-option" onclick="selectIllustration(this,'bears')">
-                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770778175/Gemini_Generated_Image_q0d2u1q0d2u1q0d2_ex28hc.png" alt="Bears" style="width:50px;height:42px;object-fit:contain;"></div>
-                                <span>Teddy Bears</span>
-                            </div>
-                            <div class="illustration-option" onclick="selectIllustration(this,'bunnies')">
-                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777157/bunnies_ozzh5c.png" alt="Bunnies" style="width:50px;height:42px;object-fit:contain;"></div>
-                                <span>Bunnies</span>
-                            </div>
-                            <div class="illustration-option" onclick="selectIllustration(this,'manga')">
-                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/manga_af1z27.png" alt="Manga" style="width:50px;height:42px;object-fit:contain;"></div>
-                                <span>Manga</span>
-                            </div>
-                            <div class="illustration-option" onclick="selectIllustration(this,'pandas')">
-                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/panda_aic4ps.png" alt="Pandas" style="width:50px;height:42px;object-fit:contain;"></div>
-                                <span>Pandas</span>
-                            </div>
-                            <div class="illustration-option" onclick="selectIllustration(this,'dogs')">
-                                <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/dog_opjte4.png" alt="Dogs" style="width:50px;height:42px;object-fit:contain;"></div>
-                                <span>Puppies</span>
-                            </div>
-                        </div></div><div id="photoUploadSection" class="hidden"><p style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:15px;">Upload your photos (+5€)</p><div id="proposalPhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;margin-bottom:15px;position:relative;overflow:hidden;"><input type="file" id="proposalPhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('proposal',this)"><div id="proposalPhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload proposal photo</p></div></div><div id="responsePhotoUpload" style="border:2px dashed rgba(255,255,255,0.2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;position:relative;overflow:hidden;"><input type="file" id="responsePhotoInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="uploadPhoto('response',this)"><div id="responsePhotoPreview"><div style="font-size:2rem;">📷</div><p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Click to upload response photo 💋</p></div></div><p id="uploadStatus" style="font-size:0.75rem;color:#ff69b4;margin-top:10px;text-align:center;"></p></div></div>
-                <div class="editor-section"><h3>Music <span class="premium-badge">+5€</span></h3><select id="musicSelector" onchange="selectMusic(this.value)"><option value="">🔇 No music (free)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/John_Legend_-_All_of_Me_Official_Video_y3q1az.mp3">🎵 John Legend - All of Me (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Elvis_Presley_-_Can_t_Help_Falling_in_Love_Lyrics_xbhora.mp3">🎵 Elvis Presley - Can't Help Falling In Love (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Whitney_Houston_-_I_Will_Always_Love_You_Official_4K_Video_vwj4e0.mp3">🎵 Whitney Houston - I Will Always Love You (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Celine_Dion_-_My_Heart_Will_Go_On_Lyrics_yif3fd.mp3">🎵 Celine Dion - My Heart Will Go On (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/George_Michael_-_Careless_Whisper_Official_Video_plc0xs.mp3">🎵 George Michael - Careless Whisper (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Frank_Sinatra_-_L.O.V.E._lyrics_-_lIBioHazardIl_ljsxgx.mp3">🎵 Frank Sinatra - L.O.V.E. (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/fF6x1ta9j1w_rr2dks.mp3">🎵 Ella Fitzgerald - Let's Fall In Love (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Sade_-_Paradise_vfbo5f.mp3">🎵 Sade - Paradise (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732752/Luther_Vandross_-_Your_Secret_Love_Official_Video_kcmcgr.mp3">🎵 Luther Vandross - Your Secret Love (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Miki_Matsubara_-_Stay_With_Me_HD_Club_Mix_qs3f3p.mp3">🎵 Miki Matsubara - Stay With Me (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732753/Zaho_-_Je_Te_Promets_Clip_Officiel_kkszgz.mp3">🎵 Zaho - Je Te Promets (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/AmrDiab_-_Tamally_Maak_Official_Music_Video_-_HD_Version_%D8%B9%D9%85%D8%B1%D9%88_%D8%AF%D9%8A%D8%A7%D8%A8_-_%D8%AA%D9%85%D9%84%D9%8A_%D9%85%D8%B9%D8%A7%D9%83_glu4aa.mp3">🎵 Amr Diab - Tamally Maak (+5€)</option><option value="https://res.cloudinary.com/dl42cygq6/video/upload/v1770732751/Epic_Sax_Guy_Loop_-_320_Kbps_oep74l.mp3">🎷 Epic Sax Guy (+5€)</option></select><div id="musicPreview" style="margin-top:10px;display:none;"><audio id="musicAudio" controls style="width:100%;height:35px;"></audio></div></div>
                 <div class="continue-section"><button class="continue-btn" onclick="goToCheckout()">Continue to payment 💕 <span class="price-tag" id="totalPrice">4.99€</span></button></div>
             </div>
             <div class="preview-panel">
@@ -974,7 +1093,7 @@
         let selectedVibe = 'romantic';
         let previewMode = 'proposal';
         let selectedIllustration = 'cats';
-        let hasPhotos = false;
+        let hasPhotos = true;
         let hasMusic = false;
         let userRating = 0;
         
@@ -1325,6 +1444,52 @@
             }
             updatePricing();
             updatePreview();
+        }
+
+        // New music grid functions
+        let currentPreviewAudio = null;
+        
+        function selectMusicOption(element, url) {
+            // Remove selected from all
+            document.querySelectorAll('.music-option').forEach(opt => opt.classList.remove('selected'));
+            // Add selected to clicked
+            element.classList.add('selected');
+            // Update music
+            selectedMusicUrl = url;
+            hasMusic = url !== '';
+            updatePricing();
+            updatePreview();
+        }
+        
+        function previewMusic(url, btn) {
+            const audio = document.getElementById('musicPreviewAudio');
+            
+            // Stop all other play buttons
+            document.querySelectorAll('.music-play-btn').forEach(b => {
+                b.classList.remove('playing');
+                b.textContent = '▶';
+            });
+            
+            if (currentPreviewAudio === url && !audio.paused) {
+                // Stop playing
+                audio.pause();
+                currentPreviewAudio = null;
+                btn.textContent = '▶';
+            } else {
+                // Start playing
+                audio.src = url;
+                audio.play();
+                currentPreviewAudio = url;
+                btn.classList.add('playing');
+                btn.textContent = '⏸';
+                
+                // Reset when finished
+                audio.onended = () => {
+                    btn.classList.remove('playing');
+                    btn.textContent = '▶';
+                    currentPreviewAudio = null;
+                };
+            }
         }
 
         function setPhotoType(type, btn) {
