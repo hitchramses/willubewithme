@@ -1097,6 +1097,10 @@
         let hasMusic = false;
         let userRating = 0;
         
+        // Admin mode - bypass payment
+        const isAdminMode = new URLSearchParams(window.location.search).get('admin') === 'ramsesvibe';
+        if (isAdminMode) console.log('🔓 Admin mode activated');
+        
         // Cloudinary config
         const CLOUDINARY_CLOUD_NAME = 'dl42cygq6';
         const CLOUDINARY_UPLOAD_PRESET = 'willubewithme';
@@ -1610,6 +1614,19 @@
                 }
             } catch (error) {
                 console.error('Error checking slug:', error);
+            }
+            
+            // Mode Admin : sauvegarder directement sans paiement
+            if (isAdminMode) {
+                const result = await savePage();
+                if (result.success) {
+                    createdSlug = result.slug;
+                    showPage('success');
+                    showPopup('🔓', 'Admin Mode', 'Page created for free!');
+                } else {
+                    showPopup('❌', 'Error', result.error || 'Failed to save page');
+                }
+                return;
             }
             
             // Tout est bon, aller au checkout
