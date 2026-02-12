@@ -1096,6 +1096,7 @@
         let hasPhotos = true;
         let hasMusic = false;
         let userRating = 0;
+        let createdSlug = '';
         
         // Admin mode - bypass payment
         const isAdminMode = new URLSearchParams(window.location.search).get('admin') === 'ramsesvibe';
@@ -1129,8 +1130,9 @@
                 illustration: selectedIllustration,
                 proposal_photo_url: proposalPhotoUrl,
                 response_photo_url: responsePhotoUrl,
-                music: document.getElementById('musicSelector').value || null,
-                email: document.getElementById('paymentEmail').value || null
+                music: selectedMusicUrl || null,
+                email: document.getElementById('paymentEmail')?.value || null,
+                paid: true
             };
 
             try {
