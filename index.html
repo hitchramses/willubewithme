@@ -545,6 +545,121 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(255,105,180,0.4);
         }
+        /* Photo Editor Modal */
+        .photo-editor-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .photo-editor-overlay.active { display: flex; }
+        .photo-editor {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+        .photo-editor h3 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        .photo-crop-container {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            cursor: move;
+        }
+        .photo-crop-container img {
+            position: absolute;
+            max-width: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .photo-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .photo-control-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .photo-control-row label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            width: 60px;
+            text-align: left;
+        }
+        .photo-control-row input[type="range"] {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            outline: none;
+        }
+        .photo-control-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #ff69b4;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .photo-editor-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .photo-editor-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .photo-editor-btn.cancel {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        .photo-editor-btn.save {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: #fff;
+        }
+        .photo-editor-btn:hover {
+            transform: translateY(-2px);
+        }
+        .photo-edit-btn {
+            background: rgba(255,105,180,0.2);
+            border: 1px solid rgba(255,105,180,0.4);
+            color: #ff69b4;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 8px;
+            font-family: 'Quicksand', sans-serif;
+        }
+        .photo-edit-btn:hover {
+            background: rgba(255,105,180,0.3);
+        }
     </style>
 </head>
 <body>
@@ -556,6 +671,27 @@
             <div class="custom-popup-title" id="popupTitle">Oops!</div>
             <div class="custom-popup-message" id="popupMessage">Something went wrong.</div>
             <button class="custom-popup-btn" onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+    <!-- Photo Editor Modal -->
+    <div class="photo-editor-overlay" id="photoEditorModal">
+        <div class="photo-editor">
+            <h3>✂️ Crop & Position</h3>
+            <div class="photo-crop-container" id="photoCropContainer">
+                <img id="photoCropImage" src="" alt="Crop">
+            </div>
+            <div class="photo-controls">
+                <div class="photo-control-row">
+                    <label>🔍 Zoom</label>
+                    <input type="range" id="photoZoom" min="100" max="300" value="100" oninput="updatePhotoTransform()">
+                </div>
+            </div>
+            <p style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-bottom:15px;">Drag the image to reposition</p>
+            <div class="photo-editor-buttons">
+                <button class="photo-editor-btn cancel" onclick="closePhotoEditor()">Cancel</button>
+                <button class="photo-editor-btn save" onclick="savePhotoCrop()">Save ✓</button>
+            </div>
         </div>
     </div>
 
@@ -925,6 +1061,16 @@
         }
 
         // Upload photo to Cloudinary
+        let currentEditingType = null;
+        let currentOriginalUrl = null;
+        let photoTransform = { x: 0, y: 0, zoom: 100 };
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        
+        // Stockage des transformations pour chaque photo
+        let proposalPhotoTransform = { x: 0, y: 0, zoom: 100 };
+        let responsePhotoTransform = { x: 0, y: 0, zoom: 100 };
+        
         async function uploadPhoto(type, input) {
             const file = input.files[0];
             if (!file) return;
@@ -945,15 +1091,11 @@
                 const data = await response.json();
                 
                 if (data.secure_url) {
-                    if (type === 'proposal') {
-                        proposalPhotoUrl = data.secure_url;
-                        document.getElementById('proposalPhotoPreview').innerHTML = `<img src="${data.secure_url}" style="max-width:100%;max-height:120px;border-radius:8px;"><p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>`;
-                    } else {
-                        responsePhotoUrl = data.secure_url;
-                        document.getElementById('responsePhotoPreview').innerHTML = `<img src="${data.secure_url}" style="max-width:100%;max-height:120px;border-radius:8px;"><p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>`;
-                    }
+                    currentEditingType = type;
+                    currentOriginalUrl = data.secure_url;
+                    photoTransform = { x: 0, y: 0, zoom: 100 };
+                    openPhotoEditor(data.secure_url);
                     statusEl.textContent = '';
-                    updatePreview();
                 } else {
                     statusEl.textContent = 'Error: ' + (data.error?.message || 'Upload failed');
                 }
@@ -961,6 +1103,168 @@
                 statusEl.textContent = 'Error: Could not upload';
                 console.error(error);
             }
+        }
+        
+        function openPhotoEditor(imageUrl) {
+            const modal = document.getElementById('photoEditorModal');
+            const img = document.getElementById('photoCropImage');
+            const container = document.getElementById('photoCropContainer');
+            
+            img.src = imageUrl;
+            document.getElementById('photoZoom').value = 100;
+            photoTransform = { x: 0, y: 0, zoom: 100 };
+            
+            img.onload = function() {
+                // Center the image
+                const containerSize = 250;
+                const scale = photoTransform.zoom / 100;
+                img.style.width = containerSize * scale + 'px';
+                img.style.height = 'auto';
+                
+                // Center
+                const imgRect = img.getBoundingClientRect();
+                photoTransform.x = (containerSize - img.offsetWidth) / 2;
+                photoTransform.y = (containerSize - img.offsetHeight) / 2;
+                updatePhotoTransform();
+            };
+            
+            modal.classList.add('active');
+            
+            // Setup drag events
+            container.onmousedown = startDrag;
+            container.ontouchstart = startDragTouch;
+            document.onmousemove = doDrag;
+            document.ontouchmove = doDragTouch;
+            document.onmouseup = stopDrag;
+            document.ontouchend = stopDrag;
+        }
+        
+        function startDrag(e) {
+            e.preventDefault();
+            isDragging = true;
+            dragStart = { x: e.clientX - photoTransform.x, y: e.clientY - photoTransform.y };
+        }
+        
+        function startDragTouch(e) {
+            isDragging = true;
+            const touch = e.touches[0];
+            dragStart = { x: touch.clientX - photoTransform.x, y: touch.clientY - photoTransform.y };
+        }
+        
+        function doDrag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            photoTransform.x = e.clientX - dragStart.x;
+            photoTransform.y = e.clientY - dragStart.y;
+            updatePhotoTransform();
+        }
+        
+        function doDragTouch(e) {
+            if (!isDragging) return;
+            const touch = e.touches[0];
+            photoTransform.x = touch.clientX - dragStart.x;
+            photoTransform.y = touch.clientY - dragStart.y;
+            updatePhotoTransform();
+        }
+        
+        function stopDrag() {
+            isDragging = false;
+        }
+        
+        function updatePhotoTransform() {
+            const img = document.getElementById('photoCropImage');
+            const zoom = document.getElementById('photoZoom').value;
+            photoTransform.zoom = parseInt(zoom);
+            
+            const containerSize = 250;
+            const scale = photoTransform.zoom / 100;
+            img.style.width = containerSize * scale + 'px';
+            img.style.height = 'auto';
+            img.style.left = photoTransform.x + 'px';
+            img.style.top = photoTransform.y + 'px';
+        }
+        
+        function closePhotoEditor() {
+            document.getElementById('photoEditorModal').classList.remove('active');
+            currentEditingType = null;
+            currentOriginalUrl = null;
+        }
+        
+        function savePhotoCrop() {
+            if (!currentEditingType || !currentOriginalUrl) return;
+            
+            const containerSize = 250;
+            const previewSize = 120;
+            const scaleRatio = previewSize / containerSize;
+            
+            // Sauvegarder les transformations
+            const transform = {
+                x: photoTransform.x * scaleRatio,
+                y: photoTransform.y * scaleRatio,
+                zoom: photoTransform.zoom
+            };
+            
+            if (currentEditingType === 'proposal') {
+                proposalPhotoUrl = currentOriginalUrl;
+                proposalPhotoTransform = { ...photoTransform };
+                document.getElementById('proposalPhotoPreview').innerHTML = `
+                    <div style="width:120px;height:120px;overflow:hidden;border-radius:8px;margin:0 auto;position:relative;">
+                        <img src="${currentOriginalUrl}" style="position:absolute;width:${120 * photoTransform.zoom / 100}px;height:auto;left:${transform.x}px;top:${transform.y}px;">
+                    </div>
+                    <p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>
+                    <button class="photo-edit-btn" onclick="editPhoto('proposal')">✏️ Edit crop</button>
+                `;
+            } else {
+                responsePhotoUrl = currentOriginalUrl;
+                responsePhotoTransform = { ...photoTransform };
+                document.getElementById('responsePhotoPreview').innerHTML = `
+                    <div style="width:120px;height:120px;overflow:hidden;border-radius:8px;margin:0 auto;position:relative;">
+                        <img src="${currentOriginalUrl}" style="position:absolute;width:${120 * photoTransform.zoom / 100}px;height:auto;left:${transform.x}px;top:${transform.y}px;">
+                    </div>
+                    <p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>
+                    <button class="photo-edit-btn" onclick="editPhoto('response')">✏️ Edit crop</button>
+                `;
+            }
+            
+            closePhotoEditor();
+            updatePreview();
+        }
+        
+        function editPhoto(type) {
+            if (type === 'proposal' && proposalPhotoUrl) {
+                currentEditingType = 'proposal';
+                currentOriginalUrl = proposalPhotoUrl;
+                photoTransform = { ...proposalPhotoTransform };
+                openPhotoEditorWithTransform(proposalPhotoUrl, proposalPhotoTransform);
+            } else if (type === 'response' && responsePhotoUrl) {
+                currentEditingType = 'response';
+                currentOriginalUrl = responsePhotoUrl;
+                photoTransform = { ...responsePhotoTransform };
+                openPhotoEditorWithTransform(responsePhotoUrl, responsePhotoTransform);
+            }
+        }
+        
+        function openPhotoEditorWithTransform(imageUrl, transform) {
+            const modal = document.getElementById('photoEditorModal');
+            const img = document.getElementById('photoCropImage');
+            const container = document.getElementById('photoCropContainer');
+            
+            img.src = imageUrl;
+            document.getElementById('photoZoom').value = transform.zoom;
+            photoTransform = { ...transform };
+            
+            img.onload = function() {
+                updatePhotoTransform();
+            };
+            
+            modal.classList.add('active');
+            
+            container.onmousedown = startDrag;
+            container.ontouchstart = startDragTouch;
+            document.onmousemove = doDrag;
+            document.ontouchmove = doDragTouch;
+            document.onmouseup = stopDrag;
+            document.ontouchend = stopDrag;
         }
 
         function showPage(pageId) {
@@ -1192,9 +1496,11 @@
             // Use uploaded photo or illustration
             let photoContent;
             if (hasPhotos && previewMode === 'proposal' && proposalPhotoUrl) {
-                photoContent = '<img src="' + proposalPhotoUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+                const t = proposalPhotoTransform;
+                photoContent = '<div style="width:100%;height:100%;overflow:hidden;position:relative;border-radius:12px;"><img src="' + proposalPhotoUrl + '" style="position:absolute;width:' + (100 * t.zoom / 100) + '%;height:auto;left:' + (t.x * 100 / 250) + '%;top:' + (t.y * 100 / 250) + '%;"></div>';
             } else if (hasPhotos && previewMode === 'response' && responsePhotoUrl) {
-                photoContent = '<img src="' + responsePhotoUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+                const t = responsePhotoTransform;
+                photoContent = '<div style="width:100%;height:100%;overflow:hidden;position:relative;border-radius:12px;"><img src="' + responsePhotoUrl + '" style="position:absolute;width:' + (100 * t.zoom / 100) + '%;height:auto;left:' + (t.x * 100 / 250) + '%;top:' + (t.y * 100 / 250) + '%;"></div>';
             } else {
                 photoContent = illustImages[selectedIllustration] || illustImages.cats;
             }
