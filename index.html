@@ -1062,7 +1062,8 @@
 
         // Upload photo to Cloudinary
         let currentEditingType = null;
-        let currentOriginalUrl = null;
+        let currentOriginalFile = null;
+        let currentOriginalDataUrl = null;
         let photoTransform = { x: 0, y: 0, zoom: 100 };
         let isDragging = false;
         let dragStart = { x: 0, y: 0 };
@@ -1075,34 +1076,17 @@
             const file = input.files[0];
             if (!file) return;
             
-            const statusEl = document.getElementById('uploadStatus');
-            statusEl.textContent = 'Uploading...';
+            currentEditingType = type;
+            currentOriginalFile = file;
             
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-            
-            try {
-                const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (data.secure_url) {
-                    currentEditingType = type;
-                    currentOriginalUrl = data.secure_url;
-                    photoTransform = { x: 0, y: 0, zoom: 100 };
-                    openPhotoEditor(data.secure_url);
-                    statusEl.textContent = '';
-                } else {
-                    statusEl.textContent = 'Error: ' + (data.error?.message || 'Upload failed');
-                }
-            } catch (error) {
-                statusEl.textContent = 'Error: Could not upload';
-                console.error(error);
-            }
+            // Lire le fichier localement pour l'éditeur
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentOriginalDataUrl = e.target.result;
+                photoTransform = { x: 0, y: 0, zoom: 100 };
+                openPhotoEditor(e.target.result);
+            };
+            reader.readAsDataURL(file);
         }
         
         function openPhotoEditor(imageUrl) {
@@ -1187,84 +1171,92 @@
         function closePhotoEditor() {
             document.getElementById('photoEditorModal').classList.remove('active');
             currentEditingType = null;
-            currentOriginalUrl = null;
+            currentOriginalFile = null;
+            currentOriginalDataUrl = null;
         }
         
-        function savePhotoCrop() {
-            if (!currentEditingType || !currentOriginalUrl) return;
+        async function savePhotoCrop() {
+            if (!currentEditingType || !currentOriginalDataUrl) return;
             
+            const statusEl = document.getElementById('uploadStatus');
+            statusEl.textContent = 'Cropping & uploading...';
+            
+            // Créer un canvas pour cropper l'image
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const outputSize = 500; // Taille de sortie en pixels (carré)
+            canvas.width = outputSize;
+            canvas.height = outputSize;
+            
+            const img = document.getElementById('photoCropImage');
             const containerSize = 250;
-            const previewSize = 120;
-            const scaleRatio = previewSize / containerSize;
+            const scale = photoTransform.zoom / 100;
             
-            // Sauvegarder les transformations
-            const transform = {
-                x: photoTransform.x * scaleRatio,
-                y: photoTransform.y * scaleRatio,
-                zoom: photoTransform.zoom
-            };
+            // Calculer les dimensions de l'image dans le container
+            const imgDisplayWidth = containerSize * scale;
+            const imgDisplayHeight = img.naturalHeight * (imgDisplayWidth / img.naturalWidth);
             
-            if (currentEditingType === 'proposal') {
-                proposalPhotoUrl = currentOriginalUrl;
-                proposalPhotoTransform = { ...photoTransform };
-                document.getElementById('proposalPhotoPreview').innerHTML = `
-                    <div style="width:120px;height:120px;overflow:hidden;border-radius:8px;margin:0 auto;position:relative;">
-                        <img src="${currentOriginalUrl}" style="position:absolute;width:${120 * photoTransform.zoom / 100}px;height:auto;left:${transform.x}px;top:${transform.y}px;">
-                    </div>
-                    <p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>
-                    <button class="photo-edit-btn" onclick="editPhoto('proposal')">✏️ Edit crop</button>
-                `;
-            } else {
-                responsePhotoUrl = currentOriginalUrl;
-                responsePhotoTransform = { ...photoTransform };
-                document.getElementById('responsePhotoPreview').innerHTML = `
-                    <div style="width:120px;height:120px;overflow:hidden;border-radius:8px;margin:0 auto;position:relative;">
-                        <img src="${currentOriginalUrl}" style="position:absolute;width:${120 * photoTransform.zoom / 100}px;height:auto;left:${transform.x}px;top:${transform.y}px;">
-                    </div>
-                    <p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>
-                    <button class="photo-edit-btn" onclick="editPhoto('response')">✏️ Edit crop</button>
-                `;
-            }
+            // Ratio entre le canvas de sortie et le container d'édition
+            const outputRatio = outputSize / containerSize;
             
-            closePhotoEditor();
-            updatePreview();
+            // Position et taille sur le canvas
+            const drawX = photoTransform.x * outputRatio;
+            const drawY = photoTransform.y * outputRatio;
+            const drawWidth = imgDisplayWidth * outputRatio;
+            const drawHeight = imgDisplayHeight * outputRatio;
+            
+            // Dessiner l'image sur le canvas
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, outputSize, outputSize);
+            ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+            
+            // Convertir le canvas en blob
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'cropped-photo.jpg');
+                formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+                
+                try {
+                    const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.secure_url) {
+                        if (currentEditingType === 'proposal') {
+                            proposalPhotoUrl = data.secure_url;
+                            proposalPhotoTransform = { x: 0, y: 0, zoom: 100 };
+                            document.getElementById('proposalPhotoPreview').innerHTML = `
+                                <img src="${data.secure_url}" style="width:120px;height:120px;object-fit:cover;border-radius:8px;">
+                                <p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>
+                            `;
+                        } else {
+                            responsePhotoUrl = data.secure_url;
+                            responsePhotoTransform = { x: 0, y: 0, zoom: 100 };
+                            document.getElementById('responsePhotoPreview').innerHTML = `
+                                <img src="${data.secure_url}" style="width:120px;height:120px;object-fit:cover;border-radius:8px;">
+                                <p style="font-size:0.75rem;color:#4ade80;margin-top:5px;">✓ Uploaded!</p>
+                            `;
+                        }
+                        statusEl.textContent = '';
+                        closePhotoEditor();
+                        updatePreview();
+                    } else {
+                        statusEl.textContent = 'Error: ' + (data.error?.message || 'Upload failed');
+                    }
+                } catch (error) {
+                    statusEl.textContent = 'Error: Could not upload';
+                    console.error(error);
+                }
+            }, 'image/jpeg', 0.9);
         }
         
         function editPhoto(type) {
-            if (type === 'proposal' && proposalPhotoUrl) {
-                currentEditingType = 'proposal';
-                currentOriginalUrl = proposalPhotoUrl;
-                photoTransform = { ...proposalPhotoTransform };
-                openPhotoEditorWithTransform(proposalPhotoUrl, proposalPhotoTransform);
-            } else if (type === 'response' && responsePhotoUrl) {
-                currentEditingType = 'response';
-                currentOriginalUrl = responsePhotoUrl;
-                photoTransform = { ...responsePhotoTransform };
-                openPhotoEditorWithTransform(responsePhotoUrl, responsePhotoTransform);
-            }
-        }
-        
-        function openPhotoEditorWithTransform(imageUrl, transform) {
-            const modal = document.getElementById('photoEditorModal');
-            const img = document.getElementById('photoCropImage');
-            const container = document.getElementById('photoCropContainer');
-            
-            img.src = imageUrl;
-            document.getElementById('photoZoom').value = transform.zoom;
-            photoTransform = { ...transform };
-            
-            img.onload = function() {
-                updatePhotoTransform();
-            };
-            
-            modal.classList.add('active');
-            
-            container.onmousedown = startDrag;
-            container.ontouchstart = startDragTouch;
-            document.onmousemove = doDrag;
-            document.ontouchmove = doDragTouch;
-            document.onmouseup = stopDrag;
-            document.ontouchend = stopDrag;
+            // Pour l'instant, on ne peut pas ré-éditer une photo déjà uploadée
+            // Il faudrait re-uploader une nouvelle photo
+            alert('To change the crop, please upload the photo again.');
         }
 
         function showPage(pageId) {
@@ -1496,11 +1488,9 @@
             // Use uploaded photo or illustration
             let photoContent;
             if (hasPhotos && previewMode === 'proposal' && proposalPhotoUrl) {
-                const t = proposalPhotoTransform;
-                photoContent = '<div style="width:100%;height:100%;overflow:hidden;position:relative;border-radius:12px;"><img src="' + proposalPhotoUrl + '" style="position:absolute;width:' + (100 * t.zoom / 100) + '%;height:auto;left:' + (t.x * 100 / 250) + '%;top:' + (t.y * 100 / 250) + '%;"></div>';
+                photoContent = '<img src="' + proposalPhotoUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
             } else if (hasPhotos && previewMode === 'response' && responsePhotoUrl) {
-                const t = responsePhotoTransform;
-                photoContent = '<div style="width:100%;height:100%;overflow:hidden;position:relative;border-radius:12px;"><img src="' + responsePhotoUrl + '" style="position:absolute;width:' + (100 * t.zoom / 100) + '%;height:auto;left:' + (t.x * 100 / 250) + '%;top:' + (t.y * 100 / 250) + '%;"></div>';
+                photoContent = '<img src="' + responsePhotoUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
             } else {
                 photoContent = illustImages[selectedIllustration] || illustImages.cats;
             }
