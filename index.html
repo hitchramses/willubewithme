@@ -826,7 +826,7 @@
         <div class="editor-container">
             <div class="editor-panel">
                 <div class="tier-indicator"><div>Plan: <span class="current-tier" id="currentTier">Basic - 4.99€</span></div><div class="tier-breakdown"><span class="breakdown-item">Basic 4.99€</span><span class="breakdown-item hidden" id="breakdownPhotos">+ Photos 5€</span><span class="breakdown-item hidden" id="breakdownMusic">+ Music 5€</span></div></div>
-                <div class="editor-section"><h3>Your page link 🔗</h3><div class="domain-input"><span class="domain-prefix">willubewith.me/</span><input type="text" id="domainSlug" placeholder="ellina" oninput="checkSlugAvailability()"></div><div class="domain-preview" id="domainPreview">willubewith.me/your-name</div><div id="slugStatus" style="margin-top:8px;font-size:0.85rem;display:none;"><span id="slugStatusIcon"></span> <span id="slugStatusText"></span></div></div>
+                <div class="editor-section"><h3>Your page link 🔗</h3><div class="domain-input"><span class="domain-prefix">willubewith.me/</span><input type="text" id="domainSlug" placeholder="ellina" oninput="this.value = this.value.toLowerCase(); checkSlugAvailability()" style="text-transform: lowercase;"></div><div class="domain-preview" id="domainPreview">willubewith.me/your-name</div><div id="slugStatus" style="margin-top:8px;font-size:0.85rem;display:none;"><span id="slugStatusIcon"></span> <span id="slugStatusText"></span></div></div>
                 <div class="editor-section"><h3>Photos 📸 <span class="premium-badge">+5€</span></h3><div class="photo-type-toggle"><button class="photo-type-btn" onclick="setPhotoType('illustration',this)">🎨 Illustration</button><button class="photo-type-btn active" onclick="setPhotoType('upload',this)">📷 My photos</button></div><div id="illustrationsSection" class="hidden"><div class="illustrations-grid">
                             <div class="illustration-option selected" onclick="selectIllustration(this,'cats')">
                                 <div class="illust-preview"><img src="https://res.cloudinary.com/dl42cygq6/image/upload/v1770777158/cats_xk6ccm.png" alt="Cats" style="width:50px;height:42px;object-fit:contain;"></div>
@@ -1139,7 +1139,7 @@
 
         // Save page to Supabase
         async function savePage() {
-            const slug = document.getElementById('domainSlug').value || document.getElementById('recipientName').value.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const slug = (document.getElementById('domainSlug').value || document.getElementById('recipientName').value.replace(/[^a-z0-9]/gi, '')).toLowerCase(); // Forcer minuscules
             const selectedEmojis = Array.from(document.querySelectorAll('.emoji-option.selected')).map(e => e.dataset.emoji);
             
             const pageData = {
@@ -1188,7 +1188,9 @@
         // Load page from Supabase
         async function loadPage(slug) {
             try {
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/pages?slug=eq.${slug}&select=*`, {
+                // Convertir le slug en minuscules pour la recherche
+                const normalizedSlug = slug.toLowerCase();
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/pages?slug=eq.${normalizedSlug}&select=*`, {
                     headers: {
                         'apikey': SUPABASE_KEY,
                         'Authorization': `Bearer ${SUPABASE_KEY}`
@@ -1550,7 +1552,7 @@
         async function checkSlugAvailability() {
             updateDomain();
             
-            const slug = document.getElementById('domainSlug').value;
+            const slug = document.getElementById('domainSlug').value.toLowerCase(); // Normaliser en minuscules
             const statusDiv = document.getElementById('slugStatus');
             const statusIcon = document.getElementById('slugStatusIcon');
             const statusText = document.getElementById('slugStatusText');
@@ -1612,7 +1614,7 @@
         }
 
         async function goToCheckout() {
-            const slug = document.getElementById('domainSlug').value;
+            const slug = document.getElementById('domainSlug').value.toLowerCase(); // Normaliser en minuscules
             
             // Vérifier si le slug est vide
             if (!slug || slug.length < 2) {
